@@ -1,0 +1,38 @@
+{
+  "name": "dasibom",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "bundle": "node scripts/build-bundle.mjs",
+    "predev": "npm run bundle",
+    "dev": "next dev",
+    "prebuild": "npm run bundle",
+    "build": "next build",
+    "preview": "node scripts/serve-out.mjs out",
+    "lint": "eslint",
+    "pretest": "npm run bundle",
+    "test": "vitest run",
+    "pretypecheck": "npm run bundle",
+    "typecheck": "tsc --noEmit",
+    "verify": "npm run test && npm run typecheck && npm run lint && npm run build",
+    "test:tz": "npm run bundle && TZ=America/Los_Angeles vitest run && TZ=UTC vitest run"
+  },
+  "engines": {
+    "node": "^20.19.0 || ^22.13.0 || >=24"
+  },
+  "dependencies": {
+    "next": "15.5.25",
+    "react": "19.1.0",
+    "react-dom": "19.1.0"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "15.5.25",
+    "typescript": "^5",
+    "vitest": "3.2.7"
+  }
+}
