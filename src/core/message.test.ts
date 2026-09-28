@@ -53,8 +53,9 @@ describe("composeMessage", () => {
   });
 
   it("진료시간 칸은 요일별(V02): 목요일은 21:00, 토요일은 15:00까지", () => {
-    const thu = { point: { ...list.groups[1].rows[0].items[0].point, dueDate: localDate("2026-10-01") } };
-    const sat = { point: { ...thu.point, dueDate: localDate("2026-10-17") } };
+    // 칸 날짜는 항목의 date(옮긴 날짜, 예약했으면 예약 날짜)에서 읽는다.
+    const thu = { date: localDate("2026-10-01") };
+    const sat = { date: localDate("2026-10-17") };
     expect(valuesForItem(thu, engine.rules, engine.calendar).time).toBe("10:00~21:00");
     expect(valuesForItem(sat, engine.rules, engine.calendar).time).toBe("10:00~15:00");
   });

@@ -1,4 +1,6 @@
 import { describe, expect, it } from "vitest";
+import { localDate } from "./calendar";
+import type { Patient } from "./patient";
 import { buildToday, countRows, SAME_ANGLE_NOTE, type TodayList } from "./today";
 import { at, fixtureEngine, NOW } from "./__fixtures__/load";
 import { fixturePatient, fixturePatients } from "./__fixtures__/patients";
@@ -37,8 +39,12 @@ describe("buildToday — 2026-09-21(월) 09:00", () => {
     expect([photo.point.key, photo.note]).toEqual(["d7", SAME_ANGLE_NOTE]);
   });
 
-  it("원장 확인·연락 대기·의료진 확인은 목록과 따로", () => {
-    expect(list.escalations.map((r) => [r.patientId, r.overdue.attempts])).toEqual([["P103", 3]]);
+  it("간호팀 확인·연락 대기·의료진 확인은 목록과 따로. 날짜 미정(P105 D+7)은 간호팀 확인에 오르고 다른 이유(D+3 안내)는 목록에 그대로", () => {
+    expect(list.nurseReview.map((r) => [r.patientId, r.items.map((i) => [i.cause, i.point?.key ?? null]), r.inList])).toEqual([
+      ["P103", [["max-attempts", null]], false],
+      ["P105", [["no-open-day", "d7"]], true],
+    ]);
+    expect(list.optedOut).toEqual([]);
     expect(list.waiting.map((r) => [r.patientId, r.overdue.retryOn])).toEqual([["P102", "2026-09-22"]]);
     expect(list.clinicianReview.map((r) => r.patientId)).toEqual(["P110"]);
   });
@@ -57,30 +63,78 @@ describe("buildToday — 2026-09-21(월) 09:00", () => {
 });
 
 describe("buildToday — 2026-09-23(수) 09:00, 추석 연휴 전날", () => {
-  const list = buildToday(fixturePatients(), engine, at("2026-09-23T09:00:00+09:00"));
+  const now = at("2026-09-23T09:00:00+09:00");
+  const list = buildToday(fixturePatients(), engine, now);
 
-  it("월요일(9/28) 예정자의 '내일 내원'은 연휴 전 마지막 진료일인 수요일에: 추석으로 밀린 P105 D+7", () => {
-    expect(shape(list)[1]).toEqual(["upcoming-visit", [["P105", "upcoming-visit+photo-round"]]]);
+  it("월요일(9/28) 예정자의 '내일 내원'은 연휴 전 마지막 진료일인 수요일에: 4주 9/25(추석) → 9/28로 미룬 환자", () => {
+    // 수술 8/28(금): 4주 원래 9/25 → 범위가 없는 시점이라 다음 진료일 9/28(월).
+    const p: Patient = { id: "P120", alias: "가명T", procedure: "hair-transplant", startDate: localDate("2026-08-28"), visits: [{ date: localDate("2026-08-29"), kind: "d1" }, { date: localDate("2026-09-04"), kind: "d7" }], contacts: [] };
+    const l = buildToday([p], engine, now);
+    expect(shape(l)[1]).toEqual(["upcoming-visit", [["P120", "upcoming-visit"]]]);
+    expect(l.groups[1].rows[0].items[0].date).toBe("2026-09-28");
   });
 
-  it("유예가 끝난 환자가 지남으로 넘어가고, 유예 중인 주사 회차는 재예약이 붙는다", () => {
+  it("날짜 미정인 시점(P105 D+7)은 내일 내원 안내를 만들지 않는다 — 안내할 날짜가 없다", () => {
+    expect(list.groups.flatMap((g) => g.rows.map((r) => r.patientId))).not.toContain("P105");
+    expect(list.nurseReview.find((r) => r.patientId === "P105")!.items.map((i) => i.cause)).toEqual(["no-open-day"]);
+  });
+
+  it("유예가 끝난 환자가 지남으로 넘어가고, 14일을 넘긴 주사 회차는 목록 대신 간호팀 확인(재시작), 유예 중인 주사 회차는 재예약", () => {
     expect(shape(list)).toEqual([
       [
         "overdue",
         [
-          ["P102", "overdue+injection-rebook"], // 3회차 9/7 → 16일, 4회차(9/21) 유예 중
-          ["P111", "overdue+injection-rebook"], // 3회차 9/8 → 15일, 4회차(9/22) 유예 중
           ["P101", "overdue"], // 6개월 9/9 → 14일
           ["P108", "overdue"], // 4주 9/14 → 9일
           ["P112", "overdue"], // 3회차 9/18 → 5일(유예 끝 9/21)
         ],
       ],
-      ["upcoming-visit", [["P105", "upcoming-visit+photo-round"]]],
+      ["upcoming-visit", []],
       ["care-notice", [["P113", "care-notice"]]], // 9/21 + 유예 3일
       ["injection-rebook", [["P110", "injection-rebook"]]], // 2회차 9/21, 유예 중
       ["photo-round", []],
     ]);
+    // P102 3회차 9/7 → 16일, P111 3회차 9/8 → 15일: 14일 넘게 빠져 재시작. 그 뒤 4회차(유예 중)는 재시작 전이라 재예약을 붙이지 않는다.
+    expect(list.nurseReview.map((r) => [r.patientId, r.items.map((i) => i.cause).join("+")])).toEqual([
+      ["P103", "max-attempts"],
+      ["P102", "injection-restart"],
+      ["P111", "injection-restart"],
+      ["P105", "no-open-day"],
+    ]);
     expect(list.waiting).toEqual([]);
+  });
+});
+
+describe("buildToday — 수신 거부", () => {
+  it("연락 원치 않음을 적은 환자는 오늘 목록·재연락 대기·간호팀 확인 어디에도 없고 수신 거부 목록에만(걸려 있던 것과 함께)", () => {
+    const opt = (id: string) => ({ ...fixturePatient(id), contacts: [...fixturePatient(id).contacts, { at: "2026-09-20T10:00:00+09:00", result: "opt-out" as const }] });
+    const l = buildToday([opt("P111"), opt("P102"), opt("P103")], engine, NOW);
+    expect(countRows(l)).toBe(0);
+    expect([l.waiting, l.nurseReview]).toEqual([[], []]);
+    expect(l.optedOut.map((o) => [o.patientId, o.held])).toEqual([
+      ["P102", { reasons: [], nurse: [], waiting: true }],
+      ["P103", { reasons: [], nurse: ["max-attempts"], waiting: false }],
+      ["P111", { reasons: ["overdue", "upcoming-visit"], nurse: [], waiting: false }],
+    ]);
+  });
+
+  it("증상 메모의 의료진 확인은 수신 거부여도 남는다(연락 목록이 아니라 안전 확인)", () => {
+    const p = { ...fixturePatient("P110"), contacts: [...fixturePatient("P110").contacts, { at: "2026-09-20T10:00:00+09:00", result: "opt-out" as const }] };
+    const l = buildToday([p], engine, NOW);
+    expect(l.clinicianReview.map((c) => [c.patientId, c.optedOut])).toEqual([["P110", true]]);
+  });
+
+  it("수신 거부 풀기 뒤에는 다시 목록에 오르고, 거부·풀기는 '이미 연락함'으로 보지 않는다", () => {
+    const p = {
+      ...fixturePatient("P105"),
+      contacts: [
+        { at: "2026-09-21T08:00:00+09:00", result: "opt-out" as const },
+        { at: "2026-09-21T08:30:00+09:00", result: "opt-in" as const },
+      ],
+    };
+    const l = buildToday([p], engine, NOW);
+    expect(shape(l)[2]).toEqual(["care-notice", [["P105", "care-notice"]]]);
+    expect(l.optedOut).toEqual([]);
   });
 });
 

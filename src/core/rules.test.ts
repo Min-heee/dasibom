@@ -30,7 +30,20 @@ describe("parseRules — 픽스처 D01", () => {
       ["m6", "months", 6, "photo"],
       ["y1", "months", 12, "photo"],
     ]);
-    expect(r.rules.procedures.injection).toEqual({ type: "series", keyPrefix: "inj-", label: "두피 주사", intervalDays: 14, sessions: 10, earlyDays: 3, graceDays: 3, photoSessions: [5, 10] });
+    expect(r.rules.procedures.injection).toEqual({
+      type: "series",
+      keyPrefix: "inj-",
+      label: "두피 주사",
+      intervalDays: 14,
+      sessions: 10,
+      earlyDays: 3,
+      graceDays: 3,
+      photoSessions: [5, 10],
+      shiftWindow: { before: 3, after: 3, basis: "V08" },
+      restartAfterDays: 14,
+    });
+    // 휴진 이동 범위는 근거 문서가 적은 D+7(V07)에만 있고, 나머지 시점에는 지어내 채우지 않는다.
+    expect(h.points.filter((p) => p.shiftWindow).map((p) => [p.key, p.shiftWindow])).toEqual([["d7", { before: 1, after: 2, basis: "V07" }]]);
     expect(r.rules.procedures["scalp-care"]).toMatchObject({ type: "recurring", key: "scalp-care", kind: "notice", anchor: "last-visit", intervalDays: 28, horizonMonths: 12 });
     expect(r.rules.reasonOrder).toEqual(["overdue", "upcoming-visit", "care-notice", "injection-rebook", "photo-round"]);
     expect(r.rules.clinicPhone).toBe("02-000-0000");
@@ -110,9 +123,37 @@ describe("parseRules — 빠지거나 깨지면 전체를 멈춘다(기본값을
         'timezone는 "Asia/Seoul"만 지원합니다: "UTC"',
         'upcomingNotice는 "previous-open-day"만 지원합니다: "calendar-day-before"',
         'monthEndRule는 "clamp"만 지원합니다: "overflow"',
-        'shiftRule는 "next-open-day"만 지원합니다: "prev-open-day"',
+        'shiftRule는 "window-next-then-previous"만 지원합니다: "prev-open-day"',
       ],
     });
+  });
+
+  it("휴진 이동 범위: 모양, 근거 문서 id, before ≤ earlyDays, 안내 시점에는 두지 않음", () => {
+    const j = d01Json();
+    hair(j)[2].shiftWindow = { before: 2, after: 2, basis: "V07" }; // d7 earlyDays 1
+    (hair(j)[1] as Json).shiftWindow = { before: 0, after: 1, basis: "V07" }; // d3 안내
+    inj(j).shiftWindow = { before: 3, after: "3", basis: "postop" };
+    const r = parseRules(j);
+    expect(r.ok).toBe(false);
+    if (!r.ok)
+      expect(r.errors).toEqual([
+        "procedures.hair-transplant[1].shiftWindow는 내원·사진 시점에만 둡니다",
+        "procedures.hair-transplant[2].shiftWindow.before(2)는 earlyDays(1) 이하여야 합니다 — 앞당긴 날에 온 방문이 완료로 인정되게",
+        'procedures.injection.shiftWindow.after는 0 이상의 정수여야 합니다: "3"',
+        'procedures.injection.shiftWindow.basis는 근거 문서 id(V07 꼴)여야 합니다: "postop"',
+      ]);
+  });
+
+  it("주사 재시작 기준: 없으면 멈추고, 유예보다 길어야 한다", () => {
+    const j = d01Json();
+    delete inj(j).restartAfterDays;
+    const r1 = parseRules(j);
+    expect(r1.ok).toBe(false);
+    if (!r1.ok) expect(r1.errors).toEqual(["procedures.injection.restartAfterDays가 없습니다"]);
+    inj(j).restartAfterDays = 3;
+    const r2 = parseRules(j);
+    expect(r2.ok).toBe(false);
+    if (!r2.ok) expect(r2.errors).toEqual(["procedures.injection.restartAfterDays(3)는 graceDays(3)보다 커야 합니다"]);
   });
 
   it("연락 결과 목록과 이유 순서는 코드가 아는 값과 정확히 같아야 한다", () => {

@@ -8,6 +8,7 @@
  * 앞으로 30일 예측의 가정(결과에 그대로 싣는다):
  * 1. 오늘 이후로 예정된 내원은 예정일(밀린 날짜)에 온다.
  * 2. 이미 미방문이거나 유예 중인 환자는 오지 않고, 목록에 오른 날 연락하면 늘 "부재"다(가장 많이 연락하게 되는 쪽).
+ *    예약한 시점은 예약 날짜에 온다. 날짜 미정인 시점은 날짜가 없어 오지 않는다(간호팀 확인에 남는다).
  * 3. 목록에 오른 줄은 그날 모두 연락한다. 휴진일에는 연락하지 않고 0건으로 센다.
  * 실제 연락 수가 아니라 규칙 값에 따른 **차이**를 보려는 모형이다.
  */
@@ -26,7 +27,9 @@ export type RuleChange =
   /** key가 "*"이면 그 시술의 모든 시점(회차 시술은 회차 전체). */
   | { field: "graceDays" | "earlyDays"; procedure: Procedure; key: string; value: number }
   /** 개월로 정한 고정 시점 하나의 개월 수(예: 모발이식 6개월 경과 진료 → 7개월). 시점 순서는 parseRules·buildSchedule이 다시 본다. */
-  | { field: "offsetMonths"; procedure: Procedure; key: string; value: number };
+  | { field: "offsetMonths"; procedure: Procedure; key: string; value: number }
+  /** 휴진 이동 범위(shiftWindow)가 있는 시점의 앞·뒤 일수. 범위가 없는 시점에 새로 만들지는 않는다(근거 문서 없이 범위를 지어내지 않게). */
+  | { field: "shiftBefore" | "shiftAfter"; procedure: Procedure; key: string; value: number };
 
 const MS_PER_DAY = 86_400_000;
 
@@ -42,6 +45,7 @@ export function rulesToJson(rules: Rules): Record<string, unknown> {
         kind: p.kind,
         earlyDays: p.earlyDays,
         graceDays: p.graceDays,
+        ...(p.shiftWindow ? { shiftWindow: { ...p.shiftWindow } } : {}),
       }));
     } else {
       const { type: _type, ...rest } = r;
@@ -61,6 +65,13 @@ export function applyRuleChange(rules: Rules, change: RuleChange): RulesResult {
     return parseRules(json);
   }
   const target = json.procedures[change.procedure];
+  if (change.field === "shiftBefore" || change.field === "shiftAfter") {
+    const holder = Array.isArray(target) ? (target as Record<string, unknown>[]).find((x) => x.key === change.key) : change.key === "*" ? (target as Record<string, unknown>) : undefined;
+    const w = holder?.shiftWindow as Record<string, unknown> | undefined;
+    if (!w) return { ok: false, errors: [`${change.procedure} ${change.key}에는 휴진 이동 범위가 없습니다`] };
+    w[change.field === "shiftBefore" ? "before" : "after"] = change.value;
+    return parseRules(json);
+  }
   if (change.field === "offsetMonths") {
     const p = Array.isArray(target) ? (target as Record<string, unknown>[]).find((x) => x.key === change.key) : undefined;
     if (!p || p.offsetMonths === undefined) return { ok: false, errors: [`${change.procedure}에 개월로 정한 시점 ${change.key}가 없습니다`] };
@@ -87,11 +98,12 @@ export function applyRuleChange(rules: Rules, change: RuleChange): RulesResult {
  */
 function withExpectedVisits(patients: Patient[], engine: Engine, today: LocalDate, until: LocalDate): Patient[] {
   return patients.map((p) => {
-    const statuses = evaluatePoints(buildSchedule(p, today, engine.rules, engine.calendar), p.visits, today);
+    const statuses = evaluatePoints(buildSchedule(p, today, engine.rules, engine.calendar), p.visits, today, p.contacts);
     if (statuses.some((s) => s.state === "missed" || s.state === "in-grace")) return p;
+    // 날짜 미정 시점에는 방문을 넣지 않는다. 뒤 시점 방문을 넣으면 날짜 미정이 '건너뜀'이 되지만, 예측은 코디네이터 목록만 세므로 결과가 같다.
     const extra = statuses
-      .filter((s) => isVisitKind(s.point.kind) && (s.state === "upcoming" || s.state === "due-today") && s.point.dueDate <= until)
-      .map((s) => ({ date: s.point.dueDate, kind: s.point.key }));
+      .filter((s) => isVisitKind(s.point.kind) && (s.state === "upcoming" || s.state === "due-today" || s.state === "booked") && s.date !== null && s.date <= until)
+      .map((s) => ({ date: s.date!, kind: s.point.key }));
     return extra.length === 0 ? p : { ...p, visits: [...p.visits, ...extra] };
   });
 }
@@ -163,8 +175,11 @@ export interface TodayDiff {
   removed: string[];
   /** 두 쪽 모두 있지만 이유가 달라진 환자. */
   changed: { patientId: string; before: Reason[]; after: Reason[] }[];
-  escalationsBefore: number;
-  escalationsAfter: number;
+  nurseBefore: number;
+  nurseAfter: number;
+  /** 간호팀 확인에 새로 오른·빠진 환자. 휴진 이동 범위·최대 시도를 바꾸면 여기가 먼저 달라진다. */
+  nurseAdded: string[];
+  nurseRemoved: string[];
 }
 
 function reasonsById(list: TodayList): Map<string, Reason[]> {
@@ -183,14 +198,16 @@ export function diffToday(before: TodayList, after: TodayList): TodayDiff {
     added: sorted([...a.keys()].filter((id) => !b.has(id))),
     removed: sorted([...b.keys()].filter((id) => !a.has(id))),
     changed: sorted([...a.keys()].filter((id) => b.has(id) && b.get(id)!.join() !== a.get(id)!.join())).map((id) => ({ patientId: id, before: b.get(id)!, after: a.get(id)! })),
-    escalationsBefore: before.escalations.length,
-    escalationsAfter: after.escalations.length,
+    nurseBefore: before.nurseReview.length,
+    nurseAfter: after.nurseReview.length,
+    nurseAdded: sorted(after.nurseReview.map((r) => r.patientId).filter((id) => !before.nurseReview.some((x) => x.patientId === id))),
+    nurseRemoved: sorted(before.nurseReview.map((r) => r.patientId).filter((id) => !after.nurseReview.some((x) => x.patientId === id))),
   };
 }
 
 export const FORECAST_ASSUMPTIONS = [
   "오늘 이후 예정된 내원은 예정일에 온다고 가정",
-  "이미 미방문이거나 유예 중인 환자는 오지 않고, 연락하면 늘 부재라고 가정",
+  "이미 미방문이거나 유예 중인 환자는 오지 않고, 연락하면 늘 부재라고 가정(예약한 시점은 예약 날짜에 옴, 날짜 미정 시점은 오지 않음)",
   "목록에 오른 줄은 그날 모두 연락하고, 휴진일에는 연락하지 않음",
 ];
 

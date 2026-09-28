@@ -14,20 +14,22 @@
  * {
  *   "timezone": "Asia/Seoul", "clinicPhone": "02-000-0000",
  *   "procedures": {
- *     "hair-transplant": [ { key, label, offsetDays | offsetMonths, kind, earlyDays, graceDays }, ... ],   고정 시점
- *     "injection":  { keyPrefix, label, intervalDays, sessions, photoSessions, earlyDays, graceDays },      회차(1회차 = 시작일)
+ *     "hair-transplant": [ { key, label, offsetDays | offsetMonths, kind, earlyDays, graceDays, shiftWindow? }, ... ],   고정 시점
+ *     "injection":  { keyPrefix, label, intervalDays, sessions, photoSessions, earlyDays, graceDays, shiftWindow?, restartAfterDays },  회차(1회차 = 시작일)
  *     "scalp-care": { key, label, kind: "notice", anchor: "last-visit", intervalDays, earlyDays, graceDays, horizonMonths }  반복 안내
  *   },
  *   "upcomingNotice": "previous-open-day", "retryIntervalDays", "maxAttempts",
- *   "contactResults": ["called", "no-answer", "sms", "later"],
+ *   "contactResults": ["called", "no-answer", "sms", "later", "booked", "opt-out", "opt-in"],
  *   "contactWindow": { "start": "09:00", "end": "20:00" },
- *   "monthEndRule": "clamp", "shiftRule": "next-open-day",
+ *   "monthEndRule": "clamp", "shiftRule": "window-next-then-previous",
  *   "reasonOrder": ["overdue", "upcoming-visit", "care-notice", "injection-rebook", "photo-round"],
  *   "holidaysCoverage": { "from", "to", "checkedOn" },
  *   "holidays": [ { "date", "name" }, ... ],
  *   "templates": { "overdue", "upcoming-visit", "photo-round", "injection-rebook", "care-notice-<안내 시점 key>": "문구 {{date}}" }
  * }
  * 세 시술은 모양으로 가른다: 배열 = 고정 시점, keyPrefix가 있으면 회차, anchor가 있으면 반복 안내.
+ * shiftWindow = { before, after, basis }: 휴진일에 걸렸을 때 옮겨도 되는 범위(원래 날짜 앞 before일 ~ 뒤 after일)와 그 근거 문서 id.
+ * 범위는 근거 문서가 적은 시점에만 둔다(없는 시점은 다음 진료일로 미룸). 범위를 지어내 채우지 않는다.
  */
 
 import { isLocalDate, parseHhmm, type Holiday, type LocalDate, type MonthEndRule } from "./calendar";
@@ -44,6 +46,13 @@ export type PointKind = (typeof POINT_KINDS)[number];
 export const REASONS = ["overdue", "upcoming-visit", "care-notice", "injection-rebook", "photo-round"] as const;
 export type Reason = (typeof REASONS)[number];
 
+/** 휴진 이동 범위(D01 shiftWindow). basis는 그 범위를 적은 볼트 문서 id(예: V07). */
+export interface ShiftWindow {
+  before: number;
+  after: number;
+  basis: string;
+}
+
 export interface FixedPointRule {
   key: string;
   label: string;
@@ -51,6 +60,7 @@ export interface FixedPointRule {
   kind: PointKind;
   earlyDays: number;
   graceDays: number;
+  shiftWindow?: ShiftWindow;
 }
 
 export interface SeriesRule {
@@ -62,6 +72,9 @@ export interface SeriesRule {
   photoSessions: number[];
   earlyDays: number;
   graceDays: number;
+  shiftWindow?: ShiftWindow;
+  /** 완료되지 않은 회차가 (옮긴) 예정일에서 이 일수를 넘기면 '의료진 진료 뒤 재시작 — 간호팀 확인'(V08). */
+  restartAfterDays: number;
 }
 
 export interface RecurringNoticeRule {
@@ -99,7 +112,7 @@ export interface Rules {
   contactResults: string[];
   contactWindow: { start: string; end: string };
   monthEndRule: MonthEndRule;
-  shiftRule: "next-open-day";
+  shiftRule: "window-next-then-previous";
   reasonOrder: Reason[];
   holidaysCoverage: { from: LocalDate; to: LocalDate; checkedOn: LocalDate };
   holidays: Holiday[];
@@ -124,8 +137,10 @@ const TOP_KEYS = [
   "holidays",
   "templates",
 ] as const;
-const POINT_KEYS = new Set(["key", "label", "offsetDays", "offsetMonths", "kind", "earlyDays", "graceDays"]);
-const SERIES_KEYS = ["keyPrefix", "label", "intervalDays", "sessions", "photoSessions", "earlyDays", "graceDays"] as const;
+const POINT_KEYS = new Set(["key", "label", "offsetDays", "offsetMonths", "kind", "earlyDays", "graceDays", "shiftWindow"]);
+const SERIES_KEYS = ["keyPrefix", "label", "intervalDays", "sessions", "photoSessions", "earlyDays", "graceDays", "shiftWindow", "restartAfterDays"] as const;
+const WINDOW_KEYS = ["before", "after", "basis"] as const;
+const DOC_ID_RE = /^[A-Z]\d{2}$/;
 const RECURRING_KEYS = ["key", "label", "kind", "anchor", "intervalDays", "earlyDays", "graceDays", "horizonMonths"] as const;
 const KEY_RE = /^[a-z0-9][a-z0-9-]*$/;
 const SLOT_RE = /\{\{\s*([^{}]*?)\s*\}\}/g;
@@ -162,6 +177,27 @@ function unknownKeys(errors: string[], where: string, o: Record<string, unknown>
   for (const k of Object.keys(o)) if (!set.has(k)) errors.push(`${where} 모르는 키입니다: ${k}`);
 }
 
+/**
+ * 휴진 이동 범위. 빠진 것은 "범위 없음"(다음 진료일로 미룸)이고, 있으면 세 값이 모두 맞아야 한다.
+ * before는 earlyDays보다 길 수 없다: 앞당긴 날이 '완료로 인정하는 첫날'(원래 날짜 − earlyDays)보다 이르면
+ * 잡아 준 날에 온 환자가 완료가 되지 않는다.
+ */
+function parseWindow(errors: string[], where: string, v: unknown, earlyDays: number): ShiftWindow | undefined {
+  if (v === undefined) return undefined;
+  if (!isObj(v)) {
+    errors.push(`${where}.shiftWindow가 객체가 아닙니다`);
+    return undefined;
+  }
+  unknownKeys(errors, `${where}.shiftWindow`, v, WINDOW_KEYS);
+  const before = checkInt(errors, `${where}.shiftWindow.before`, v.before, 0);
+  const after = checkInt(errors, `${where}.shiftWindow.after`, v.after, 0);
+  if (typeof v.basis !== "string" || !DOC_ID_RE.test(v.basis)) errors.push(`${where}.shiftWindow.basis는 근거 문서 id(V07 꼴)여야 합니다: ${JSON.stringify(v.basis)}`);
+  if (intAtLeast(before, 0) && intAtLeast(earlyDays, 0) && before > earlyDays) {
+    errors.push(`${where}.shiftWindow.before(${before})는 earlyDays(${earlyDays}) 이하여야 합니다 — 앞당긴 날에 온 방문이 완료로 인정되게`);
+  }
+  return { before, after, basis: v.basis as string };
+}
+
 function parseFixed(errors: string[], proc: string, arr: unknown[], keys: Set<string>): FixedPointRule[] {
   const out: FixedPointRule[] = [];
   if (arr.length === 0) errors.push(`procedures.${proc}가 비어 있습니다`);
@@ -183,7 +219,10 @@ function parseFixed(errors: string[], proc: string, arr: unknown[], keys: Set<st
     if (!(POINT_KINDS as readonly unknown[]).includes(p.kind)) errors.push(`${where}.kind 값이 틀렸습니다: ${JSON.stringify(p.kind)}`);
     const earlyDays = checkInt(errors, `${where}.earlyDays`, p.earlyDays, 0);
     const graceDays = checkInt(errors, `${where}.graceDays`, p.graceDays, 0);
-    out.push({ key, label, offset, kind: p.kind as PointKind, earlyDays, graceDays });
+    const shiftWindow = parseWindow(errors, where, p.shiftWindow, earlyDays);
+    // 안내 시점은 직원이 연락하는 날일 뿐 환자가 오는 날이 아니라 범위를 둘 뜻이 없다(휴진이면 다음 진료일에 안내).
+    if (shiftWindow && p.kind === "notice") errors.push(`${where}.shiftWindow는 내원·사진 시점에만 둡니다`);
+    out.push({ key, label, offset, kind: p.kind as PointKind, earlyDays, graceDays, ...(shiftWindow ? { shiftWindow } : {}) });
   });
   // 시점은 시작일에서 가까운 순이어야 한다("뒤 시점이 완료되면 앞 시점은 건너뜀" 판정이 이 순서에 기댄다).
   // 개월과 일을 섞어 비교할 수 없으니 같은 단위끼리만 본다. 섞인 순서는 schedule.ts가 날짜로 다시 본다.
@@ -219,7 +258,23 @@ function parseSeries(errors: string[], proc: string, o: Record<string, unknown>,
   if (typeof keyPrefix === "string" && intAtLeast(sessions, 2)) {
     for (let n = 2; n <= sessions; n++) checkKey(errors, `${where} 회차 key`, `${keyPrefix}${n}`, keys);
   }
-  return { keyPrefix: keyPrefix as string, label, intervalDays, sessions, photoSessions: [...photoSessions].sort((a, b) => a - b), earlyDays, graceDays };
+  const shiftWindow = parseWindow(errors, where, o.shiftWindow, earlyDays);
+  const restartAfterDays = checkInt(errors, `${where}.restartAfterDays`, o.restartAfterDays, 1);
+  // 재시작 기준이 유예보다 짧으면 유예 중(직원이 바로 옮길 수 있는 기간)에 재시작이 걸려 두 규칙이 서로 부딪힌다.
+  if (intAtLeast(restartAfterDays, 1) && intAtLeast(graceDays, 0) && restartAfterDays <= graceDays) {
+    errors.push(`${where}.restartAfterDays(${restartAfterDays})는 graceDays(${graceDays})보다 커야 합니다`);
+  }
+  return {
+    keyPrefix: keyPrefix as string,
+    label,
+    intervalDays,
+    sessions,
+    photoSessions: [...photoSessions].sort((a, b) => a - b),
+    earlyDays,
+    graceDays,
+    ...(shiftWindow ? { shiftWindow } : {}),
+    restartAfterDays,
+  };
 }
 
 function parseRecurring(errors: string[], proc: string, o: Record<string, unknown>, keys: Set<string>): RecurringNoticeRule {
@@ -286,7 +341,7 @@ export function parseRules(json: unknown): RulesResult {
   // 연락 결과 목록은 코드의 목록과 정확히 같아야 한다. 문서에만 있는 결과는 다음 연락일을 계산할 방법이 없다.
   const cr = json.contactResults;
   if (!Array.isArray(cr) || cr.length !== CONTACT_RESULTS.length || !CONTACT_RESULTS.every((r) => cr.includes(r))) {
-    errors.push(`contactResults는 ${CONTACT_RESULTS.join(", ")} 네 가지여야 합니다: ${JSON.stringify(cr)}`);
+    errors.push(`contactResults는 ${CONTACT_RESULTS.join(", ")} ${CONTACT_RESULTS.length}가지여야 합니다: ${JSON.stringify(cr)}`);
   }
 
   // contactWindow
@@ -304,7 +359,7 @@ export function parseRules(json: unknown): RulesResult {
   }
 
   checkConst(errors, "monthEndRule", json.monthEndRule, "clamp");
-  checkConst(errors, "shiftRule", json.shiftRule, "next-open-day");
+  checkConst(errors, "shiftRule", json.shiftRule, "window-next-then-previous");
 
   // 이유 순서: 다섯 이유를 빠짐없이 한 번씩.
   const ro = json.reasonOrder;
@@ -371,7 +426,7 @@ export function parseRules(json: unknown): RulesResult {
       contactResults: [...(cr as string[])],
       contactWindow,
       monthEndRule: "clamp",
-      shiftRule: "next-open-day",
+      shiftRule: "window-next-then-previous",
       reasonOrder: [...(ro as Reason[])],
       holidaysCoverage,
       holidays: [...holidays].sort((a, b) => (a.date < b.date ? -1 : 1)),

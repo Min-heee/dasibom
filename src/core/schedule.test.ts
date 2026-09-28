@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { localDate } from "./calendar";
 import { withRules, type Engine } from "./engine";
 import type { Procedure, Visit } from "./patient";
-import { buildSchedule, describeShift } from "./schedule";
+import { buildSchedule, describeShift, windowRange } from "./schedule";
 import { fixtureEngine, TODAY } from "./__fixtures__/load";
 
 const d = localDate;
@@ -12,22 +12,41 @@ const sched = (procedure: Procedure, start: string, e: Engine = engine, visits: 
 const row = (p: ReturnType<typeof sched>[number]) => [p.key, p.originalDate, p.dueDate, p.skipped.length, p.holidayUnknown];
 
 describe("buildSchedule — 모발이식", () => {
-  it("수술 9/18(금): D+7이 추석(9/25)에 걸려 9/28로, 4주가 내부 교육 휴진(10/16)에 걸려 10/17로 밀린다", () => {
+  it("수술 9/18(금): D+7(9/25 추석)은 허용 범위 9/24~9/27(V07)이 모두 휴진이라 날짜 미정, 4주는 범위가 없어 내부 교육 휴진(10/16) 다음 날 10/17로 미룬다", () => {
     expect(sched("hair-transplant", "2026-09-18").map(row)).toEqual([
       ["d1", "2026-09-19", "2026-09-19", 0, false],
       ["d3", "2026-09-21", "2026-09-21", 0, false],
-      ["d7", "2026-09-25", "2026-09-28", 3, false],
+      // 살펴본 순서: 원래 날짜 → 뒤로(9/26, 9/27) → 앞으로(9/24). 범위 밖 9/28로 미루지 않는다.
+      ["d7", "2026-09-25", null, 4, false],
       ["d14", "2026-10-02", "2026-10-02", 0, false],
       ["w4", "2026-10-16", "2026-10-17", 1, false],
       // 2027년은 픽스처의 공휴일 확인 기간 밖이다.
       ["m6", "2027-03-18", "2027-03-18", 0, true],
       ["y1", "2027-09-18", "2027-09-18", 0, true],
     ]);
+    const s = sched("hair-transplant", "2026-09-18");
+    expect(s.map((p) => p.shift)).toEqual(["none", "none", "unresolved", "none", "later", "none", "none"]);
+    expect(s.map((p) => p.window?.basis ?? null)).toEqual([null, null, "V07", null, null, null, null]);
+    expect(windowRange(s[2])).toEqual({ from: "2026-09-24", to: "2026-09-27" });
+    expect(windowRange(s[4])).toBeNull();
   });
 
-  it("밀린 사유를 한 줄로", () => {
+  it("수술 9/17(목): D+7(9/24 추석 연휴)은 범위 뒤쪽 9/25·9/26이 휴진이라 범위 안 이전 진료일 9/23(D+6)으로 앞당긴다", () => {
+    const d7 = sched("hair-transplant", "2026-09-17")[2];
+    expect([d7.originalDate, d7.dueDate, d7.shift, d7.skipped.map((x) => x.date)]).toEqual(["2026-09-24", "2026-09-23", "earlier", ["2026-09-24", "2026-09-25", "2026-09-26"]]);
+    // D+3(9/20 일)은 범위가 없어 다음 진료일로 미룬다(앞당기지 않는다).
+    const d3 = sched("hair-transplant", "2026-09-17")[1];
+    expect([d3.dueDate, d3.shift]).toEqual(["2026-09-21", "later"]);
+  });
+
+  it("범위 안의 뒤 진료일이 있으면 앞당기지 않고 미룬다: 10/2(금) 수술 D+7 10/9(금, 한글날) → 10/10(토, D+8)", () => {
+    const d7 = sched("hair-transplant", "2026-10-02")[2];
+    expect([d7.dueDate, d7.shift]).toEqual(["2026-10-10", "later"]);
+  });
+
+  it("살펴본 휴진일과 사유를 한 줄로", () => {
     const s = sched("hair-transplant", "2026-09-18");
-    expect(describeShift(s[2])).toBe("9/25 공휴일(추석), 9/26 공휴일(추석 연휴), 9/27 일요일 휴진");
+    expect(describeShift(s[2])).toBe("9/25 공휴일(추석), 9/26 공휴일(추석 연휴), 9/27 일요일 휴진, 9/24 공휴일(추석 연휴)");
     expect(describeShift(s[0])).toBeNull();
   });
 
@@ -85,10 +104,12 @@ describe("buildSchedule — 두피 주사(회차)", () => {
     expect([s[3].originalDate, s[3].label, s[3].session]).toEqual(["2026-10-05", "두피 주사 5회차", 5]);
   });
 
-  it("앞 회차가 밀려도 뒤 회차는 시작일에서 센다(밀림이 누적되지 않는다)", () => {
-    // 9/10(목) 시작: 2회차 9/24(목, 추석 연휴) → 9/28(월). 3회차는 9/28 + 14가 아니라 9/10 + 28 = 10/8.
+  it("앞 회차가 옮겨져도 뒤 회차는 시작일에서 센다(이동이 누적되지 않는다)", () => {
+    // 9/10(목) 시작: 2회차 9/24(목, 추석 연휴)는 앞뒤 3일(V08) 중 뒤 9/25~9/27이 휴진이라 9/23(수)으로 앞당김.
+    // 3회차는 9/23 + 14가 아니라 9/10 + 28 = 10/8.
     const s = sched("injection", "2026-09-10");
-    expect([s[0].dueDate, s[1].dueDate]).toEqual(["2026-09-28", "2026-10-08"]);
+    expect([s[0].dueDate, s[0].shift, s[1].dueDate]).toEqual(["2026-09-23", "earlier", "2026-10-08"]);
+    expect([s[0].window, s[0].restartAfterDays]).toEqual([{ before: 3, after: 3, basis: "V08" }, 14]);
   });
 });
 

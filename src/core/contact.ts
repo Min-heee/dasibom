@@ -10,9 +10,9 @@
 
 import { checkDay, kstDateOf, parseInstant, type LocalDate } from "./calendar";
 import type { Engine } from "./engine";
-import { CONTACT_RESULTS, type Contact, type Patient } from "./patient";
+import { checkBooking, CONTACT_RESULTS, type Contact, type Patient } from "./patient";
 import { buildSchedule } from "./schedule";
-import { evaluatePoints, overdueState, type OverdueState } from "./status";
+import { contactsBefore, evaluatePoints, overdueState, type OverdueState } from "./status";
 import { evaluatePatient, type Reason } from "./today";
 
 export interface AppliedContact {
@@ -39,9 +39,13 @@ export function applyContact(base: readonly Patient[], log: ContactLog, entry: A
   } catch (e) {
     return { ok: false, error: (e as Error).message };
   }
+  // 예약 모양(날짜·시점, 연락한 날 이후)은 합성 데이터와 같은 검사를 거친다 — 화면에서 적은 예약만 느슨하게 받지 않게.
+  const bookingError = checkBooking(entry.contact);
+  if (bookingError) return { ok: false, error: bookingError };
   const last = patient.contacts[patient.contacts.length - 1];
   if (last && parseInstant(last.at) > ms) return { ok: false, error: `마지막 연락(${last.at})보다 앞선 시각입니다: ${entry.contact.at}` };
-  return { ok: true, log: { applied: [...log.applied, { patientId: entry.patientId, contact: { ...entry.contact } }] } };
+  const contact = { ...entry.contact, ...(entry.contact.booking ? { booking: { ...entry.contact.booking } } : {}) };
+  return { ok: true, log: { applied: [...log.applied, { patientId: entry.patientId, contact }] } };
 }
 
 /** 마지막으로 적용한 연락을 뺀다. 뺄 것이 없으면 그대로. */
@@ -74,7 +78,7 @@ export function currentPatients(base: readonly Patient[], log: ContactLog): Pati
 export interface NextContact {
   /** 미방문이 있으면 그 연락 상태. 없으면 null(내일 내원·안내 연락은 한 번으로 끝난다). */
   overdue: OverdueState | null;
-  /** 다음 연락일. 미방문이 없거나 원장 확인으로 넘어갔으면 null. */
+  /** 다음 연락일. 미방문이 없거나 간호팀 확인으로 넘어갔으면 null. */
   nextContactDate: LocalDate | null;
 }
 
@@ -83,9 +87,9 @@ export interface NextContact {
  */
 export function nextContactAfter(patient: Patient, engine: Engine, atMs: number): NextContact {
   const today = kstDateOf(atMs);
-  const statuses = evaluatePoints(buildSchedule(patient, today, engine.rules, engine.calendar), patient.visits, today);
+  const statuses = evaluatePoints(buildSchedule(patient, today, engine.rules, engine.calendar), patient.visits, today, contactsBefore(patient.contacts, atMs));
   const overdue = overdueState(statuses, patient.contacts, engine.rules, engine.calendar, atMs);
-  return { overdue, nextContactDate: overdue && overdue.action !== "escalate" ? overdue.nextContactDate : null };
+  return { overdue, nextContactDate: overdue && overdue.action !== "nurse" ? overdue.nextContactDate : null };
 }
 
 export interface NextListing {

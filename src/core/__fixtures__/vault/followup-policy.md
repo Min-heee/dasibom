@@ -12,7 +12,7 @@ fictional: true
 # 사후관리 연락 규정(테스트 픽스처)
 
 테스트용 픽스처다. json 모양은 저장소 루트 vault/의 D01(사후관리 연락 규정)과 같고, 시점 값은 V07(수술 후 관리)·V08(두피 주사)·V09(두피 관리)의 가상 일정과 맞췄다.
-규칙 문장(무엇을 완료로 보고, 언제 목록에 올리는지)도 그 D01 본문을 따른다.
+규칙 문장(무엇을 완료로 보고, 언제 목록에 올리는지, 휴진 이동 범위와 주사 재시작)도 그 D01 본문을 따른다.
 공휴일은 **테스트용으로 2026년 9~12월만** 넣었고 확인 기간(holidaysCoverage)도 그만큼으로 좁혔다 —
 확인 기간 밖의 날이 '공휴일 미확인'으로 표시되는지 보려고. 공식 출처로 확인한 공휴일 목록은 저장소 루트 vault/의 D01에 있다.
 
@@ -44,7 +44,12 @@ fictional: true
         "offsetDays": 7,
         "kind": "photo",
         "earlyDays": 1,
-        "graceDays": 2
+        "graceDays": 2,
+        "shiftWindow": {
+          "before": 1,
+          "after": 2,
+          "basis": "V07"
+        }
       },
       {
         "key": "d14",
@@ -89,7 +94,13 @@ fictional: true
         10
       ],
       "earlyDays": 3,
-      "graceDays": 3
+      "graceDays": 3,
+      "shiftWindow": {
+        "before": 3,
+        "after": 3,
+        "basis": "V08"
+      },
+      "restartAfterDays": 14
     },
     "scalp-care": {
       "key": "scalp-care",
@@ -109,14 +120,17 @@ fictional: true
     "called",
     "no-answer",
     "sms",
-    "later"
+    "later",
+    "booked",
+    "opt-out",
+    "opt-in"
   ],
   "contactWindow": {
     "start": "09:00",
     "end": "20:00"
   },
   "monthEndRule": "clamp",
-  "shiftRule": "next-open-day",
+  "shiftRule": "window-next-then-previous",
   "reasonOrder": [
     "overdue",
     "upcoming-visit",

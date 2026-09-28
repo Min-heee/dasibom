@@ -18,6 +18,7 @@ import {
   parseInstant,
   prevOpenDay,
   shiftToOpenDay,
+  shiftWithinWindow,
 } from "./calendar";
 import { fixtureEngine } from "./__fixtures__/load";
 
@@ -156,5 +157,24 @@ describe("parseClinicHours — V02 json", () => {
   it("공휴일 휴진이 closed에 없으면 공휴일을 휴진으로 보지 않는다", () => {
     const r = parseClinicHours({ ...base, closed: ["sun"] });
     expect(r.ok && r.hours.closedOnPublicHolidays).toBe(false);
+  });
+});
+
+describe("shiftWithinWindow — 범위가 있는 시점의 휴진 이동(D01 window-next-then-previous)", () => {
+  const cal = fixtureEngine().calendar;
+  const w = (d: string, before: number, after: number) => {
+    const r = shiftWithinWindow(localDate(d), cal, { before, after });
+    return [r.date, r.direction, r.skipped.map((s) => s.date)];
+  };
+  it("진료일이면 그대로, 뒤를 먼저(가까운 날부터), 없으면 앞(가까운 날부터), 그래도 없으면 날짜 미정", () => {
+    expect(w("2026-09-23", 1, 2)).toEqual(["2026-09-23", "none", []]);
+    expect(w("2026-10-09", 1, 2)).toEqual(["2026-10-10", "later", ["2026-10-09"]]);
+    expect(w("2026-09-24", 1, 2)).toEqual(["2026-09-23", "earlier", ["2026-09-24", "2026-09-25", "2026-09-26"]]);
+    expect(w("2026-09-24", 3, 3)).toEqual(["2026-09-23", "earlier", ["2026-09-24", "2026-09-25", "2026-09-26", "2026-09-27"]]);
+    expect(w("2026-09-25", 1, 2)).toEqual([null, "unresolved", ["2026-09-25", "2026-09-26", "2026-09-27", "2026-09-24"]]);
+    // 범위 끝은 포함: 뒤 3일이면 9/25 → 9/28.
+    expect(w("2026-09-25", 1, 3)).toEqual(["2026-09-28", "later", ["2026-09-25", "2026-09-26", "2026-09-27"]]);
+    // 범위가 0이면 그날만 본다.
+    expect(w("2026-09-27", 0, 0)).toEqual([null, "unresolved", ["2026-09-27"]]);
   });
 });

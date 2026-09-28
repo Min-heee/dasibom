@@ -68,11 +68,12 @@ export function composeMessage(args: { templateKey: string; values: SlotValues; 
 }
 
 /**
- * 줄 항목의 칸 값(D01 '연락 문구'): 날짜 = 그 시점의 밀린 날짜, 시각 = 그날 진료시간(V02 요일별 시작~종료), 병원 전화 = D01 clinicPhone.
+ * 줄 항목의 칸 값(D01 '연락 문구'): 날짜 = 그 항목의 날짜(옮긴 날짜, 예약했으면 예약 날짜), 시각 = 그날 진료시간(V02 요일별 시작~종료),
+ * 병원 전화 = D01 clinicPhone. 예약 날짜를 쓰는 이유: 예약 뒤 오지 않은 환자에게 "원래 예정일"을 말하면 환자가 잡은 날과 다른 날을 듣게 된다.
  * 그날이 요일 휴진이면 시각 칸을 비워 두어, 시각 칸을 쓰는 문구는 fillTemplate이 오류로 멈추게 한다.
  */
-export function valuesForItem(item: Pick<RowItem, "point">, rules: Rules, cal: ClinicCalendar): SlotValues {
-  const due = item.point.dueDate;
+export function valuesForItem(item: Pick<RowItem, "date">, rules: Rules, cal: ClinicCalendar): SlotValues {
+  const due = item.date;
   const hours = cal.weekly[DOW_KEYS[dayOfWeek(due)]];
   return { date: formatShort(due), clinicPhone: rules.clinicPhone, ...(hours ? { time: `${hours.open}~${hours.close}` } : {}) };
 }

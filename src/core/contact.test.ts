@@ -23,12 +23,12 @@ describe("applyContact · undoContact", () => {
     expect([n.overdue?.attempts, n.nextContactDate]).toEqual([2, "2026-09-28"]);
   });
 
-  it("세 번째 시도면 원장 확인으로 넘어가 다음 연락일이 없다", () => {
+  it("세 번째 시도면 간호팀 확인으로 넘어가 다음 연락일이 없다", () => {
     let log = apply(EMPTY_LOG, "P101", "2026-09-21T09:30:00+09:00");
     log = apply(log, "P101", "2026-09-28T10:00:00+09:00", "later");
     const p = currentPatients(base, log).find((x) => x.id === "P101")!;
     const n = nextContactAfter(p, engine, at("2026-09-28T10:00:00+09:00"));
-    expect([n.overdue?.attempts, n.overdue?.action, n.nextContactDate]).toEqual([3, "escalate", null]);
+    expect([n.overdue?.attempts, n.overdue?.action, n.nextContactDate]).toEqual([3, "nurse", null]);
   });
 
   it("되돌리기: 마지막 연락을 빼면 목록이 원래대로. 원본은 한 번도 바뀌지 않는다", () => {
@@ -53,6 +53,42 @@ describe("applyContact · undoContact", () => {
     });
     expect(applyContact(base, EMPTY_LOG, { patientId: "P999", contact: { at: "2026-09-21T10:00:00+09:00", result: "called" } }).ok).toBe(false);
     expect(applyContact(base, EMPTY_LOG, { patientId: "P101", contact: { at: "2026-09-21T10:00:00", result: "called" } }).ok).toBe(false);
+  });
+});
+
+describe("applyContact — 예약 잡음·연락 원치 않음", () => {
+  const book = (booking: unknown, result = "booked") =>
+    applyContact(base, EMPTY_LOG, { patientId: "P101", contact: { at: "2026-09-21T09:30:00+09:00", result, booking } as never });
+
+  it("예약 잡음은 { pointKey, date }가 있어야 하고 연락한 날보다 이를 수 없다. 다른 결과에는 예약을 붙일 수 없다", () => {
+    expect(book(undefined)).toEqual({ ok: false, error: "예약 잡음에는 { pointKey, date }가 있어야 합니다" });
+    expect(book({ pointKey: "m6", date: "2026-9-28" })).toEqual({ ok: false, error: "예약 잡음에는 { pointKey, date }가 있어야 합니다" });
+    expect(book({ pointKey: "m6", date: "2026-09-20" })).toEqual({ ok: false, error: "예약 날짜(2026-09-20)가 연락한 날보다 이릅니다" });
+    expect(book({ pointKey: "m6", date: "2026-09-28" }, "called")).toEqual({ ok: false, error: "예약 잡음이 아닌 연락에 예약 날짜가 있습니다" });
+    expect(book({ pointKey: "m6", date: "2026-09-21" }).ok).toBe(true);
+  });
+
+  it("P101 예약 9/28 → 오늘 목록에서 빠지고, 9/28이 지나도 오지 않으면 9/29부터 다시 예정일 지남", () => {
+    const r = book({ pointKey: "m6", date: "2026-09-28" });
+    if (!r.ok) throw new Error(r.error);
+    const now = at("2026-09-21T09:40:00+09:00");
+    const ids = (ms: number) => buildToday(currentPatients(base, r.log), engine, ms).groups.flatMap((g) => g.rows.map((x) => [x.patientId, g.reason]));
+    expect(ids(now).filter(([id]) => id === "P101")).toEqual([]);
+    // 내일 내원 안내는 예약 날짜의 전 진료일(9/23 수, 추석 연휴 전)에.
+    expect(ids(at("2026-09-23T09:00:00+09:00")).filter(([id]) => id === "P101")).toEqual([["P101", "upcoming-visit"]]);
+    expect(ids(at("2026-09-29T09:00:00+09:00")).filter(([id]) => id === "P101")).toEqual([["P101", "overdue"]]);
+  });
+
+  it("연락 원치 않음 → 모든 연락 목록에서 빠지고 수신 거부 목록에, 되돌리면 원래대로", () => {
+    const now = at("2026-09-21T09:40:00+09:00");
+    const before = buildToday([...base], engine, now);
+    const r = applyContact(base, EMPTY_LOG, { patientId: "P103", contact: { at: "2026-09-21T09:30:00+09:00", result: "opt-out" } });
+    if (!r.ok) throw new Error(r.error);
+    const after = buildToday(currentPatients(base, r.log), engine, now);
+    expect(after.nurseReview.map((x) => x.patientId)).not.toContain("P103");
+    expect(after.optedOut.map((o) => [o.patientId, o.held.nurse])).toEqual([["P103", ["max-attempts"]]]);
+    expect(nextContactAfter(currentPatients(base, r.log).find((p) => p.id === "P103")!, engine, now).overdue?.attempts).toBe(3); // 시도로 세지 않음
+    expect(buildToday(currentPatients(base, undoContact(r.log).log), engine, now)).toEqual(before);
   });
 });
 
@@ -83,7 +119,7 @@ describe("nextListedDay — 연락을 적은 뒤 다시 목록에 오르는 날"
     expect(nextListedDay(withContact("P104", "called"), engine, NOW)).toEqual({ date: "2026-09-28", reasons: ["overdue"] });
   });
 
-  it("P103 원장 확인은 코디네이터 목록에 다시 오르지 않는다", () => {
+  it("P103 간호팀 확인(최대 시도)은 코디네이터 목록에 다시 오르지 않는다", () => {
     expect(nextListedDay(base.find((p) => p.id === "P103")!, engine, NOW)).toBeNull();
   });
 });

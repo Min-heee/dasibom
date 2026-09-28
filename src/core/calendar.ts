@@ -252,8 +252,8 @@ export interface Shift {
 }
 
 /**
- * 그날이 진료일이면 그날, 아니면 다음 진료일(PRD 8절: "다음 진료일로 미룸" 하나로 정함).
- * 앞당기지 않는 이유: 수술 후 시점을 앞당기면 "D+7 전에는 하지 말라"는 안내와 부딪힐 수 있다.
+ * 그날이 진료일이면 그날, 아니면 다음 진료일. 옮길 범위가 문서에 없는 시점(D01)과 다시 연락할 날에 쓴다.
+ * 앞당기지 않는 이유: 수술 후 시점을 앞당기면 "D+7 전에는 하지 말라"는 안내와 부딪힐 수 있다. 범위가 있는 시점은 shiftWithinWindow.
  */
 export function shiftToOpenDay(d: LocalDate, cal: ClinicCalendar): Shift {
   const skipped: Shift["skipped"] = [];
@@ -267,6 +267,52 @@ export function shiftToOpenDay(d: LocalDate, cal: ClinicCalendar): Shift {
     cur = addDays(cur, 1);
   }
   throw new Error(`${d}부터 ${MAX_CLOSED_RUN}일 넘게 진료일이 없습니다. 달력 자료를 확인하세요`);
+}
+
+/** 옮겨도 되는 범위: 원래 날짜 앞 before일 ~ 뒤 after일(양 끝 포함). 근거 문서가 적은 범위만 둔다(D01 shiftWindow). */
+export interface DayWindow {
+  before: number;
+  after: number;
+}
+
+export type ShiftDirection = "none" | "later" | "earlier" | "unresolved";
+
+export interface WindowShift {
+  /** 잡힌 날(진료일). 범위 안에 진료일이 없으면 null — 날짜를 지어내지 않고 사람(간호팀)이 정하게 둔다. */
+  date: LocalDate | null;
+  direction: ShiftDirection;
+  /** 살펴본 휴진일과 사유. 살펴본 순서(원래 날짜 → 뒤로 → 앞으로)대로. */
+  skipped: { date: LocalDate; reasons: ClosedReason[] }[];
+  holidayUnknown: boolean;
+}
+
+/**
+ * 범위가 있는 시점의 휴진 이동(D01 shiftRule "window-next-then-previous").
+ *   ① 원래 날짜가 진료일이면 그대로 ② 범위 안의 다음 진료일(뒤로 가장 가까운 날) ③ 없으면 범위 안의 이전 진료일(앞당김, 가장 가까운 날)
+ *   ④ 그래도 없으면 date = null(허용 범위 안에 진료일 없음).
+ * 뒤를 먼저 보는 이유: D01은 원래 "앞당기지 않는다"였고, 앞당김은 범위 안에 뒤 진료일이 없을 때만 쓰는 예외로 둔다
+ * (앞당기면 "D+7 전에는 하지 말라" 같은 안내와 부딪힐 수 있다 — 그래서 before는 earlyDays를 넘지 못하게 rules.ts가 막는다).
+ * 범위가 없는 시점은 이 함수가 아니라 shiftToOpenDay(다음 진료일로 미룸)를 쓴다.
+ */
+export function shiftWithinWindow(d: LocalDate, cal: ClinicCalendar, window: DayWindow): WindowShift {
+  const skipped: WindowShift["skipped"] = [];
+  let unknown = false;
+  const look = (cur: LocalDate): boolean => {
+    const c = checkDay(cur, cal);
+    unknown ||= c.holidayUnknown;
+    if (!c.open) skipped.push({ date: cur, reasons: c.reasons });
+    return c.open;
+  };
+  if (look(d)) return { date: d, direction: "none", skipped, holidayUnknown: unknown };
+  for (let i = 1; i <= window.after; i++) {
+    const cur = addDays(d, i);
+    if (look(cur)) return { date: cur, direction: "later", skipped, holidayUnknown: unknown };
+  }
+  for (let i = 1; i <= window.before; i++) {
+    const cur = addDays(d, -i);
+    if (look(cur)) return { date: cur, direction: "earlier", skipped, holidayUnknown: unknown };
+  }
+  return { date: null, direction: "unresolved", skipped, holidayUnknown: unknown };
 }
 
 /** d **다음** 진료일(d 자신은 빼고). "내일 내원"의 '내일'을 정하는 데 쓴다. */

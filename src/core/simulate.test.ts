@@ -45,13 +45,26 @@ describe("simulate — 오늘 목록 차이", () => {
   it("재연락 간격 3 → 1: P102(9/19 부재)가 9/20부터 연락 차례가 되어 오늘 목록에 더해진다", () => {
     const r = simulate(patients, engine, NOW, { field: "retryIntervalDays", value: 1 });
     if (!r.ok) throw new Error(r.errors.join());
-    expect(r.today).toEqual({ beforeCount: 6, afterCount: 7, added: ["P102"], removed: [], changed: [], escalationsBefore: 1, escalationsAfter: 1 });
+    // 간호팀 확인 2명(P103 최대 시도, P105 D+7 날짜 미정)은 그대로.
+    expect(r.today).toEqual({ beforeCount: 6, afterCount: 7, added: ["P102"], removed: [], changed: [], nurseBefore: 2, nurseAfter: 2, nurseAdded: [], nurseRemoved: [] });
   });
 
-  it("최대 시도 3 → 4: 원장 확인이던 P103이 다시 코디네이터 목록으로", () => {
+  it("최대 시도 3 → 4: 간호팀 확인이던 P103이 다시 코디네이터 목록으로", () => {
     const r = simulate(patients, engine, NOW, { field: "maxAttempts", value: 4 });
     if (!r.ok) throw new Error(r.errors.join());
-    expect([r.today.added, r.today.escalationsAfter]).toEqual([["P103"], 0]);
+    expect([r.today.added, r.today.nurseAfter, r.today.nurseRemoved]).toEqual([["P103"], 1, ["P103"]]);
+  });
+
+  it("휴진 이동 범위 D+7 뒤쪽 2 → 3일: P105 D+7(9/25)이 범위 안 9/28로 잡혀 간호팀 확인(날짜 미정)에서 빠진다", () => {
+    const r = simulate(patients, engine, NOW, { field: "shiftAfter", procedure: "hair-transplant", key: "d7", value: 3 });
+    if (!r.ok) throw new Error(r.errors.join());
+    expect([r.today.beforeCount, r.today.afterCount, r.today.nurseRemoved, r.today.nurseAdded]).toEqual([6, 6, ["P105"], []]);
+  });
+
+  it("범위가 없는 시점의 범위는 새로 만들지 않는다(근거 문서 없이 지어내지 않음), 앞쪽 일수는 earlyDays를 넘지 못한다", () => {
+    expect(applyRuleChange(engine.rules, { field: "shiftAfter", procedure: "hair-transplant", key: "w4", value: 3 })).toEqual({ ok: false, errors: ["hair-transplant w4에는 휴진 이동 범위가 없습니다"] });
+    expect(applyRuleChange(engine.rules, { field: "shiftBefore", procedure: "hair-transplant", key: "d7", value: 2 }).ok).toBe(false);
+    expect(applyRuleChange(engine.rules, { field: "shiftBefore", procedure: "injection", key: "*", value: 2 }).ok).toBe(true);
   });
 
   it("6개월 경과 진료 → 7개월: P101의 시점이 10/9(금, 한글날) → 10/10(토)로 밀려 아직 예정이라 오늘 목록에서 빠진다", () => {
@@ -71,39 +84,34 @@ describe("simulate — 오늘 목록 차이", () => {
 });
 
 describe("forecastContacts — 앞으로 30일", () => {
-  it("P102 한 명(손으로 센 값): 창은 오늘(9/21)부터 30일(10/20까지). 9/22 연락 → 9/28 연락(3회, 이후 원장 확인) → 5회차 안내 10/2·재예약 10/7 → 6회차 안내 10/17·재예약 10/20", () => {
-    // 9/21: 9/19 부재 + 3 = 9/22 전이라 없음. 9/22: 다시 올릴 날 + 4회차(9/21) 유예 중 재예약, 한 줄. 9/28: 9/22 + 3 = 9/25(추석) 이후 첫 진료일.
-    // 5회차 10/5(대체공휴일) → 10/6: 전 진료일 10/2에 내일 내원, 10/7 유예 중 재예약. 6회차 10/19: 전 진료일 10/17(10/16 휴진), 10/20 재예약.
-    const f = forecastContacts([fixturePatient("P102")], engine, NOW, 30);
+  it("P101 한 명(손으로 센 값): 창은 오늘(9/21)부터 30일(10/20까지). 9/21 연락(2회) → 9/28 연락(3회, 이후 간호팀 확인)", () => {
+    // 9/21: 9/17 부재 + 3 = 9/20 ≤ 오늘. 9/24: 9/21 + 3 = 9/24(추석) → 연락은 첫 진료일 9/28. 3회째라 그 뒤는 간호팀 확인. 1년(2027-03-09)은 창 밖.
+    const f = forecastContacts([fixturePatient("P101")], engine, NOW, 30);
     expect(f).toHaveLength(30);
     expect([f[0].date, f[29].date]).toEqual(["2026-09-21", "2026-10-20"]);
     expect(nonZero(f)).toEqual([
-      ["2026-09-22", 1],
+      ["2026-09-21", 1],
       ["2026-09-28", 1],
-      ["2026-10-02", 1],
-      ["2026-10-07", 1],
-      ["2026-10-17", 1],
-      ["2026-10-20", 1],
     ]);
   });
 
-  it("같은 환자, 재연락 간격 1: 오늘(9/21) 2회, 9/22에 3회 → 그 뒤 원장 확인", () => {
+  it("P102(주사 3회차 9/7 미방문): 9/22에 14일을 넘겨 재시작 → 간호팀 확인이라 30일 동안 코디네이터 연락이 없다(4회차 이후는 재시작 전)", () => {
+    expect(nonZero(forecastContacts([fixturePatient("P102")], engine, NOW, 30))).toEqual([]);
+  });
+
+  it("같은 환자 P101, 재연락 간격 1: 오늘(9/21) 2회, 9/22에 3회 → 그 뒤 간호팀 확인", () => {
     const r = parseRules({ ...rulesToJson(engine.rules), retryIntervalDays: 1 });
     if (!r.ok) throw new Error(r.errors.join());
-    expect(nonZero(forecastContacts([fixturePatient("P102")], withRules(engine, r.rules), NOW, 30))).toEqual([
+    expect(nonZero(forecastContacts([fixturePatient("P101")], withRules(engine, r.rules), NOW, 30))).toEqual([
       ["2026-09-21", 1],
       ["2026-09-22", 1],
-      ["2026-10-02", 1],
-      ["2026-10-07", 1],
-      ["2026-10-17", 1],
-      ["2026-10-20", 1],
     ]);
   });
 
-  it("첫 연락일 차이: 재연락 간격 1이면 P102의 첫 연락이 9/22 → 9/21(오늘)로 앞당겨진다", () => {
+  it("첫 연락일 차이: 재연락 간격 1이면 P102가 재시작(9/22) 전날인 오늘 한 번 연락된다(전에는 연락 없이 간호팀 확인)", () => {
     const r = simulate([fixturePatient("P102")], engine, NOW, { field: "retryIntervalDays", value: 1 });
     if (!r.ok) throw new Error(r.errors.join());
-    expect(r.firstContact).toEqual([{ patientId: "P102", before: "2026-09-22", after: "2026-09-21" }]);
+    expect(r.firstContact).toEqual([{ patientId: "P102", before: null, after: "2026-09-21" }]);
   });
 
   it("휴진일(추석 9/24~26, 일요일, 10/16)은 0건", () => {
