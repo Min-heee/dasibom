@@ -1,0 +1,755 @@
+{
+ "_note": "코어 변이 검사 기록. 브라우저에서 돌릴 수 없어 기록을 싣는다. 실행기: 변이마다 src/core 한 곳을 글자로 바꾸고 npx vitest run, 실패한 시험이 하나라도 있으면 '잡힘'.",
+ "runs": [
+  {
+   "date": "2026-09-28",
+   "label": "1차(화면 작업 전)",
+   "tests": 153
+  },
+  {
+   "date": "2026-09-28",
+   "label": "2차(살아남은 9개에 시험 추가 뒤)",
+   "tests": 186
+  }
+ ],
+ "families": [
+  {
+   "id": "M01",
+   "name": "휴진일 무시"
+  },
+  {
+   "id": "M02",
+   "name": "공휴일 무시"
+  },
+  {
+   "id": "M03",
+   "name": "월말 규칙 뒤집기(넘치게)"
+  },
+  {
+   "id": "M04",
+   "name": "밀림을 앞당김으로"
+  },
+  {
+   "id": "M05",
+   "name": "유예 일수(graceDays) 무시"
+  },
+  {
+   "id": "M06",
+   "name": "조기 방문 창(earlyDays) 무시"
+  },
+  {
+   "id": "M07",
+   "name": "재연락 간격 무시"
+  },
+  {
+   "id": "M08",
+   "name": "최대 시도 +1"
+  },
+  {
+   "id": "M09",
+   "name": "병합 대신 중복 줄"
+  },
+  {
+   "id": "M10",
+   "name": "정렬 순서 바꿈"
+  },
+  {
+   "id": "M11",
+   "name": "연락 시간대 20:00 경계"
+  },
+  {
+   "id": "M12",
+   "name": "없는 칸을 빈 문자열로"
+  },
+  {
+   "id": "M13",
+   "name": "누락 필드를 기본값으로"
+  },
+  {
+   "id": "M14",
+   "name": "시계 직접 호출"
+  },
+  {
+   "id": "M15",
+   "name": "KST 대신 UTC"
+  }
+ ],
+ "mutants": [
+  {
+   "id": "M01a",
+   "family": "M01",
+   "desc": "휴진일 전부 무시(checkDay open 항상 true)",
+   "run1": {
+    "killed": true,
+    "failedTests": 21
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 24
+   }
+  },
+  {
+   "id": "M01b",
+   "family": "M01",
+   "desc": "요일 휴진만 무시",
+   "run1": {
+    "killed": true,
+    "failedTests": 18
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 21
+   }
+  },
+  {
+   "id": "M01c",
+   "family": "M01",
+   "desc": "추가 휴진(extraClosed)만 무시",
+   "run1": {
+    "killed": true,
+    "failedTests": 2
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 2
+   }
+  },
+  {
+   "id": "M02a",
+   "family": "M02",
+   "desc": "공휴일 목록 무시",
+   "run1": {
+    "killed": true,
+    "failedTests": 19
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 21
+   }
+  },
+  {
+   "id": "M02b",
+   "family": "M02",
+   "desc": "공휴일 확인 기간 밖 표시(holidayUnknown) 끔",
+   "run1": {
+    "killed": true,
+    "failedTests": 4
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 4
+   }
+  },
+  {
+   "id": "M03a",
+   "family": "M03",
+   "desc": "월말 clamp → overflow(1/31+1개월=3/3)",
+   "run1": {
+    "killed": true,
+    "failedTests": 10
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 10
+   }
+  },
+  {
+   "id": "M04a",
+   "family": "M04",
+   "desc": "휴진 밀림을 앞당김으로(shiftToOpenDay −1)",
+   "run1": {
+    "killed": true,
+    "failedTests": 19
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 20
+   }
+  },
+  {
+   "id": "M04b",
+   "family": "M04",
+   "desc": "'내일 내원' 전 진료일 → 그냥 전날(prevOpenDay 휴진 무시)",
+   "run1": {
+    "killed": true,
+    "failedTests": 5
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 5
+   }
+  },
+  {
+   "id": "M05a",
+   "family": "M05",
+   "desc": "graceDays 무시(graceEnd = dueDate)",
+   "run1": {
+    "killed": true,
+    "failedTests": 15
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 19
+   }
+  },
+  {
+   "id": "M05b",
+   "family": "M05",
+   "desc": "유예를 밀린 날짜 대신 원래 날짜에서 셈",
+   "run1": {
+    "killed": true,
+    "failedTests": 1
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 1
+   }
+  },
+  {
+   "id": "M06a",
+   "family": "M06",
+   "desc": "earlyDays 무시(windowStart = originalDate)",
+   "run1": {
+    "killed": true,
+    "failedTests": 6
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 6
+   }
+  },
+  {
+   "id": "M06b",
+   "family": "M06",
+   "desc": "조기 창을 원래 날짜 대신 밀린 날짜에서 셈",
+   "run1": {
+    "killed": true,
+    "failedTests": 1
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 1
+   }
+  },
+  {
+   "id": "M06c",
+   "family": "M06",
+   "desc": "조기 창 앞 경계 없음(아무리 이른 방문도 완료)",
+   "run1": {
+    "killed": true,
+    "failedTests": 1
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 1
+   }
+  },
+  {
+   "id": "M07a",
+   "family": "M07",
+   "desc": "재연락 간격 무시(retryOn = 마지막 연락일)",
+   "run1": {
+    "killed": true,
+    "failedTests": 12
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 15
+   }
+  },
+  {
+   "id": "M07b",
+   "family": "M07",
+   "desc": "재연락 간격 무시(retryOn = since, 연락 기록 무관)",
+   "run1": {
+    "killed": true,
+    "failedTests": 12
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 15
+   }
+  },
+  {
+   "id": "M07c",
+   "family": "M07",
+   "desc": "다음 연락일을 진료일로 안 밈",
+   "run1": {
+    "killed": true,
+    "failedTests": 4
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 4
+   }
+  },
+  {
+   "id": "M08a",
+   "family": "M08",
+   "desc": "maxAttempts +1",
+   "run1": {
+    "killed": true,
+    "failedTests": 10
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 12
+   }
+  },
+  {
+   "id": "M08b",
+   "family": "M08",
+   "desc": "시도 횟수를 since 이전 연락까지 셈",
+   "run1": {
+    "killed": true,
+    "failedTests": 1
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 1
+   }
+  },
+  {
+   "id": "M09a",
+   "family": "M09",
+   "desc": "병합 대신 이유마다 중복 줄",
+   "run1": {
+    "killed": true,
+    "failedTests": 9
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 9
+   }
+  },
+  {
+   "id": "M09b",
+   "family": "M09",
+   "desc": "병합 줄을 가장 뒤 이유 묶음에 둠",
+   "run1": {
+    "killed": true,
+    "failedTests": 6
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 6
+   }
+  },
+  {
+   "id": "M10a",
+   "family": "M10",
+   "desc": "예정일 지남: 오래 밀린 순 → 적게 밀린 순",
+   "run1": {
+    "killed": true,
+    "failedTests": 3
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 3
+   }
+  },
+  {
+   "id": "M10b",
+   "family": "M10",
+   "desc": "묶음 안: 이른 날짜 순 뒤집기",
+   "run1": {
+    "killed": false,
+    "failedTests": 0
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 1
+   }
+  },
+  {
+   "id": "M10c",
+   "family": "M10",
+   "desc": "묶음 안: 환자 ID 동률 순서 뒤집기",
+   "run1": {
+    "killed": true,
+    "failedTests": 2
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 2
+   }
+  },
+  {
+   "id": "M10d",
+   "family": "M10",
+   "desc": "줄 안 항목: reasonOrder 뒤집기",
+   "run1": {
+    "killed": true,
+    "failedTests": 2
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 2
+   }
+  },
+  {
+   "id": "M10e",
+   "family": "M10",
+   "desc": "묶음 순서 뒤집기",
+   "run1": {
+    "killed": true,
+    "failedTests": 7
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 8
+   }
+  },
+  {
+   "id": "M10f",
+   "family": "M10",
+   "desc": "원장 확인: 시도 많은 순 뒤집기",
+   "run1": {
+    "killed": false,
+    "failedTests": 0
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 1
+   }
+  },
+  {
+   "id": "M10g",
+   "family": "M10",
+   "desc": "연락 대기: retryOn 순 뒤집기",
+   "run1": {
+    "killed": false,
+    "failedTests": 0
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 1
+   }
+  },
+  {
+   "id": "M10h",
+   "family": "M10",
+   "desc": "줄 안 항목: 같은 이유끼리 날짜 순 뒤집기",
+   "run1": {
+    "killed": false,
+    "failedTests": 0
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 1
+   }
+  },
+  {
+   "id": "M10i",
+   "family": "M10",
+   "desc": "원장 확인: 동률일 때 오래된 since 순 뒤집기",
+   "run1": {
+    "killed": false,
+    "failedTests": 0
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 1
+   }
+  },
+  {
+   "id": "M10j",
+   "family": "M10",
+   "desc": "의료진 확인: ID 순 정렬 제거",
+   "run1": {
+    "killed": false,
+    "failedTests": 0
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 1
+   }
+  },
+  {
+   "id": "M11a",
+   "family": "M11",
+   "desc": "연락 시간대 끝 20:00 포함(m <= end)",
+   "run1": {
+    "killed": true,
+    "failedTests": 1
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 1
+   }
+  },
+  {
+   "id": "M11b",
+   "family": "M11",
+   "desc": "연락 시간대 시작 09:00 미포함(m > start)",
+   "run1": {
+    "killed": true,
+    "failedTests": 2
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 2
+   }
+  },
+  {
+   "id": "M11c",
+   "family": "M11",
+   "desc": "시작 전이어도 다음 날로 예약",
+   "run1": {
+    "killed": true,
+    "failedTests": 1
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 1
+   }
+  },
+  {
+   "id": "M12a",
+   "family": "M12",
+   "desc": "템플릿 없는 칸을 빈 문자열로",
+   "run1": {
+    "killed": true,
+    "failedTests": 2
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 2
+   }
+  },
+  {
+   "id": "M12b",
+   "family": "M12",
+   "desc": "템플릿 칸 값이 공백뿐이어도 통과",
+   "run1": {
+    "killed": true,
+    "failedTests": 1
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 1
+   }
+  },
+  {
+   "id": "M12c",
+   "family": "M12",
+   "desc": "광고 금지 표현이어도 sendable",
+   "run1": {
+    "killed": true,
+    "failedTests": 1
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 1
+   }
+  },
+  {
+   "id": "M13a",
+   "family": "M13",
+   "desc": "규칙 파서: 누락 정수 필드를 0으로(오류 없음)",
+   "run1": {
+    "killed": true,
+    "failedTests": 1
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 1
+   }
+  },
+  {
+   "id": "M13b",
+   "family": "M13",
+   "desc": "규칙 파서: 고정 시점 graceDays 누락 → 7",
+   "run1": {
+    "killed": true,
+    "failedTests": 1
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 1
+   }
+  },
+  {
+   "id": "M13c",
+   "family": "M13",
+   "desc": "규칙 파서: 최상위 누락 키 검사 끔 + holidays 누락 → []",
+   "run1": {
+    "killed": false,
+    "failedTests": 0
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 1
+   }
+  },
+  {
+   "id": "M13d",
+   "family": "M13",
+   "desc": "규칙 파서: 모르는 최상위 키 허용",
+   "run1": {
+    "killed": true,
+    "failedTests": 1
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 1
+   }
+  },
+  {
+   "id": "M13e",
+   "family": "M13",
+   "desc": "V02 파서: extraClosedDates 누락 → []",
+   "run1": {
+    "killed": false,
+    "failedTests": 0
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 1
+   }
+  },
+  {
+   "id": "M14a",
+   "family": "M14",
+   "desc": "시계 직접 호출(Date.now) — 연락 시간대",
+   "run1": {
+    "killed": true,
+    "failedTests": 5
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 5
+   }
+  },
+  {
+   "id": "M14b",
+   "family": "M14",
+   "desc": "시계 우회 호출(+new Date) — 오늘 목록 today",
+   "run1": {
+    "killed": true,
+    "failedTests": 13
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 18
+   }
+  },
+  {
+   "id": "M14c",
+   "family": "M14",
+   "desc": "시계 우회 호출(+new Date) — 연락 시간대",
+   "run1": {
+    "killed": true,
+    "failedTests": 4
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 5
+   }
+  },
+  {
+   "id": "M14d",
+   "family": "M14",
+   "desc": "시계 우회 호출(+new Date) — 미방문 today",
+   "run1": {
+    "killed": true,
+    "failedTests": 10
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 13
+   }
+  },
+  {
+   "id": "M14e",
+   "family": "M14",
+   "desc": "시계 우회 호출(+new Date) — 기준 시각 이전 연락 거름",
+   "run1": {
+    "killed": true,
+    "failedTests": 3
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 2
+   }
+  },
+  {
+   "id": "M14f",
+   "family": "M14",
+   "desc": "시계 우회 호출(별칭 D.now) — 오늘 목록 today",
+   "run1": {
+    "killed": true,
+    "failedTests": 13
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 18
+   }
+  },
+  {
+   "id": "M15a",
+   "family": "M15",
+   "desc": "KST 대신 UTC 날짜(kstDateOf)",
+   "run1": {
+    "killed": true,
+    "failedTests": 4
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 7
+   }
+  },
+  {
+   "id": "M15b",
+   "family": "M15",
+   "desc": "KST 대신 UTC 분(kstMinuteOfDay)",
+   "run1": {
+    "killed": true,
+    "failedTests": 7
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 7
+   }
+  },
+  {
+   "id": "M15c",
+   "family": "M15",
+   "desc": "KST 대신 UTC 시각 조립(kstInstant)",
+   "run1": {
+    "killed": true,
+    "failedTests": 5
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 5
+   }
+  },
+  {
+   "id": "M15d",
+   "family": "M15",
+   "desc": "KST ISO 문자열에 UTC 시각(formatKstIso)",
+   "run1": {
+    "killed": true,
+    "failedTests": 5
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 6
+   }
+  },
+  {
+   "id": "M15e",
+   "family": "M15",
+   "desc": "연락일(contactDate)을 시각 문자열 앞 10자로",
+   "run1": {
+    "killed": false,
+    "failedTests": 0
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 1
+   }
+  }
+ ]
+}
