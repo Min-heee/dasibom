@@ -1,0 +1,617 @@
+[
+  {
+    "id": "P001",
+    "procedure": "hair-transplant",
+    "startDate": "2026-03-09",
+    "cats": [
+      "지남:재연락 간격 지남"
+    ],
+    "expectReasons": [
+      "overdue"
+    ],
+    "expectOverdue": "listed",
+    "expectMedicalReview": false,
+    "story": "6개월 경과 진료(9/9) 12일 지남, 부재 2회. 9/8 사전 안내 문자는 지남 전이라 세지 않음. 마지막 연락 9/18+3일=9/21 → 오늘 다시 목록"
+  },
+  {
+    "id": "P002",
+    "procedure": "hair-transplant",
+    "startDate": "2026-03-10",
+    "cats": [
+      "지남:재연락 간격 전"
+    ],
+    "expectReasons": [],
+    "expectOverdue": "waiting",
+    "expectMedicalReview": false,
+    "story": "6개월(9/10) 지남, 마지막 연락 9/19 → 9/22부터 다시. 오늘은 목록에 없음"
+  },
+  {
+    "id": "P003",
+    "procedure": "hair-transplant",
+    "startDate": "2026-03-04",
+    "cats": [
+      "지남:최대 시도 초과→원장 확인"
+    ],
+    "expectReasons": [],
+    "expectOverdue": "director-review",
+    "expectMedicalReview": false,
+    "story": "6개월(9/4) 지남, 연락 3회 = maxAttempts → 원장 확인"
+  },
+  {
+    "id": "P004",
+    "procedure": "hair-transplant",
+    "startDate": "2026-08-10",
+    "cats": [
+      "지남:첫 연락"
+    ],
+    "expectReasons": [
+      "overdue"
+    ],
+    "expectOverdue": "listed",
+    "expectMedicalReview": false,
+    "story": "4주(9/7) 유예 7일 끝(9/14), 9/15부터 지남. 연락 없음"
+  },
+  {
+    "id": "P005",
+    "procedure": "hair-transplant",
+    "startDate": "2026-09-09",
+    "cats": [
+      "지남:첫 연락"
+    ],
+    "expectReasons": [
+      "overdue"
+    ],
+    "expectOverdue": "listed",
+    "expectMedicalReview": false,
+    "story": "D+7(9/16) 유예 2일 끝(9/18), 9/19부터 지남. 9/12 문자는 D+3 안내라 세지 않음"
+  },
+  {
+    "id": "P006",
+    "procedure": "hair-transplant",
+    "startDate": "2025-09-03",
+    "cats": [
+      "지남:첫 연락"
+    ],
+    "expectReasons": [
+      "overdue"
+    ],
+    "expectOverdue": "listed",
+    "expectMedicalReview": false,
+    "story": "1년(2026-09-03) 유예 14일 끝(9/17), 9/18부터 지남"
+  },
+  {
+    "id": "P007",
+    "procedure": "hair-transplant",
+    "startDate": "2026-08-12",
+    "cats": [
+      "지남:재연락 간격 지남"
+    ],
+    "expectReasons": [
+      "overdue"
+    ],
+    "expectOverdue": "listed",
+    "expectMedicalReview": false,
+    "story": "4주(9/9) 지남. 9/17 통화했지만 오지 않음 → 통화도 1회, 9/20부터 다시"
+  },
+  {
+    "id": "P008",
+    "procedure": "injection",
+    "startDate": "2026-07-27",
+    "cats": [
+      "지남:재연락 간격 지남"
+    ],
+    "expectReasons": [
+      "overdue"
+    ],
+    "expectOverdue": "listed",
+    "expectMedicalReview": false,
+    "story": "주사 4회차(9/7) 유예 3일 끝, 9/11부터 지남. '다음에'(9/14)+3일=9/17. 5회차는 오늘(9/21) 예정이라 목록 이유 아님"
+  },
+  {
+    "id": "P009",
+    "procedure": "injection",
+    "startDate": "2026-06-29",
+    "cats": [
+      "지남:최대 시도 초과→원장 확인"
+    ],
+    "expectReasons": [],
+    "expectOverdue": "director-review",
+    "expectMedicalReview": false,
+    "story": "주사 5·6회차 지남(8/28부터), 부재 3회 → 원장 확인"
+  },
+  {
+    "id": "P010",
+    "procedure": "hair-transplant",
+    "startDate": "2026-03-12",
+    "cats": [
+      "지남:유예 경계"
+    ],
+    "expectReasons": [
+      "overdue"
+    ],
+    "expectOverdue": "listed",
+    "expectMedicalReview": false,
+    "story": "6개월(9/12 토) 유예 끝 9/19, 9/20부터 지남"
+  },
+  {
+    "id": "P011",
+    "procedure": "hair-transplant",
+    "startDate": "2026-03-13",
+    "cats": [
+      "휴진 밀림",
+      "대조:유예 중"
+    ],
+    "expectReasons": [],
+    "expectOverdue": null,
+    "expectMedicalReview": false,
+    "story": "6개월 원래 9/13(일) → 9/14로 미룸, 유예 끝 9/21 → 아직 지남 아님. 휴진 무시 변이면 9/21 지남으로 잘못 올라옴"
+  },
+  {
+    "id": "P012",
+    "procedure": "hair-transplant",
+    "startDate": "2026-08-13",
+    "cats": [
+      "지남:재연락 간격 지남",
+      "증상 기록→의료진 확인"
+    ],
+    "expectReasons": [
+      "overdue"
+    ],
+    "expectOverdue": "listed",
+    "expectMedicalReview": true,
+    "story": "4주(9/10) 지남, 9/18 통화 +3일=9/21. 연락 기록에 '붓고·열감'+'이식' → 의료진 확인"
+  },
+  {
+    "id": "P013",
+    "procedure": "injection",
+    "startDate": "2026-08-11",
+    "cats": [
+      "지남:첫 연락",
+      "내일 내원",
+      "여러 이유"
+    ],
+    "expectReasons": [
+      "overdue",
+      "upcoming-visit"
+    ],
+    "expectOverdue": "listed",
+    "expectMedicalReview": false,
+    "story": "주사 3회차(9/8) 지남 + 4회차 내일(9/22)"
+  },
+  {
+    "id": "P014",
+    "procedure": "hair-transplant",
+    "startDate": "2026-09-07",
+    "cats": [
+      "지남:첫 연락",
+      "여러 이유"
+    ],
+    "expectReasons": [
+      "overdue",
+      "care-notice"
+    ],
+    "expectOverdue": "listed",
+    "expectMedicalReview": false,
+    "story": "D+7(9/14) 9/17부터 지남 + D+14 안내 오늘(9/21)"
+  },
+  {
+    "id": "P015",
+    "procedure": "hair-transplant",
+    "startDate": "2026-07-21",
+    "cats": [
+      "대조:뒤 시점 완료로 건너뜀"
+    ],
+    "expectReasons": [],
+    "expectOverdue": null,
+    "expectMedicalReview": false,
+    "story": "D+7(7/28) 안 왔지만 4주(8/18)에 옴 → D+7은 건너뜀, 목록에 없음"
+  },
+  {
+    "id": "P016",
+    "procedure": "hair-transplant",
+    "startDate": "2026-09-16",
+    "cats": [
+      "지남:첫 연락"
+    ],
+    "expectReasons": [
+      "overdue"
+    ],
+    "expectOverdue": "listed",
+    "expectMedicalReview": false,
+    "story": "D+1(9/17) 유예 1일 끝 9/18, 9/19부터 지남. D+7(9/23)은 내일이 아님(안내일 9/22)"
+  },
+  {
+    "id": "P017",
+    "procedure": "injection",
+    "startDate": "2026-08-20",
+    "cats": [
+      "지남:재연락 간격 지남"
+    ],
+    "expectReasons": [
+      "overdue"
+    ],
+    "expectOverdue": "listed",
+    "expectMedicalReview": false,
+    "story": "주사 2회차(9/3) 9/7부터 지남, 연락 2회(마지막 9/10) → 다시 목록. 3회차(9/17)도 지남"
+  },
+  {
+    "id": "P018",
+    "procedure": "hair-transplant",
+    "startDate": "2026-09-15",
+    "cats": [
+      "내일 내원",
+      "사진 회차",
+      "여러 이유"
+    ],
+    "expectReasons": [
+      "upcoming-visit",
+      "photo-round"
+    ],
+    "expectOverdue": null,
+    "expectMedicalReview": false,
+    "story": "D+7 내일(9/22), 사진 시점"
+  },
+  {
+    "id": "P019",
+    "procedure": "hair-transplant",
+    "startDate": "2026-08-25",
+    "cats": [
+      "내일 내원"
+    ],
+    "expectReasons": [
+      "upcoming-visit"
+    ],
+    "expectOverdue": null,
+    "expectMedicalReview": false,
+    "story": "4주 내일(9/22)"
+  },
+  {
+    "id": "P020",
+    "procedure": "hair-transplant",
+    "startDate": "2025-09-22",
+    "cats": [
+      "내일 내원",
+      "사진 회차",
+      "여러 이유"
+    ],
+    "expectReasons": [
+      "upcoming-visit",
+      "photo-round"
+    ],
+    "expectOverdue": null,
+    "expectMedicalReview": false,
+    "story": "1년 내일(2026-09-22), 사진 시점"
+  },
+  {
+    "id": "P021",
+    "procedure": "injection",
+    "startDate": "2026-09-08",
+    "cats": [
+      "내일 내원"
+    ],
+    "expectReasons": [
+      "upcoming-visit"
+    ],
+    "expectOverdue": null,
+    "expectMedicalReview": false,
+    "story": "주사 2회차 내일(9/22)"
+  },
+  {
+    "id": "P022",
+    "procedure": "injection",
+    "startDate": "2026-07-28",
+    "cats": [
+      "내일 내원",
+      "사진 회차",
+      "여러 이유"
+    ],
+    "expectReasons": [
+      "upcoming-visit",
+      "photo-round"
+    ],
+    "expectOverdue": null,
+    "expectMedicalReview": false,
+    "story": "주사 5회차 내일(9/22), 사진 회차"
+  },
+  {
+    "id": "P023",
+    "procedure": "injection",
+    "startDate": "2026-06-16",
+    "cats": [
+      "내일 내원"
+    ],
+    "expectReasons": [
+      "upcoming-visit"
+    ],
+    "expectOverdue": null,
+    "expectMedicalReview": false,
+    "story": "주사 8회차 내일(9/22)"
+  },
+  {
+    "id": "P024",
+    "procedure": "hair-transplant",
+    "startDate": "2026-08-25",
+    "cats": [
+      "조금 일찍 방문",
+      "대조"
+    ],
+    "expectReasons": [],
+    "expectOverdue": null,
+    "expectMedicalReview": false,
+    "story": "4주 예정 9/22, 9/19(3일 전 = earlyDays 경계)에 옴 → 완료, 내일 내원 목록에 없음"
+  },
+  {
+    "id": "P025",
+    "procedure": "injection",
+    "startDate": "2026-08-25",
+    "cats": [
+      "조금 일찍 방문",
+      "대조"
+    ],
+    "expectReasons": [],
+    "expectOverdue": null,
+    "expectMedicalReview": false,
+    "story": "주사 3회차 예정 9/22, 9/19(3일 전)에 옴 → 완료"
+  },
+  {
+    "id": "P026",
+    "procedure": "hair-transplant",
+    "startDate": "2026-09-08",
+    "cats": [
+      "조금 일찍 방문",
+      "대조"
+    ],
+    "expectReasons": [],
+    "expectOverdue": null,
+    "expectMedicalReview": false,
+    "story": "D+7 예정 9/15, 9/14(1일 전)에 옴 → 완료. D+14 안내는 9/22"
+  },
+  {
+    "id": "P027",
+    "procedure": "hair-transplant",
+    "startDate": "2026-09-17",
+    "cats": [
+      "휴진 밀림"
+    ],
+    "expectReasons": [
+      "care-notice"
+    ],
+    "expectOverdue": null,
+    "expectMedicalReview": false,
+    "story": "D+3 원래 9/20(일) → 9/21 안내 오늘. D+7 원래 9/24(추석 연휴) → 9/28"
+  },
+  {
+    "id": "P028",
+    "procedure": "hair-transplant",
+    "startDate": "2026-08-28",
+    "cats": [
+      "휴진 밀림"
+    ],
+    "expectReasons": [],
+    "expectOverdue": null,
+    "expectMedicalReview": false,
+    "story": "4주 원래 9/25(추석) → 9/28, 안내일은 9/23"
+  },
+  {
+    "id": "P029",
+    "procedure": "hair-transplant",
+    "startDate": "2026-03-26",
+    "cats": [
+      "휴진 밀림"
+    ],
+    "expectReasons": [],
+    "expectOverdue": null,
+    "expectMedicalReview": false,
+    "story": "6개월 원래 9/26(추석 연휴, 토) → 9/28"
+  },
+  {
+    "id": "P030",
+    "procedure": "injection",
+    "startDate": "2026-09-10",
+    "cats": [
+      "휴진 밀림"
+    ],
+    "expectReasons": [],
+    "expectOverdue": null,
+    "expectMedicalReview": false,
+    "story": "주사 2회차 원래 9/24(추석 연휴) → 9/28"
+  },
+  {
+    "id": "P031",
+    "procedure": "hair-transplant",
+    "startDate": "2026-04-03",
+    "cats": [
+      "휴진 밀림"
+    ],
+    "expectReasons": [],
+    "expectOverdue": null,
+    "expectMedicalReview": false,
+    "story": "6개월 원래 10/3(개천절) → 10/4(일) → 10/5(대체공휴일) → 10/6"
+  },
+  {
+    "id": "P032",
+    "procedure": "hair-transplant",
+    "startDate": "2026-04-09",
+    "cats": [
+      "휴진 밀림"
+    ],
+    "expectReasons": [],
+    "expectOverdue": null,
+    "expectMedicalReview": false,
+    "story": "6개월 원래 10/9(한글날) → 10/10(토)"
+  },
+  {
+    "id": "P033",
+    "procedure": "hair-transplant",
+    "startDate": "2026-09-18",
+    "cats": [
+      "휴진 밀림"
+    ],
+    "expectReasons": [
+      "care-notice"
+    ],
+    "expectOverdue": null,
+    "expectMedicalReview": false,
+    "story": "D+3 오늘(9/21) 안내. D+7 원래 9/25 → 9/28, 4주 원래 10/16(내부 교육 휴진) → 10/17"
+  },
+  {
+    "id": "P034",
+    "procedure": "hair-transplant",
+    "startDate": "2026-03-20",
+    "cats": [
+      "휴진 밀림",
+      "대조:오늘이 예정일"
+    ],
+    "expectReasons": [],
+    "expectOverdue": null,
+    "expectMedicalReview": false,
+    "story": "6개월 원래 9/20(일) → 9/21(오늘). 오늘이 예정일이면 목록에 없음(전날 안내)"
+  },
+  {
+    "id": "P035",
+    "procedure": "scalp-care",
+    "startDate": "2026-07-30",
+    "cats": [
+      "휴진 밀림"
+    ],
+    "expectReasons": [],
+    "expectOverdue": null,
+    "expectMedicalReview": false,
+    "story": "두피 관리 다음 안내 원래 9/24(추석 연휴) → 9/28"
+  },
+  {
+    "id": "P036",
+    "procedure": "hair-transplant",
+    "startDate": "2026-03-31",
+    "cats": [
+      "월말"
+    ],
+    "expectReasons": [],
+    "expectOverdue": null,
+    "expectMedicalReview": false,
+    "story": "3/31 수술: 6개월 = 9/30(clamp), 1년 = 2027-03-31"
+  },
+  {
+    "id": "P037",
+    "procedure": "hair-transplant",
+    "startDate": "2026-08-31",
+    "cats": [
+      "월말",
+      "휴진 밀림"
+    ],
+    "expectReasons": [],
+    "expectOverdue": null,
+    "expectMedicalReview": false,
+    "story": "8/31 수술: 6개월 = 2027-02-28(clamp, 일) → 3/1(3·1절) → 3/2. 4주 = 9/28"
+  },
+  {
+    "id": "P038",
+    "procedure": "hair-transplant",
+    "startDate": "2025-10-31",
+    "cats": [
+      "월말"
+    ],
+    "expectReasons": [],
+    "expectOverdue": null,
+    "expectMedicalReview": false,
+    "story": "10/31 수술: 6개월 = 2026-04-30(clamp, 방문 완료), 1년 = 2026-10-31(토)"
+  },
+  {
+    "id": "P039",
+    "procedure": "injection",
+    "startDate": "2026-07-24",
+    "cats": [
+      "주사 재예약",
+      "증상 기록→의료진 확인"
+    ],
+    "expectReasons": [
+      "injection-rebook"
+    ],
+    "expectOverdue": null,
+    "expectMedicalReview": true,
+    "story": "주사 5회차(9/18) 안 옴, 유예 3일 안 → 재예약. 9/17 연락 기록에 '두드러기' → 의료진 확인"
+  },
+  {
+    "id": "P040",
+    "procedure": "injection",
+    "startDate": "2026-08-22",
+    "cats": [
+      "주사 재예약"
+    ],
+    "expectReasons": [
+      "injection-rebook"
+    ],
+    "expectOverdue": null,
+    "expectMedicalReview": false,
+    "story": "주사 3회차(9/19 토) 안 옴, 유예 안 → 재예약"
+  },
+  {
+    "id": "P041",
+    "procedure": "injection",
+    "startDate": "2026-08-21",
+    "cats": [
+      "대조:재예약 연락 이미 함"
+    ],
+    "expectReasons": [],
+    "expectOverdue": null,
+    "expectMedicalReview": false,
+    "story": "주사 3회차(9/18) 안 옴, 9/19에 연락함 → 목록에 없음"
+  },
+  {
+    "id": "P042",
+    "procedure": "scalp-care",
+    "startDate": "2026-06-29",
+    "cats": [
+      "관리 안내"
+    ],
+    "expectReasons": [
+      "care-notice"
+    ],
+    "expectOverdue": null,
+    "expectMedicalReview": false,
+    "story": "마지막 두피 관리 8/24 + 28일 = 9/21 안내"
+  },
+  {
+    "id": "P043",
+    "procedure": "scalp-care",
+    "startDate": "2026-07-25",
+    "cats": [
+      "관리 안내"
+    ],
+    "expectReasons": [
+      "care-notice"
+    ],
+    "expectOverdue": null,
+    "expectMedicalReview": false,
+    "story": "8/22 + 28일 = 9/19, 유예 3일 안(9/22까지)이고 연락 없음"
+  },
+  {
+    "id": "P044",
+    "procedure": "scalp-care",
+    "startDate": "2026-07-25",
+    "cats": [
+      "대조:관리 안내 이미 함"
+    ],
+    "expectReasons": [],
+    "expectOverdue": null,
+    "expectMedicalReview": false,
+    "story": "9/19 안내 시점에 이미 문자 보냄 → 목록에 없음"
+  },
+  {
+    "id": "P045",
+    "procedure": "injection",
+    "startDate": "2026-08-07",
+    "cats": [
+      "지남:첫 연락",
+      "주사 재예약",
+      "여러 이유"
+    ],
+    "expectReasons": [
+      "overdue",
+      "injection-rebook"
+    ],
+    "expectOverdue": "listed",
+    "expectMedicalReview": false,
+    "story": "주사 3회차(9/4) 9/8부터 지남 + 4회차(9/18) 유예 안"
+  }
+]

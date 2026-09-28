@@ -1,0 +1,5968 @@
+{
+  "_status": "AI가 계산, 오너 검수 전",
+  "_method": "data/README.md '기대값 계산 방법' 참고. data/scripts/followup_expected.py(파이썬 datetime, 앱 엔진 코드 미사용).",
+  "asOf": "2026-09-21T09:00:00+09:00",
+  "contactWindowAtAsOf": "send-now",
+  "contactWindowChecks": [
+    {
+      "time": "08:59",
+      "expected": "send-later"
+    },
+    {
+      "time": "09:00",
+      "expected": "send-now"
+    },
+    {
+      "time": "19:59",
+      "expected": "send-now"
+    },
+    {
+      "time": "20:00",
+      "expected": "send-later"
+    },
+    {
+      "time": "21:30",
+      "expected": "send-later"
+    }
+  ],
+  "todayList": [
+    {
+      "id": "P001",
+      "reasons": [
+        "overdue"
+      ]
+    },
+    {
+      "id": "P004",
+      "reasons": [
+        "overdue"
+      ]
+    },
+    {
+      "id": "P005",
+      "reasons": [
+        "overdue"
+      ]
+    },
+    {
+      "id": "P006",
+      "reasons": [
+        "overdue"
+      ]
+    },
+    {
+      "id": "P007",
+      "reasons": [
+        "overdue"
+      ]
+    },
+    {
+      "id": "P008",
+      "reasons": [
+        "overdue"
+      ]
+    },
+    {
+      "id": "P010",
+      "reasons": [
+        "overdue"
+      ]
+    },
+    {
+      "id": "P012",
+      "reasons": [
+        "overdue"
+      ]
+    },
+    {
+      "id": "P013",
+      "reasons": [
+        "overdue",
+        "upcoming-visit"
+      ]
+    },
+    {
+      "id": "P014",
+      "reasons": [
+        "overdue",
+        "care-notice"
+      ]
+    },
+    {
+      "id": "P016",
+      "reasons": [
+        "overdue"
+      ]
+    },
+    {
+      "id": "P017",
+      "reasons": [
+        "overdue"
+      ]
+    },
+    {
+      "id": "P018",
+      "reasons": [
+        "upcoming-visit",
+        "photo-round"
+      ]
+    },
+    {
+      "id": "P019",
+      "reasons": [
+        "upcoming-visit"
+      ]
+    },
+    {
+      "id": "P020",
+      "reasons": [
+        "upcoming-visit",
+        "photo-round"
+      ]
+    },
+    {
+      "id": "P021",
+      "reasons": [
+        "upcoming-visit"
+      ]
+    },
+    {
+      "id": "P022",
+      "reasons": [
+        "upcoming-visit",
+        "photo-round"
+      ]
+    },
+    {
+      "id": "P023",
+      "reasons": [
+        "upcoming-visit"
+      ]
+    },
+    {
+      "id": "P027",
+      "reasons": [
+        "care-notice"
+      ]
+    },
+    {
+      "id": "P033",
+      "reasons": [
+        "care-notice"
+      ]
+    },
+    {
+      "id": "P039",
+      "reasons": [
+        "injection-rebook"
+      ]
+    },
+    {
+      "id": "P040",
+      "reasons": [
+        "injection-rebook"
+      ]
+    },
+    {
+      "id": "P042",
+      "reasons": [
+        "care-notice"
+      ]
+    },
+    {
+      "id": "P043",
+      "reasons": [
+        "care-notice"
+      ]
+    },
+    {
+      "id": "P045",
+      "reasons": [
+        "overdue",
+        "injection-rebook"
+      ]
+    }
+  ],
+  "directorReview": [
+    "P003",
+    "P009"
+  ],
+  "waitingRetry": [
+    {
+      "id": "P002",
+      "retryOn": "2026-09-22"
+    }
+  ],
+  "medicalReview": [
+    "P012",
+    "P039"
+  ],
+  "patients": [
+    {
+      "id": "P001",
+      "procedure": "hair-transplant",
+      "startDate": "2026-03-09",
+      "points": [
+        {
+          "key": "d1",
+          "kind": "visit",
+          "nominal": "2026-03-10",
+          "due": "2026-03-10",
+          "dueDow": "화",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-03-10",
+          "graceEnd": "2026-03-11",
+          "status": "done",
+          "visitDate": "2026-03-10",
+          "holidayUnverified": true
+        },
+        {
+          "key": "d3",
+          "kind": "notice",
+          "nominal": "2026-03-12",
+          "due": "2026-03-12",
+          "dueDow": "목",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-03-12",
+          "graceEnd": "2026-03-13",
+          "status": "notice-missed",
+          "holidayUnverified": true
+        },
+        {
+          "key": "d7",
+          "kind": "photo",
+          "nominal": "2026-03-16",
+          "due": "2026-03-16",
+          "dueDow": "월",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-03-15",
+          "graceEnd": "2026-03-18",
+          "status": "done",
+          "visitDate": "2026-03-16",
+          "holidayUnverified": true
+        },
+        {
+          "key": "d14",
+          "kind": "notice",
+          "nominal": "2026-03-23",
+          "due": "2026-03-23",
+          "dueDow": "월",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-03-23",
+          "graceEnd": "2026-03-25",
+          "status": "notice-missed",
+          "holidayUnverified": true
+        },
+        {
+          "key": "w4",
+          "kind": "visit",
+          "nominal": "2026-04-06",
+          "due": "2026-04-06",
+          "dueDow": "월",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-04-03",
+          "graceEnd": "2026-04-13",
+          "status": "done",
+          "visitDate": "2026-04-06",
+          "holidayUnverified": true
+        },
+        {
+          "key": "m6",
+          "kind": "photo",
+          "nominal": "2026-09-09",
+          "due": "2026-09-09",
+          "dueDow": "수",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-02",
+          "graceEnd": "2026-09-16",
+          "status": "overdue",
+          "overdueSince": "2026-09-17"
+        },
+        {
+          "key": "y1",
+          "kind": "photo",
+          "nominal": "2027-03-09",
+          "due": "2027-03-09",
+          "dueDow": "화",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2027-02-23",
+          "graceEnd": "2027-03-23",
+          "status": "upcoming",
+          "reminderDay": "2027-03-08"
+        }
+      ],
+      "todayReasons": [
+        "overdue"
+      ],
+      "overdue": {
+        "state": "listed",
+        "since": "2026-09-17",
+        "attempts": 2,
+        "lastContact": "2026-09-18",
+        "retryOn": "2026-09-21",
+        "points": [
+          "m6"
+        ],
+        "daysPastDue": 12,
+        "pastDueKey": "m6"
+      },
+      "medicalReview": []
+    },
+    {
+      "id": "P002",
+      "procedure": "hair-transplant",
+      "startDate": "2026-03-10",
+      "points": [
+        {
+          "key": "d1",
+          "kind": "visit",
+          "nominal": "2026-03-11",
+          "due": "2026-03-11",
+          "dueDow": "수",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-03-11",
+          "graceEnd": "2026-03-12",
+          "status": "done",
+          "visitDate": "2026-03-11",
+          "holidayUnverified": true
+        },
+        {
+          "key": "d3",
+          "kind": "notice",
+          "nominal": "2026-03-13",
+          "due": "2026-03-13",
+          "dueDow": "금",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-03-13",
+          "graceEnd": "2026-03-14",
+          "status": "notice-missed",
+          "holidayUnverified": true
+        },
+        {
+          "key": "d7",
+          "kind": "photo",
+          "nominal": "2026-03-17",
+          "due": "2026-03-17",
+          "dueDow": "화",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-03-16",
+          "graceEnd": "2026-03-19",
+          "status": "done",
+          "visitDate": "2026-03-17",
+          "holidayUnverified": true
+        },
+        {
+          "key": "d14",
+          "kind": "notice",
+          "nominal": "2026-03-24",
+          "due": "2026-03-24",
+          "dueDow": "화",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-03-24",
+          "graceEnd": "2026-03-26",
+          "status": "notice-missed",
+          "holidayUnverified": true
+        },
+        {
+          "key": "w4",
+          "kind": "visit",
+          "nominal": "2026-04-07",
+          "due": "2026-04-07",
+          "dueDow": "화",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-04-04",
+          "graceEnd": "2026-04-14",
+          "status": "done",
+          "visitDate": "2026-04-07",
+          "holidayUnverified": true
+        },
+        {
+          "key": "m6",
+          "kind": "photo",
+          "nominal": "2026-09-10",
+          "due": "2026-09-10",
+          "dueDow": "목",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-03",
+          "graceEnd": "2026-09-17",
+          "status": "overdue",
+          "overdueSince": "2026-09-18"
+        },
+        {
+          "key": "y1",
+          "kind": "photo",
+          "nominal": "2027-03-10",
+          "due": "2027-03-10",
+          "dueDow": "수",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2027-02-24",
+          "graceEnd": "2027-03-24",
+          "status": "upcoming",
+          "reminderDay": "2027-03-09"
+        }
+      ],
+      "todayReasons": [],
+      "overdue": {
+        "state": "waiting",
+        "since": "2026-09-18",
+        "attempts": 2,
+        "lastContact": "2026-09-19",
+        "retryOn": "2026-09-22",
+        "points": [
+          "m6"
+        ],
+        "daysPastDue": 11,
+        "pastDueKey": "m6"
+      },
+      "medicalReview": []
+    },
+    {
+      "id": "P003",
+      "procedure": "hair-transplant",
+      "startDate": "2026-03-04",
+      "points": [
+        {
+          "key": "d1",
+          "kind": "visit",
+          "nominal": "2026-03-05",
+          "due": "2026-03-05",
+          "dueDow": "목",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-03-05",
+          "graceEnd": "2026-03-06",
+          "status": "done",
+          "visitDate": "2026-03-05",
+          "holidayUnverified": true
+        },
+        {
+          "key": "d3",
+          "kind": "notice",
+          "nominal": "2026-03-07",
+          "due": "2026-03-07",
+          "dueDow": "토",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-03-07",
+          "graceEnd": "2026-03-08",
+          "status": "notice-missed",
+          "holidayUnverified": true
+        },
+        {
+          "key": "d7",
+          "kind": "photo",
+          "nominal": "2026-03-11",
+          "due": "2026-03-11",
+          "dueDow": "수",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-03-10",
+          "graceEnd": "2026-03-13",
+          "status": "done",
+          "visitDate": "2026-03-11",
+          "holidayUnverified": true
+        },
+        {
+          "key": "d14",
+          "kind": "notice",
+          "nominal": "2026-03-18",
+          "due": "2026-03-18",
+          "dueDow": "수",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-03-18",
+          "graceEnd": "2026-03-20",
+          "status": "notice-missed",
+          "holidayUnverified": true
+        },
+        {
+          "key": "w4",
+          "kind": "visit",
+          "nominal": "2026-04-01",
+          "due": "2026-04-01",
+          "dueDow": "수",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-03-29",
+          "graceEnd": "2026-04-08",
+          "status": "done",
+          "visitDate": "2026-04-01",
+          "holidayUnverified": true
+        },
+        {
+          "key": "m6",
+          "kind": "photo",
+          "nominal": "2026-09-04",
+          "due": "2026-09-04",
+          "dueDow": "금",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-08-28",
+          "graceEnd": "2026-09-11",
+          "status": "overdue",
+          "overdueSince": "2026-09-12"
+        },
+        {
+          "key": "y1",
+          "kind": "photo",
+          "nominal": "2027-03-04",
+          "due": "2027-03-04",
+          "dueDow": "목",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2027-02-18",
+          "graceEnd": "2027-03-18",
+          "status": "upcoming",
+          "reminderDay": "2027-03-03"
+        }
+      ],
+      "todayReasons": [],
+      "overdue": {
+        "state": "director-review",
+        "since": "2026-09-12",
+        "attempts": 3,
+        "lastContact": "2026-09-18",
+        "retryOn": null,
+        "points": [
+          "m6"
+        ],
+        "daysPastDue": 17,
+        "pastDueKey": "m6"
+      },
+      "medicalReview": []
+    },
+    {
+      "id": "P004",
+      "procedure": "hair-transplant",
+      "startDate": "2026-08-10",
+      "points": [
+        {
+          "key": "d1",
+          "kind": "visit",
+          "nominal": "2026-08-11",
+          "due": "2026-08-11",
+          "dueDow": "화",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-08-11",
+          "graceEnd": "2026-08-12",
+          "status": "done",
+          "visitDate": "2026-08-11",
+          "holidayUnverified": true
+        },
+        {
+          "key": "d3",
+          "kind": "notice",
+          "nominal": "2026-08-13",
+          "due": "2026-08-13",
+          "dueDow": "목",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-08-13",
+          "graceEnd": "2026-08-14",
+          "status": "notice-missed",
+          "holidayUnverified": true
+        },
+        {
+          "key": "d7",
+          "kind": "photo",
+          "nominal": "2026-08-17",
+          "due": "2026-08-17",
+          "dueDow": "월",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-08-16",
+          "graceEnd": "2026-08-19",
+          "status": "done",
+          "visitDate": "2026-08-18",
+          "holidayUnverified": true
+        },
+        {
+          "key": "d14",
+          "kind": "notice",
+          "nominal": "2026-08-24",
+          "due": "2026-08-24",
+          "dueDow": "월",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-08-24",
+          "graceEnd": "2026-08-26",
+          "status": "notice-missed",
+          "holidayUnverified": true
+        },
+        {
+          "key": "w4",
+          "kind": "visit",
+          "nominal": "2026-09-07",
+          "due": "2026-09-07",
+          "dueDow": "월",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-04",
+          "graceEnd": "2026-09-14",
+          "status": "overdue",
+          "overdueSince": "2026-09-15"
+        },
+        {
+          "key": "m6",
+          "kind": "photo",
+          "nominal": "2027-02-10",
+          "due": "2027-02-10",
+          "dueDow": "수",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2027-02-03",
+          "graceEnd": "2027-02-17",
+          "status": "upcoming",
+          "reminderDay": "2027-02-05"
+        },
+        {
+          "key": "y1",
+          "kind": "photo",
+          "nominal": "2027-08-10",
+          "due": "2027-08-10",
+          "dueDow": "화",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2027-07-27",
+          "graceEnd": "2027-08-24",
+          "status": "upcoming",
+          "reminderDay": "2027-08-09"
+        }
+      ],
+      "todayReasons": [
+        "overdue"
+      ],
+      "overdue": {
+        "state": "listed",
+        "since": "2026-09-15",
+        "attempts": 0,
+        "lastContact": null,
+        "retryOn": null,
+        "points": [
+          "w4"
+        ],
+        "daysPastDue": 14,
+        "pastDueKey": "w4"
+      },
+      "medicalReview": []
+    },
+    {
+      "id": "P005",
+      "procedure": "hair-transplant",
+      "startDate": "2026-09-09",
+      "points": [
+        {
+          "key": "d1",
+          "kind": "visit",
+          "nominal": "2026-09-10",
+          "due": "2026-09-10",
+          "dueDow": "목",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-10",
+          "graceEnd": "2026-09-11",
+          "status": "done",
+          "visitDate": "2026-09-10"
+        },
+        {
+          "key": "d3",
+          "kind": "notice",
+          "nominal": "2026-09-12",
+          "due": "2026-09-12",
+          "dueDow": "토",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-12",
+          "graceEnd": "2026-09-13",
+          "status": "notice-sent"
+        },
+        {
+          "key": "d7",
+          "kind": "photo",
+          "nominal": "2026-09-16",
+          "due": "2026-09-16",
+          "dueDow": "수",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-15",
+          "graceEnd": "2026-09-18",
+          "status": "overdue",
+          "overdueSince": "2026-09-19"
+        },
+        {
+          "key": "d14",
+          "kind": "notice",
+          "nominal": "2026-09-23",
+          "due": "2026-09-23",
+          "dueDow": "수",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-23",
+          "graceEnd": "2026-09-25",
+          "status": "notice-upcoming"
+        },
+        {
+          "key": "w4",
+          "kind": "visit",
+          "nominal": "2026-10-07",
+          "due": "2026-10-07",
+          "dueDow": "수",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-10-04",
+          "graceEnd": "2026-10-14",
+          "status": "upcoming",
+          "reminderDay": "2026-10-06"
+        },
+        {
+          "key": "m6",
+          "kind": "photo",
+          "nominal": "2027-03-09",
+          "due": "2027-03-09",
+          "dueDow": "화",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2027-03-02",
+          "graceEnd": "2027-03-16",
+          "status": "upcoming",
+          "reminderDay": "2027-03-08"
+        },
+        {
+          "key": "y1",
+          "kind": "photo",
+          "nominal": "2027-09-09",
+          "due": "2027-09-09",
+          "dueDow": "목",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2027-08-26",
+          "graceEnd": "2027-09-23",
+          "status": "upcoming",
+          "reminderDay": "2027-09-08"
+        }
+      ],
+      "todayReasons": [
+        "overdue"
+      ],
+      "overdue": {
+        "state": "listed",
+        "since": "2026-09-19",
+        "attempts": 0,
+        "lastContact": null,
+        "retryOn": null,
+        "points": [
+          "d7"
+        ],
+        "daysPastDue": 5,
+        "pastDueKey": "d7"
+      },
+      "medicalReview": []
+    },
+    {
+      "id": "P006",
+      "procedure": "hair-transplant",
+      "startDate": "2025-09-03",
+      "points": [
+        {
+          "key": "d1",
+          "kind": "visit",
+          "nominal": "2025-09-04",
+          "due": "2025-09-04",
+          "dueDow": "목",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2025-09-04",
+          "graceEnd": "2025-09-05",
+          "status": "done",
+          "visitDate": "2025-09-04",
+          "holidayUnverified": true
+        },
+        {
+          "key": "d3",
+          "kind": "notice",
+          "nominal": "2025-09-06",
+          "due": "2025-09-06",
+          "dueDow": "토",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2025-09-06",
+          "graceEnd": "2025-09-07",
+          "status": "notice-missed",
+          "holidayUnverified": true
+        },
+        {
+          "key": "d7",
+          "kind": "photo",
+          "nominal": "2025-09-10",
+          "due": "2025-09-10",
+          "dueDow": "수",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2025-09-09",
+          "graceEnd": "2025-09-12",
+          "status": "done",
+          "visitDate": "2025-09-10",
+          "holidayUnverified": true
+        },
+        {
+          "key": "d14",
+          "kind": "notice",
+          "nominal": "2025-09-17",
+          "due": "2025-09-17",
+          "dueDow": "수",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2025-09-17",
+          "graceEnd": "2025-09-19",
+          "status": "notice-missed",
+          "holidayUnverified": true
+        },
+        {
+          "key": "w4",
+          "kind": "visit",
+          "nominal": "2025-10-01",
+          "due": "2025-10-01",
+          "dueDow": "수",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2025-09-28",
+          "graceEnd": "2025-10-08",
+          "status": "done",
+          "visitDate": "2025-10-01",
+          "holidayUnverified": true
+        },
+        {
+          "key": "m6",
+          "kind": "photo",
+          "nominal": "2026-03-03",
+          "due": "2026-03-03",
+          "dueDow": "화",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-02-24",
+          "graceEnd": "2026-03-10",
+          "status": "done",
+          "visitDate": "2026-03-03",
+          "holidayUnverified": true
+        },
+        {
+          "key": "y1",
+          "kind": "photo",
+          "nominal": "2026-09-03",
+          "due": "2026-09-03",
+          "dueDow": "목",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-08-20",
+          "graceEnd": "2026-09-17",
+          "status": "overdue",
+          "overdueSince": "2026-09-18"
+        }
+      ],
+      "todayReasons": [
+        "overdue"
+      ],
+      "overdue": {
+        "state": "listed",
+        "since": "2026-09-18",
+        "attempts": 0,
+        "lastContact": null,
+        "retryOn": null,
+        "points": [
+          "y1"
+        ],
+        "daysPastDue": 18,
+        "pastDueKey": "y1"
+      },
+      "medicalReview": []
+    },
+    {
+      "id": "P007",
+      "procedure": "hair-transplant",
+      "startDate": "2026-08-12",
+      "points": [
+        {
+          "key": "d1",
+          "kind": "visit",
+          "nominal": "2026-08-13",
+          "due": "2026-08-13",
+          "dueDow": "목",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-08-13",
+          "graceEnd": "2026-08-14",
+          "status": "done",
+          "visitDate": "2026-08-13",
+          "holidayUnverified": true
+        },
+        {
+          "key": "d3",
+          "kind": "notice",
+          "nominal": "2026-08-15",
+          "due": "2026-08-15",
+          "dueDow": "토",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-08-15",
+          "graceEnd": "2026-08-16",
+          "status": "notice-missed",
+          "holidayUnverified": true
+        },
+        {
+          "key": "d7",
+          "kind": "photo",
+          "nominal": "2026-08-19",
+          "due": "2026-08-19",
+          "dueDow": "수",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-08-18",
+          "graceEnd": "2026-08-21",
+          "status": "done",
+          "visitDate": "2026-08-19",
+          "holidayUnverified": true
+        },
+        {
+          "key": "d14",
+          "kind": "notice",
+          "nominal": "2026-08-26",
+          "due": "2026-08-26",
+          "dueDow": "수",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-08-26",
+          "graceEnd": "2026-08-28",
+          "status": "notice-missed",
+          "holidayUnverified": true
+        },
+        {
+          "key": "w4",
+          "kind": "visit",
+          "nominal": "2026-09-09",
+          "due": "2026-09-09",
+          "dueDow": "수",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-06",
+          "graceEnd": "2026-09-16",
+          "status": "overdue",
+          "overdueSince": "2026-09-17"
+        },
+        {
+          "key": "m6",
+          "kind": "photo",
+          "nominal": "2027-02-12",
+          "due": "2027-02-12",
+          "dueDow": "금",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2027-02-05",
+          "graceEnd": "2027-02-19",
+          "status": "upcoming",
+          "reminderDay": "2027-02-11"
+        },
+        {
+          "key": "y1",
+          "kind": "photo",
+          "nominal": "2027-08-12",
+          "due": "2027-08-12",
+          "dueDow": "목",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2027-07-29",
+          "graceEnd": "2027-08-26",
+          "status": "upcoming",
+          "reminderDay": "2027-08-11"
+        }
+      ],
+      "todayReasons": [
+        "overdue"
+      ],
+      "overdue": {
+        "state": "listed",
+        "since": "2026-09-17",
+        "attempts": 1,
+        "lastContact": "2026-09-17",
+        "retryOn": "2026-09-20",
+        "points": [
+          "w4"
+        ],
+        "daysPastDue": 12,
+        "pastDueKey": "w4"
+      },
+      "medicalReview": []
+    },
+    {
+      "id": "P008",
+      "procedure": "injection",
+      "startDate": "2026-07-27",
+      "points": [
+        {
+          "key": "inj-2",
+          "kind": "visit",
+          "nominal": "2026-08-10",
+          "due": "2026-08-10",
+          "dueDow": "월",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-08-07",
+          "graceEnd": "2026-08-13",
+          "status": "done",
+          "visitDate": "2026-08-10",
+          "holidayUnverified": true
+        },
+        {
+          "key": "inj-3",
+          "kind": "visit",
+          "nominal": "2026-08-24",
+          "due": "2026-08-24",
+          "dueDow": "월",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-08-21",
+          "graceEnd": "2026-08-27",
+          "status": "done",
+          "visitDate": "2026-08-24",
+          "holidayUnverified": true
+        },
+        {
+          "key": "inj-4",
+          "kind": "visit",
+          "nominal": "2026-09-07",
+          "due": "2026-09-07",
+          "dueDow": "월",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-04",
+          "graceEnd": "2026-09-10",
+          "status": "overdue",
+          "overdueSince": "2026-09-11"
+        },
+        {
+          "key": "inj-5",
+          "kind": "photo",
+          "nominal": "2026-09-21",
+          "due": "2026-09-21",
+          "dueDow": "월",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-18",
+          "graceEnd": "2026-09-24",
+          "status": "due-today"
+        },
+        {
+          "key": "inj-6",
+          "kind": "visit",
+          "nominal": "2026-10-05",
+          "due": "2026-10-06",
+          "dueDow": "화",
+          "shifted": [
+            {
+              "from": "2026-10-05",
+              "reason": "대체공휴일(개천절)"
+            }
+          ],
+          "monthEndClamped": false,
+          "windowStart": "2026-10-02",
+          "graceEnd": "2026-10-09",
+          "status": "upcoming",
+          "reminderDay": "2026-10-02"
+        },
+        {
+          "key": "inj-7",
+          "kind": "visit",
+          "nominal": "2026-10-19",
+          "due": "2026-10-19",
+          "dueDow": "월",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-10-16",
+          "graceEnd": "2026-10-22",
+          "status": "upcoming",
+          "reminderDay": "2026-10-17"
+        },
+        {
+          "key": "inj-8",
+          "kind": "visit",
+          "nominal": "2026-11-02",
+          "due": "2026-11-02",
+          "dueDow": "월",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-10-30",
+          "graceEnd": "2026-11-05",
+          "status": "upcoming",
+          "reminderDay": "2026-10-31"
+        },
+        {
+          "key": "inj-9",
+          "kind": "visit",
+          "nominal": "2026-11-16",
+          "due": "2026-11-16",
+          "dueDow": "월",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-11-13",
+          "graceEnd": "2026-11-19",
+          "status": "upcoming",
+          "reminderDay": "2026-11-14"
+        },
+        {
+          "key": "inj-10",
+          "kind": "photo",
+          "nominal": "2026-11-30",
+          "due": "2026-11-30",
+          "dueDow": "월",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-11-27",
+          "graceEnd": "2026-12-03",
+          "status": "upcoming",
+          "reminderDay": "2026-11-28"
+        }
+      ],
+      "todayReasons": [
+        "overdue"
+      ],
+      "overdue": {
+        "state": "listed",
+        "since": "2026-09-11",
+        "attempts": 1,
+        "lastContact": "2026-09-14",
+        "retryOn": "2026-09-17",
+        "points": [
+          "inj-4"
+        ],
+        "daysPastDue": 14,
+        "pastDueKey": "inj-4"
+      },
+      "medicalReview": []
+    },
+    {
+      "id": "P009",
+      "procedure": "injection",
+      "startDate": "2026-06-29",
+      "points": [
+        {
+          "key": "inj-2",
+          "kind": "visit",
+          "nominal": "2026-07-13",
+          "due": "2026-07-13",
+          "dueDow": "월",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-07-10",
+          "graceEnd": "2026-07-16",
+          "status": "done",
+          "visitDate": "2026-07-13",
+          "holidayUnverified": true
+        },
+        {
+          "key": "inj-3",
+          "kind": "visit",
+          "nominal": "2026-07-27",
+          "due": "2026-07-27",
+          "dueDow": "월",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-07-24",
+          "graceEnd": "2026-07-30",
+          "status": "done",
+          "visitDate": "2026-07-27",
+          "holidayUnverified": true
+        },
+        {
+          "key": "inj-4",
+          "kind": "visit",
+          "nominal": "2026-08-10",
+          "due": "2026-08-10",
+          "dueDow": "월",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-08-07",
+          "graceEnd": "2026-08-13",
+          "status": "done",
+          "visitDate": "2026-08-10",
+          "holidayUnverified": true
+        },
+        {
+          "key": "inj-5",
+          "kind": "photo",
+          "nominal": "2026-08-24",
+          "due": "2026-08-24",
+          "dueDow": "월",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-08-21",
+          "graceEnd": "2026-08-27",
+          "status": "overdue",
+          "overdueSince": "2026-08-28",
+          "holidayUnverified": true
+        },
+        {
+          "key": "inj-6",
+          "kind": "visit",
+          "nominal": "2026-09-07",
+          "due": "2026-09-07",
+          "dueDow": "월",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-04",
+          "graceEnd": "2026-09-10",
+          "status": "overdue",
+          "overdueSince": "2026-09-11"
+        },
+        {
+          "key": "inj-7",
+          "kind": "visit",
+          "nominal": "2026-09-21",
+          "due": "2026-09-21",
+          "dueDow": "월",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-18",
+          "graceEnd": "2026-09-24",
+          "status": "due-today"
+        },
+        {
+          "key": "inj-8",
+          "kind": "visit",
+          "nominal": "2026-10-05",
+          "due": "2026-10-06",
+          "dueDow": "화",
+          "shifted": [
+            {
+              "from": "2026-10-05",
+              "reason": "대체공휴일(개천절)"
+            }
+          ],
+          "monthEndClamped": false,
+          "windowStart": "2026-10-02",
+          "graceEnd": "2026-10-09",
+          "status": "upcoming",
+          "reminderDay": "2026-10-02"
+        },
+        {
+          "key": "inj-9",
+          "kind": "visit",
+          "nominal": "2026-10-19",
+          "due": "2026-10-19",
+          "dueDow": "월",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-10-16",
+          "graceEnd": "2026-10-22",
+          "status": "upcoming",
+          "reminderDay": "2026-10-17"
+        },
+        {
+          "key": "inj-10",
+          "kind": "photo",
+          "nominal": "2026-11-02",
+          "due": "2026-11-02",
+          "dueDow": "월",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-10-30",
+          "graceEnd": "2026-11-05",
+          "status": "upcoming",
+          "reminderDay": "2026-10-31"
+        }
+      ],
+      "todayReasons": [],
+      "overdue": {
+        "state": "director-review",
+        "since": "2026-08-28",
+        "attempts": 3,
+        "lastContact": "2026-09-04",
+        "retryOn": null,
+        "points": [
+          "inj-5",
+          "inj-6"
+        ],
+        "daysPastDue": 28,
+        "pastDueKey": "inj-5"
+      },
+      "medicalReview": []
+    },
+    {
+      "id": "P010",
+      "procedure": "hair-transplant",
+      "startDate": "2026-03-12",
+      "points": [
+        {
+          "key": "d1",
+          "kind": "visit",
+          "nominal": "2026-03-13",
+          "due": "2026-03-13",
+          "dueDow": "금",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-03-13",
+          "graceEnd": "2026-03-14",
+          "status": "done",
+          "visitDate": "2026-03-13",
+          "holidayUnverified": true
+        },
+        {
+          "key": "d3",
+          "kind": "notice",
+          "nominal": "2026-03-15",
+          "due": "2026-03-16",
+          "dueDow": "월",
+          "shifted": [
+            {
+              "from": "2026-03-15",
+              "reason": "일요일"
+            }
+          ],
+          "monthEndClamped": false,
+          "windowStart": "2026-03-15",
+          "graceEnd": "2026-03-17",
+          "status": "notice-missed",
+          "holidayUnverified": true
+        },
+        {
+          "key": "d7",
+          "kind": "photo",
+          "nominal": "2026-03-19",
+          "due": "2026-03-19",
+          "dueDow": "목",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-03-18",
+          "graceEnd": "2026-03-21",
+          "status": "done",
+          "visitDate": "2026-03-19",
+          "holidayUnverified": true
+        },
+        {
+          "key": "d14",
+          "kind": "notice",
+          "nominal": "2026-03-26",
+          "due": "2026-03-26",
+          "dueDow": "목",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-03-26",
+          "graceEnd": "2026-03-28",
+          "status": "notice-missed",
+          "holidayUnverified": true
+        },
+        {
+          "key": "w4",
+          "kind": "visit",
+          "nominal": "2026-04-09",
+          "due": "2026-04-09",
+          "dueDow": "목",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-04-06",
+          "graceEnd": "2026-04-16",
+          "status": "done",
+          "visitDate": "2026-04-09",
+          "holidayUnverified": true
+        },
+        {
+          "key": "m6",
+          "kind": "photo",
+          "nominal": "2026-09-12",
+          "due": "2026-09-12",
+          "dueDow": "토",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-05",
+          "graceEnd": "2026-09-19",
+          "status": "overdue",
+          "overdueSince": "2026-09-20"
+        },
+        {
+          "key": "y1",
+          "kind": "photo",
+          "nominal": "2027-03-12",
+          "due": "2027-03-12",
+          "dueDow": "금",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2027-02-26",
+          "graceEnd": "2027-03-26",
+          "status": "upcoming",
+          "reminderDay": "2027-03-11"
+        }
+      ],
+      "todayReasons": [
+        "overdue"
+      ],
+      "overdue": {
+        "state": "listed",
+        "since": "2026-09-20",
+        "attempts": 0,
+        "lastContact": null,
+        "retryOn": null,
+        "points": [
+          "m6"
+        ],
+        "daysPastDue": 9,
+        "pastDueKey": "m6"
+      },
+      "medicalReview": []
+    },
+    {
+      "id": "P011",
+      "procedure": "hair-transplant",
+      "startDate": "2026-03-13",
+      "points": [
+        {
+          "key": "d1",
+          "kind": "visit",
+          "nominal": "2026-03-14",
+          "due": "2026-03-14",
+          "dueDow": "토",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-03-14",
+          "graceEnd": "2026-03-15",
+          "status": "done",
+          "visitDate": "2026-03-14",
+          "holidayUnverified": true
+        },
+        {
+          "key": "d3",
+          "kind": "notice",
+          "nominal": "2026-03-16",
+          "due": "2026-03-16",
+          "dueDow": "월",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-03-16",
+          "graceEnd": "2026-03-17",
+          "status": "notice-missed",
+          "holidayUnverified": true
+        },
+        {
+          "key": "d7",
+          "kind": "photo",
+          "nominal": "2026-03-20",
+          "due": "2026-03-20",
+          "dueDow": "금",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-03-19",
+          "graceEnd": "2026-03-22",
+          "status": "done",
+          "visitDate": "2026-03-20",
+          "holidayUnverified": true
+        },
+        {
+          "key": "d14",
+          "kind": "notice",
+          "nominal": "2026-03-27",
+          "due": "2026-03-27",
+          "dueDow": "금",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-03-27",
+          "graceEnd": "2026-03-29",
+          "status": "notice-missed",
+          "holidayUnverified": true
+        },
+        {
+          "key": "w4",
+          "kind": "visit",
+          "nominal": "2026-04-10",
+          "due": "2026-04-10",
+          "dueDow": "금",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-04-07",
+          "graceEnd": "2026-04-17",
+          "status": "done",
+          "visitDate": "2026-04-10",
+          "holidayUnverified": true
+        },
+        {
+          "key": "m6",
+          "kind": "photo",
+          "nominal": "2026-09-13",
+          "due": "2026-09-14",
+          "dueDow": "월",
+          "shifted": [
+            {
+              "from": "2026-09-13",
+              "reason": "일요일"
+            }
+          ],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-06",
+          "graceEnd": "2026-09-21",
+          "status": "in-grace"
+        },
+        {
+          "key": "y1",
+          "kind": "photo",
+          "nominal": "2027-03-13",
+          "due": "2027-03-13",
+          "dueDow": "토",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2027-02-27",
+          "graceEnd": "2027-03-27",
+          "status": "upcoming",
+          "reminderDay": "2027-03-12"
+        }
+      ],
+      "todayReasons": [],
+      "overdue": null,
+      "medicalReview": []
+    },
+    {
+      "id": "P012",
+      "procedure": "hair-transplant",
+      "startDate": "2026-08-13",
+      "points": [
+        {
+          "key": "d1",
+          "kind": "visit",
+          "nominal": "2026-08-14",
+          "due": "2026-08-14",
+          "dueDow": "금",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-08-14",
+          "graceEnd": "2026-08-15",
+          "status": "done",
+          "visitDate": "2026-08-14",
+          "holidayUnverified": true
+        },
+        {
+          "key": "d3",
+          "kind": "notice",
+          "nominal": "2026-08-16",
+          "due": "2026-08-17",
+          "dueDow": "월",
+          "shifted": [
+            {
+              "from": "2026-08-16",
+              "reason": "일요일"
+            }
+          ],
+          "monthEndClamped": false,
+          "windowStart": "2026-08-16",
+          "graceEnd": "2026-08-18",
+          "status": "notice-missed",
+          "holidayUnverified": true
+        },
+        {
+          "key": "d7",
+          "kind": "photo",
+          "nominal": "2026-08-20",
+          "due": "2026-08-20",
+          "dueDow": "목",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-08-19",
+          "graceEnd": "2026-08-22",
+          "status": "done",
+          "visitDate": "2026-08-20",
+          "holidayUnverified": true
+        },
+        {
+          "key": "d14",
+          "kind": "notice",
+          "nominal": "2026-08-27",
+          "due": "2026-08-27",
+          "dueDow": "목",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-08-27",
+          "graceEnd": "2026-08-29",
+          "status": "notice-missed",
+          "holidayUnverified": true
+        },
+        {
+          "key": "w4",
+          "kind": "visit",
+          "nominal": "2026-09-10",
+          "due": "2026-09-10",
+          "dueDow": "목",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-07",
+          "graceEnd": "2026-09-17",
+          "status": "overdue",
+          "overdueSince": "2026-09-18"
+        },
+        {
+          "key": "m6",
+          "kind": "photo",
+          "nominal": "2027-02-13",
+          "due": "2027-02-13",
+          "dueDow": "토",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2027-02-06",
+          "graceEnd": "2027-02-20",
+          "status": "upcoming",
+          "reminderDay": "2027-02-12"
+        },
+        {
+          "key": "y1",
+          "kind": "photo",
+          "nominal": "2027-08-13",
+          "due": "2027-08-13",
+          "dueDow": "금",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2027-07-30",
+          "graceEnd": "2027-08-27",
+          "status": "upcoming",
+          "reminderDay": "2027-08-12"
+        }
+      ],
+      "todayReasons": [
+        "overdue"
+      ],
+      "overdue": {
+        "state": "listed",
+        "since": "2026-09-18",
+        "attempts": 1,
+        "lastContact": "2026-09-18",
+        "retryOn": "2026-09-21",
+        "points": [
+          "w4"
+        ],
+        "daysPastDue": 11,
+        "pastDueKey": "w4"
+      },
+      "medicalReview": [
+        {
+          "at": "2026-09-18T11:20:00+09:00",
+          "symptoms": [],
+          "ambiguous": [
+            "열감",
+            "붓고"
+          ],
+          "context": [
+            "이식"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "P013",
+      "procedure": "injection",
+      "startDate": "2026-08-11",
+      "points": [
+        {
+          "key": "inj-2",
+          "kind": "visit",
+          "nominal": "2026-08-25",
+          "due": "2026-08-25",
+          "dueDow": "화",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-08-22",
+          "graceEnd": "2026-08-28",
+          "status": "done",
+          "visitDate": "2026-08-25",
+          "holidayUnverified": true
+        },
+        {
+          "key": "inj-3",
+          "kind": "visit",
+          "nominal": "2026-09-08",
+          "due": "2026-09-08",
+          "dueDow": "화",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-05",
+          "graceEnd": "2026-09-11",
+          "status": "overdue",
+          "overdueSince": "2026-09-12"
+        },
+        {
+          "key": "inj-4",
+          "kind": "visit",
+          "nominal": "2026-09-22",
+          "due": "2026-09-22",
+          "dueDow": "화",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-19",
+          "graceEnd": "2026-09-25",
+          "status": "upcoming",
+          "reminderDay": "2026-09-21"
+        },
+        {
+          "key": "inj-5",
+          "kind": "photo",
+          "nominal": "2026-10-06",
+          "due": "2026-10-06",
+          "dueDow": "화",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-10-03",
+          "graceEnd": "2026-10-09",
+          "status": "upcoming",
+          "reminderDay": "2026-10-02"
+        },
+        {
+          "key": "inj-6",
+          "kind": "visit",
+          "nominal": "2026-10-20",
+          "due": "2026-10-20",
+          "dueDow": "화",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-10-17",
+          "graceEnd": "2026-10-23",
+          "status": "upcoming",
+          "reminderDay": "2026-10-19"
+        },
+        {
+          "key": "inj-7",
+          "kind": "visit",
+          "nominal": "2026-11-03",
+          "due": "2026-11-03",
+          "dueDow": "화",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-10-31",
+          "graceEnd": "2026-11-06",
+          "status": "upcoming",
+          "reminderDay": "2026-11-02"
+        },
+        {
+          "key": "inj-8",
+          "kind": "visit",
+          "nominal": "2026-11-17",
+          "due": "2026-11-17",
+          "dueDow": "화",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-11-14",
+          "graceEnd": "2026-11-20",
+          "status": "upcoming",
+          "reminderDay": "2026-11-16"
+        },
+        {
+          "key": "inj-9",
+          "kind": "visit",
+          "nominal": "2026-12-01",
+          "due": "2026-12-01",
+          "dueDow": "화",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-11-28",
+          "graceEnd": "2026-12-04",
+          "status": "upcoming",
+          "reminderDay": "2026-11-30"
+        },
+        {
+          "key": "inj-10",
+          "kind": "photo",
+          "nominal": "2026-12-15",
+          "due": "2026-12-15",
+          "dueDow": "화",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-12-12",
+          "graceEnd": "2026-12-18",
+          "status": "upcoming",
+          "reminderDay": "2026-12-14"
+        }
+      ],
+      "todayReasons": [
+        "overdue",
+        "upcoming-visit"
+      ],
+      "overdue": {
+        "state": "listed",
+        "since": "2026-09-12",
+        "attempts": 0,
+        "lastContact": null,
+        "retryOn": null,
+        "points": [
+          "inj-3"
+        ],
+        "daysPastDue": 13,
+        "pastDueKey": "inj-3"
+      },
+      "medicalReview": []
+    },
+    {
+      "id": "P014",
+      "procedure": "hair-transplant",
+      "startDate": "2026-09-07",
+      "points": [
+        {
+          "key": "d1",
+          "kind": "visit",
+          "nominal": "2026-09-08",
+          "due": "2026-09-08",
+          "dueDow": "화",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-08",
+          "graceEnd": "2026-09-09",
+          "status": "done",
+          "visitDate": "2026-09-08"
+        },
+        {
+          "key": "d3",
+          "kind": "notice",
+          "nominal": "2026-09-10",
+          "due": "2026-09-10",
+          "dueDow": "목",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-10",
+          "graceEnd": "2026-09-11",
+          "status": "notice-sent"
+        },
+        {
+          "key": "d7",
+          "kind": "photo",
+          "nominal": "2026-09-14",
+          "due": "2026-09-14",
+          "dueDow": "월",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-13",
+          "graceEnd": "2026-09-16",
+          "status": "overdue",
+          "overdueSince": "2026-09-17"
+        },
+        {
+          "key": "d14",
+          "kind": "notice",
+          "nominal": "2026-09-21",
+          "due": "2026-09-21",
+          "dueDow": "월",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-21",
+          "graceEnd": "2026-09-23",
+          "status": "notice-active"
+        },
+        {
+          "key": "w4",
+          "kind": "visit",
+          "nominal": "2026-10-05",
+          "due": "2026-10-06",
+          "dueDow": "화",
+          "shifted": [
+            {
+              "from": "2026-10-05",
+              "reason": "대체공휴일(개천절)"
+            }
+          ],
+          "monthEndClamped": false,
+          "windowStart": "2026-10-02",
+          "graceEnd": "2026-10-13",
+          "status": "upcoming",
+          "reminderDay": "2026-10-02"
+        },
+        {
+          "key": "m6",
+          "kind": "photo",
+          "nominal": "2027-03-07",
+          "due": "2027-03-08",
+          "dueDow": "월",
+          "shifted": [
+            {
+              "from": "2027-03-07",
+              "reason": "일요일"
+            }
+          ],
+          "monthEndClamped": false,
+          "windowStart": "2027-02-28",
+          "graceEnd": "2027-03-15",
+          "status": "upcoming",
+          "reminderDay": "2027-03-06"
+        },
+        {
+          "key": "y1",
+          "kind": "photo",
+          "nominal": "2027-09-07",
+          "due": "2027-09-07",
+          "dueDow": "화",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2027-08-24",
+          "graceEnd": "2027-09-21",
+          "status": "upcoming",
+          "reminderDay": "2027-09-06"
+        }
+      ],
+      "todayReasons": [
+        "overdue",
+        "care-notice"
+      ],
+      "overdue": {
+        "state": "listed",
+        "since": "2026-09-17",
+        "attempts": 0,
+        "lastContact": null,
+        "retryOn": null,
+        "points": [
+          "d7"
+        ],
+        "daysPastDue": 7,
+        "pastDueKey": "d7"
+      },
+      "medicalReview": []
+    },
+    {
+      "id": "P015",
+      "procedure": "hair-transplant",
+      "startDate": "2026-07-21",
+      "points": [
+        {
+          "key": "d1",
+          "kind": "visit",
+          "nominal": "2026-07-22",
+          "due": "2026-07-22",
+          "dueDow": "수",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-07-22",
+          "graceEnd": "2026-07-23",
+          "status": "done",
+          "visitDate": "2026-07-22",
+          "holidayUnverified": true
+        },
+        {
+          "key": "d3",
+          "kind": "notice",
+          "nominal": "2026-07-24",
+          "due": "2026-07-24",
+          "dueDow": "금",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-07-24",
+          "graceEnd": "2026-07-25",
+          "status": "notice-missed",
+          "holidayUnverified": true
+        },
+        {
+          "key": "d7",
+          "kind": "photo",
+          "nominal": "2026-07-28",
+          "due": "2026-07-28",
+          "dueDow": "화",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-07-27",
+          "graceEnd": "2026-07-30",
+          "status": "skipped",
+          "holidayUnverified": true
+        },
+        {
+          "key": "d14",
+          "kind": "notice",
+          "nominal": "2026-08-04",
+          "due": "2026-08-04",
+          "dueDow": "화",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-08-04",
+          "graceEnd": "2026-08-06",
+          "status": "notice-missed",
+          "holidayUnverified": true
+        },
+        {
+          "key": "w4",
+          "kind": "visit",
+          "nominal": "2026-08-18",
+          "due": "2026-08-18",
+          "dueDow": "화",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-08-15",
+          "graceEnd": "2026-08-25",
+          "status": "done",
+          "visitDate": "2026-08-18",
+          "holidayUnverified": true
+        },
+        {
+          "key": "m6",
+          "kind": "photo",
+          "nominal": "2027-01-21",
+          "due": "2027-01-21",
+          "dueDow": "목",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2027-01-14",
+          "graceEnd": "2027-01-28",
+          "status": "upcoming",
+          "reminderDay": "2027-01-20"
+        },
+        {
+          "key": "y1",
+          "kind": "photo",
+          "nominal": "2027-07-21",
+          "due": "2027-07-21",
+          "dueDow": "수",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2027-07-07",
+          "graceEnd": "2027-08-04",
+          "status": "upcoming",
+          "reminderDay": "2027-07-20"
+        }
+      ],
+      "todayReasons": [],
+      "overdue": null,
+      "medicalReview": []
+    },
+    {
+      "id": "P016",
+      "procedure": "hair-transplant",
+      "startDate": "2026-09-16",
+      "points": [
+        {
+          "key": "d1",
+          "kind": "visit",
+          "nominal": "2026-09-17",
+          "due": "2026-09-17",
+          "dueDow": "목",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-17",
+          "graceEnd": "2026-09-18",
+          "status": "overdue",
+          "overdueSince": "2026-09-19"
+        },
+        {
+          "key": "d3",
+          "kind": "notice",
+          "nominal": "2026-09-19",
+          "due": "2026-09-19",
+          "dueDow": "토",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-19",
+          "graceEnd": "2026-09-20",
+          "status": "notice-missed"
+        },
+        {
+          "key": "d7",
+          "kind": "photo",
+          "nominal": "2026-09-23",
+          "due": "2026-09-23",
+          "dueDow": "수",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-22",
+          "graceEnd": "2026-09-25",
+          "status": "upcoming",
+          "reminderDay": "2026-09-22"
+        },
+        {
+          "key": "d14",
+          "kind": "notice",
+          "nominal": "2026-09-30",
+          "due": "2026-09-30",
+          "dueDow": "수",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-30",
+          "graceEnd": "2026-10-02",
+          "status": "notice-upcoming"
+        },
+        {
+          "key": "w4",
+          "kind": "visit",
+          "nominal": "2026-10-14",
+          "due": "2026-10-14",
+          "dueDow": "수",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-10-11",
+          "graceEnd": "2026-10-21",
+          "status": "upcoming",
+          "reminderDay": "2026-10-13"
+        },
+        {
+          "key": "m6",
+          "kind": "photo",
+          "nominal": "2027-03-16",
+          "due": "2027-03-16",
+          "dueDow": "화",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2027-03-09",
+          "graceEnd": "2027-03-23",
+          "status": "upcoming",
+          "reminderDay": "2027-03-15"
+        },
+        {
+          "key": "y1",
+          "kind": "photo",
+          "nominal": "2027-09-16",
+          "due": "2027-09-17",
+          "dueDow": "금",
+          "shifted": [
+            {
+              "from": "2027-09-16",
+              "reason": "추석 연휴"
+            }
+          ],
+          "monthEndClamped": false,
+          "windowStart": "2027-09-02",
+          "graceEnd": "2027-10-01",
+          "status": "upcoming",
+          "reminderDay": "2027-09-13"
+        }
+      ],
+      "todayReasons": [
+        "overdue"
+      ],
+      "overdue": {
+        "state": "listed",
+        "since": "2026-09-19",
+        "attempts": 0,
+        "lastContact": null,
+        "retryOn": null,
+        "points": [
+          "d1"
+        ],
+        "daysPastDue": 4,
+        "pastDueKey": "d1"
+      },
+      "medicalReview": []
+    },
+    {
+      "id": "P017",
+      "procedure": "injection",
+      "startDate": "2026-08-20",
+      "points": [
+        {
+          "key": "inj-2",
+          "kind": "visit",
+          "nominal": "2026-09-03",
+          "due": "2026-09-03",
+          "dueDow": "목",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-08-31",
+          "graceEnd": "2026-09-06",
+          "status": "overdue",
+          "overdueSince": "2026-09-07"
+        },
+        {
+          "key": "inj-3",
+          "kind": "visit",
+          "nominal": "2026-09-17",
+          "due": "2026-09-17",
+          "dueDow": "목",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-14",
+          "graceEnd": "2026-09-20",
+          "status": "overdue",
+          "overdueSince": "2026-09-21"
+        },
+        {
+          "key": "inj-4",
+          "kind": "visit",
+          "nominal": "2026-10-01",
+          "due": "2026-10-01",
+          "dueDow": "목",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-28",
+          "graceEnd": "2026-10-04",
+          "status": "upcoming",
+          "reminderDay": "2026-09-30"
+        },
+        {
+          "key": "inj-5",
+          "kind": "photo",
+          "nominal": "2026-10-15",
+          "due": "2026-10-15",
+          "dueDow": "목",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-10-12",
+          "graceEnd": "2026-10-18",
+          "status": "upcoming",
+          "reminderDay": "2026-10-14"
+        },
+        {
+          "key": "inj-6",
+          "kind": "visit",
+          "nominal": "2026-10-29",
+          "due": "2026-10-29",
+          "dueDow": "목",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-10-26",
+          "graceEnd": "2026-11-01",
+          "status": "upcoming",
+          "reminderDay": "2026-10-28"
+        },
+        {
+          "key": "inj-7",
+          "kind": "visit",
+          "nominal": "2026-11-12",
+          "due": "2026-11-12",
+          "dueDow": "목",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-11-09",
+          "graceEnd": "2026-11-15",
+          "status": "upcoming",
+          "reminderDay": "2026-11-11"
+        },
+        {
+          "key": "inj-8",
+          "kind": "visit",
+          "nominal": "2026-11-26",
+          "due": "2026-11-26",
+          "dueDow": "목",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-11-23",
+          "graceEnd": "2026-11-29",
+          "status": "upcoming",
+          "reminderDay": "2026-11-25"
+        },
+        {
+          "key": "inj-9",
+          "kind": "visit",
+          "nominal": "2026-12-10",
+          "due": "2026-12-10",
+          "dueDow": "목",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-12-07",
+          "graceEnd": "2026-12-13",
+          "status": "upcoming",
+          "reminderDay": "2026-12-09"
+        },
+        {
+          "key": "inj-10",
+          "kind": "photo",
+          "nominal": "2026-12-24",
+          "due": "2026-12-24",
+          "dueDow": "목",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-12-21",
+          "graceEnd": "2026-12-27",
+          "status": "upcoming",
+          "reminderDay": "2026-12-23"
+        }
+      ],
+      "todayReasons": [
+        "overdue"
+      ],
+      "overdue": {
+        "state": "listed",
+        "since": "2026-09-07",
+        "attempts": 2,
+        "lastContact": "2026-09-10",
+        "retryOn": "2026-09-13",
+        "points": [
+          "inj-2",
+          "inj-3"
+        ],
+        "daysPastDue": 18,
+        "pastDueKey": "inj-2"
+      },
+      "medicalReview": []
+    },
+    {
+      "id": "P018",
+      "procedure": "hair-transplant",
+      "startDate": "2026-09-15",
+      "points": [
+        {
+          "key": "d1",
+          "kind": "visit",
+          "nominal": "2026-09-16",
+          "due": "2026-09-16",
+          "dueDow": "수",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-16",
+          "graceEnd": "2026-09-17",
+          "status": "done",
+          "visitDate": "2026-09-16"
+        },
+        {
+          "key": "d3",
+          "kind": "notice",
+          "nominal": "2026-09-18",
+          "due": "2026-09-18",
+          "dueDow": "금",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-18",
+          "graceEnd": "2026-09-19",
+          "status": "notice-sent"
+        },
+        {
+          "key": "d7",
+          "kind": "photo",
+          "nominal": "2026-09-22",
+          "due": "2026-09-22",
+          "dueDow": "화",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-21",
+          "graceEnd": "2026-09-24",
+          "status": "upcoming",
+          "reminderDay": "2026-09-21"
+        },
+        {
+          "key": "d14",
+          "kind": "notice",
+          "nominal": "2026-09-29",
+          "due": "2026-09-29",
+          "dueDow": "화",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-29",
+          "graceEnd": "2026-10-01",
+          "status": "notice-upcoming"
+        },
+        {
+          "key": "w4",
+          "kind": "visit",
+          "nominal": "2026-10-13",
+          "due": "2026-10-13",
+          "dueDow": "화",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-10-10",
+          "graceEnd": "2026-10-20",
+          "status": "upcoming",
+          "reminderDay": "2026-10-12"
+        },
+        {
+          "key": "m6",
+          "kind": "photo",
+          "nominal": "2027-03-15",
+          "due": "2027-03-15",
+          "dueDow": "월",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2027-03-08",
+          "graceEnd": "2027-03-22",
+          "status": "upcoming",
+          "reminderDay": "2027-03-13"
+        },
+        {
+          "key": "y1",
+          "kind": "photo",
+          "nominal": "2027-09-15",
+          "due": "2027-09-17",
+          "dueDow": "금",
+          "shifted": [
+            {
+              "from": "2027-09-15",
+              "reason": "추석"
+            },
+            {
+              "from": "2027-09-16",
+              "reason": "추석 연휴"
+            }
+          ],
+          "monthEndClamped": false,
+          "windowStart": "2027-09-01",
+          "graceEnd": "2027-10-01",
+          "status": "upcoming",
+          "reminderDay": "2027-09-13"
+        }
+      ],
+      "todayReasons": [
+        "upcoming-visit",
+        "photo-round"
+      ],
+      "overdue": null,
+      "medicalReview": []
+    },
+    {
+      "id": "P019",
+      "procedure": "hair-transplant",
+      "startDate": "2026-08-25",
+      "points": [
+        {
+          "key": "d1",
+          "kind": "visit",
+          "nominal": "2026-08-26",
+          "due": "2026-08-26",
+          "dueDow": "수",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-08-26",
+          "graceEnd": "2026-08-27",
+          "status": "done",
+          "visitDate": "2026-08-26",
+          "holidayUnverified": true
+        },
+        {
+          "key": "d3",
+          "kind": "notice",
+          "nominal": "2026-08-28",
+          "due": "2026-08-28",
+          "dueDow": "금",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-08-28",
+          "graceEnd": "2026-08-29",
+          "status": "notice-missed",
+          "holidayUnverified": true
+        },
+        {
+          "key": "d7",
+          "kind": "photo",
+          "nominal": "2026-09-01",
+          "due": "2026-09-01",
+          "dueDow": "화",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-08-31",
+          "graceEnd": "2026-09-03",
+          "status": "done",
+          "visitDate": "2026-09-01"
+        },
+        {
+          "key": "d14",
+          "kind": "notice",
+          "nominal": "2026-09-08",
+          "due": "2026-09-08",
+          "dueDow": "화",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-08",
+          "graceEnd": "2026-09-10",
+          "status": "notice-sent"
+        },
+        {
+          "key": "w4",
+          "kind": "visit",
+          "nominal": "2026-09-22",
+          "due": "2026-09-22",
+          "dueDow": "화",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-19",
+          "graceEnd": "2026-09-29",
+          "status": "upcoming",
+          "reminderDay": "2026-09-21"
+        },
+        {
+          "key": "m6",
+          "kind": "photo",
+          "nominal": "2027-02-25",
+          "due": "2027-02-25",
+          "dueDow": "목",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2027-02-18",
+          "graceEnd": "2027-03-04",
+          "status": "upcoming",
+          "reminderDay": "2027-02-24"
+        },
+        {
+          "key": "y1",
+          "kind": "photo",
+          "nominal": "2027-08-25",
+          "due": "2027-08-25",
+          "dueDow": "수",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2027-08-11",
+          "graceEnd": "2027-09-08",
+          "status": "upcoming",
+          "reminderDay": "2027-08-24"
+        }
+      ],
+      "todayReasons": [
+        "upcoming-visit"
+      ],
+      "overdue": null,
+      "medicalReview": []
+    },
+    {
+      "id": "P020",
+      "procedure": "hair-transplant",
+      "startDate": "2025-09-22",
+      "points": [
+        {
+          "key": "d1",
+          "kind": "visit",
+          "nominal": "2025-09-23",
+          "due": "2025-09-23",
+          "dueDow": "화",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2025-09-23",
+          "graceEnd": "2025-09-24",
+          "status": "done",
+          "visitDate": "2025-09-23",
+          "holidayUnverified": true
+        },
+        {
+          "key": "d3",
+          "kind": "notice",
+          "nominal": "2025-09-25",
+          "due": "2025-09-25",
+          "dueDow": "목",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2025-09-25",
+          "graceEnd": "2025-09-26",
+          "status": "notice-missed",
+          "holidayUnverified": true
+        },
+        {
+          "key": "d7",
+          "kind": "photo",
+          "nominal": "2025-09-29",
+          "due": "2025-09-29",
+          "dueDow": "월",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2025-09-28",
+          "graceEnd": "2025-10-01",
+          "status": "done",
+          "visitDate": "2025-09-29",
+          "holidayUnverified": true
+        },
+        {
+          "key": "d14",
+          "kind": "notice",
+          "nominal": "2025-10-06",
+          "due": "2025-10-06",
+          "dueDow": "월",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2025-10-06",
+          "graceEnd": "2025-10-08",
+          "status": "notice-missed",
+          "holidayUnverified": true
+        },
+        {
+          "key": "w4",
+          "kind": "visit",
+          "nominal": "2025-10-20",
+          "due": "2025-10-20",
+          "dueDow": "월",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2025-10-17",
+          "graceEnd": "2025-10-27",
+          "status": "done",
+          "visitDate": "2025-10-20",
+          "holidayUnverified": true
+        },
+        {
+          "key": "m6",
+          "kind": "photo",
+          "nominal": "2026-03-22",
+          "due": "2026-03-23",
+          "dueDow": "월",
+          "shifted": [
+            {
+              "from": "2026-03-22",
+              "reason": "일요일"
+            }
+          ],
+          "monthEndClamped": false,
+          "windowStart": "2026-03-15",
+          "graceEnd": "2026-03-30",
+          "status": "done",
+          "visitDate": "2026-03-23",
+          "holidayUnverified": true
+        },
+        {
+          "key": "y1",
+          "kind": "photo",
+          "nominal": "2026-09-22",
+          "due": "2026-09-22",
+          "dueDow": "화",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-08",
+          "graceEnd": "2026-10-06",
+          "status": "upcoming",
+          "reminderDay": "2026-09-21"
+        }
+      ],
+      "todayReasons": [
+        "upcoming-visit",
+        "photo-round"
+      ],
+      "overdue": null,
+      "medicalReview": []
+    },
+    {
+      "id": "P021",
+      "procedure": "injection",
+      "startDate": "2026-09-08",
+      "points": [
+        {
+          "key": "inj-2",
+          "kind": "visit",
+          "nominal": "2026-09-22",
+          "due": "2026-09-22",
+          "dueDow": "화",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-19",
+          "graceEnd": "2026-09-25",
+          "status": "upcoming",
+          "reminderDay": "2026-09-21"
+        },
+        {
+          "key": "inj-3",
+          "kind": "visit",
+          "nominal": "2026-10-06",
+          "due": "2026-10-06",
+          "dueDow": "화",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-10-03",
+          "graceEnd": "2026-10-09",
+          "status": "upcoming",
+          "reminderDay": "2026-10-02"
+        },
+        {
+          "key": "inj-4",
+          "kind": "visit",
+          "nominal": "2026-10-20",
+          "due": "2026-10-20",
+          "dueDow": "화",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-10-17",
+          "graceEnd": "2026-10-23",
+          "status": "upcoming",
+          "reminderDay": "2026-10-19"
+        },
+        {
+          "key": "inj-5",
+          "kind": "photo",
+          "nominal": "2026-11-03",
+          "due": "2026-11-03",
+          "dueDow": "화",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-10-31",
+          "graceEnd": "2026-11-06",
+          "status": "upcoming",
+          "reminderDay": "2026-11-02"
+        },
+        {
+          "key": "inj-6",
+          "kind": "visit",
+          "nominal": "2026-11-17",
+          "due": "2026-11-17",
+          "dueDow": "화",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-11-14",
+          "graceEnd": "2026-11-20",
+          "status": "upcoming",
+          "reminderDay": "2026-11-16"
+        },
+        {
+          "key": "inj-7",
+          "kind": "visit",
+          "nominal": "2026-12-01",
+          "due": "2026-12-01",
+          "dueDow": "화",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-11-28",
+          "graceEnd": "2026-12-04",
+          "status": "upcoming",
+          "reminderDay": "2026-11-30"
+        },
+        {
+          "key": "inj-8",
+          "kind": "visit",
+          "nominal": "2026-12-15",
+          "due": "2026-12-15",
+          "dueDow": "화",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-12-12",
+          "graceEnd": "2026-12-18",
+          "status": "upcoming",
+          "reminderDay": "2026-12-14"
+        },
+        {
+          "key": "inj-9",
+          "kind": "visit",
+          "nominal": "2026-12-29",
+          "due": "2026-12-29",
+          "dueDow": "화",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-12-26",
+          "graceEnd": "2027-01-01",
+          "status": "upcoming",
+          "reminderDay": "2026-12-28"
+        },
+        {
+          "key": "inj-10",
+          "kind": "photo",
+          "nominal": "2027-01-12",
+          "due": "2027-01-12",
+          "dueDow": "화",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2027-01-09",
+          "graceEnd": "2027-01-15",
+          "status": "upcoming",
+          "reminderDay": "2027-01-11"
+        }
+      ],
+      "todayReasons": [
+        "upcoming-visit"
+      ],
+      "overdue": null,
+      "medicalReview": []
+    },
+    {
+      "id": "P022",
+      "procedure": "injection",
+      "startDate": "2026-07-28",
+      "points": [
+        {
+          "key": "inj-2",
+          "kind": "visit",
+          "nominal": "2026-08-11",
+          "due": "2026-08-11",
+          "dueDow": "화",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-08-08",
+          "graceEnd": "2026-08-14",
+          "status": "done",
+          "visitDate": "2026-08-11",
+          "holidayUnverified": true
+        },
+        {
+          "key": "inj-3",
+          "kind": "visit",
+          "nominal": "2026-08-25",
+          "due": "2026-08-25",
+          "dueDow": "화",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-08-22",
+          "graceEnd": "2026-08-28",
+          "status": "done",
+          "visitDate": "2026-08-25",
+          "holidayUnverified": true
+        },
+        {
+          "key": "inj-4",
+          "kind": "visit",
+          "nominal": "2026-09-08",
+          "due": "2026-09-08",
+          "dueDow": "화",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-05",
+          "graceEnd": "2026-09-11",
+          "status": "done",
+          "visitDate": "2026-09-08"
+        },
+        {
+          "key": "inj-5",
+          "kind": "photo",
+          "nominal": "2026-09-22",
+          "due": "2026-09-22",
+          "dueDow": "화",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-19",
+          "graceEnd": "2026-09-25",
+          "status": "upcoming",
+          "reminderDay": "2026-09-21"
+        },
+        {
+          "key": "inj-6",
+          "kind": "visit",
+          "nominal": "2026-10-06",
+          "due": "2026-10-06",
+          "dueDow": "화",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-10-03",
+          "graceEnd": "2026-10-09",
+          "status": "upcoming",
+          "reminderDay": "2026-10-02"
+        },
+        {
+          "key": "inj-7",
+          "kind": "visit",
+          "nominal": "2026-10-20",
+          "due": "2026-10-20",
+          "dueDow": "화",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-10-17",
+          "graceEnd": "2026-10-23",
+          "status": "upcoming",
+          "reminderDay": "2026-10-19"
+        },
+        {
+          "key": "inj-8",
+          "kind": "visit",
+          "nominal": "2026-11-03",
+          "due": "2026-11-03",
+          "dueDow": "화",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-10-31",
+          "graceEnd": "2026-11-06",
+          "status": "upcoming",
+          "reminderDay": "2026-11-02"
+        },
+        {
+          "key": "inj-9",
+          "kind": "visit",
+          "nominal": "2026-11-17",
+          "due": "2026-11-17",
+          "dueDow": "화",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-11-14",
+          "graceEnd": "2026-11-20",
+          "status": "upcoming",
+          "reminderDay": "2026-11-16"
+        },
+        {
+          "key": "inj-10",
+          "kind": "photo",
+          "nominal": "2026-12-01",
+          "due": "2026-12-01",
+          "dueDow": "화",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-11-28",
+          "graceEnd": "2026-12-04",
+          "status": "upcoming",
+          "reminderDay": "2026-11-30"
+        }
+      ],
+      "todayReasons": [
+        "upcoming-visit",
+        "photo-round"
+      ],
+      "overdue": null,
+      "medicalReview": []
+    },
+    {
+      "id": "P023",
+      "procedure": "injection",
+      "startDate": "2026-06-16",
+      "points": [
+        {
+          "key": "inj-2",
+          "kind": "visit",
+          "nominal": "2026-06-30",
+          "due": "2026-06-30",
+          "dueDow": "화",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-06-27",
+          "graceEnd": "2026-07-03",
+          "status": "done",
+          "visitDate": "2026-06-30",
+          "holidayUnverified": true
+        },
+        {
+          "key": "inj-3",
+          "kind": "visit",
+          "nominal": "2026-07-14",
+          "due": "2026-07-14",
+          "dueDow": "화",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-07-11",
+          "graceEnd": "2026-07-17",
+          "status": "done",
+          "visitDate": "2026-07-14",
+          "holidayUnverified": true
+        },
+        {
+          "key": "inj-4",
+          "kind": "visit",
+          "nominal": "2026-07-28",
+          "due": "2026-07-28",
+          "dueDow": "화",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-07-25",
+          "graceEnd": "2026-07-31",
+          "status": "done",
+          "visitDate": "2026-07-28",
+          "holidayUnverified": true
+        },
+        {
+          "key": "inj-5",
+          "kind": "photo",
+          "nominal": "2026-08-11",
+          "due": "2026-08-11",
+          "dueDow": "화",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-08-08",
+          "graceEnd": "2026-08-14",
+          "status": "done",
+          "visitDate": "2026-08-11",
+          "holidayUnverified": true
+        },
+        {
+          "key": "inj-6",
+          "kind": "visit",
+          "nominal": "2026-08-25",
+          "due": "2026-08-25",
+          "dueDow": "화",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-08-22",
+          "graceEnd": "2026-08-28",
+          "status": "done",
+          "visitDate": "2026-08-25",
+          "holidayUnverified": true
+        },
+        {
+          "key": "inj-7",
+          "kind": "visit",
+          "nominal": "2026-09-08",
+          "due": "2026-09-08",
+          "dueDow": "화",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-05",
+          "graceEnd": "2026-09-11",
+          "status": "done",
+          "visitDate": "2026-09-08"
+        },
+        {
+          "key": "inj-8",
+          "kind": "visit",
+          "nominal": "2026-09-22",
+          "due": "2026-09-22",
+          "dueDow": "화",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-19",
+          "graceEnd": "2026-09-25",
+          "status": "upcoming",
+          "reminderDay": "2026-09-21"
+        },
+        {
+          "key": "inj-9",
+          "kind": "visit",
+          "nominal": "2026-10-06",
+          "due": "2026-10-06",
+          "dueDow": "화",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-10-03",
+          "graceEnd": "2026-10-09",
+          "status": "upcoming",
+          "reminderDay": "2026-10-02"
+        },
+        {
+          "key": "inj-10",
+          "kind": "photo",
+          "nominal": "2026-10-20",
+          "due": "2026-10-20",
+          "dueDow": "화",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-10-17",
+          "graceEnd": "2026-10-23",
+          "status": "upcoming",
+          "reminderDay": "2026-10-19"
+        }
+      ],
+      "todayReasons": [
+        "upcoming-visit"
+      ],
+      "overdue": null,
+      "medicalReview": []
+    },
+    {
+      "id": "P024",
+      "procedure": "hair-transplant",
+      "startDate": "2026-08-25",
+      "points": [
+        {
+          "key": "d1",
+          "kind": "visit",
+          "nominal": "2026-08-26",
+          "due": "2026-08-26",
+          "dueDow": "수",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-08-26",
+          "graceEnd": "2026-08-27",
+          "status": "done",
+          "visitDate": "2026-08-26",
+          "holidayUnverified": true
+        },
+        {
+          "key": "d3",
+          "kind": "notice",
+          "nominal": "2026-08-28",
+          "due": "2026-08-28",
+          "dueDow": "금",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-08-28",
+          "graceEnd": "2026-08-29",
+          "status": "notice-missed",
+          "holidayUnverified": true
+        },
+        {
+          "key": "d7",
+          "kind": "photo",
+          "nominal": "2026-09-01",
+          "due": "2026-09-01",
+          "dueDow": "화",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-08-31",
+          "graceEnd": "2026-09-03",
+          "status": "done",
+          "visitDate": "2026-09-01"
+        },
+        {
+          "key": "d14",
+          "kind": "notice",
+          "nominal": "2026-09-08",
+          "due": "2026-09-08",
+          "dueDow": "화",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-08",
+          "graceEnd": "2026-09-10",
+          "status": "notice-missed"
+        },
+        {
+          "key": "w4",
+          "kind": "visit",
+          "nominal": "2026-09-22",
+          "due": "2026-09-22",
+          "dueDow": "화",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-19",
+          "graceEnd": "2026-09-29",
+          "status": "done-early",
+          "visitDate": "2026-09-19"
+        },
+        {
+          "key": "m6",
+          "kind": "photo",
+          "nominal": "2027-02-25",
+          "due": "2027-02-25",
+          "dueDow": "목",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2027-02-18",
+          "graceEnd": "2027-03-04",
+          "status": "upcoming",
+          "reminderDay": "2027-02-24"
+        },
+        {
+          "key": "y1",
+          "kind": "photo",
+          "nominal": "2027-08-25",
+          "due": "2027-08-25",
+          "dueDow": "수",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2027-08-11",
+          "graceEnd": "2027-09-08",
+          "status": "upcoming",
+          "reminderDay": "2027-08-24"
+        }
+      ],
+      "todayReasons": [],
+      "overdue": null,
+      "medicalReview": []
+    },
+    {
+      "id": "P025",
+      "procedure": "injection",
+      "startDate": "2026-08-25",
+      "points": [
+        {
+          "key": "inj-2",
+          "kind": "visit",
+          "nominal": "2026-09-08",
+          "due": "2026-09-08",
+          "dueDow": "화",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-05",
+          "graceEnd": "2026-09-11",
+          "status": "done",
+          "visitDate": "2026-09-08"
+        },
+        {
+          "key": "inj-3",
+          "kind": "visit",
+          "nominal": "2026-09-22",
+          "due": "2026-09-22",
+          "dueDow": "화",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-19",
+          "graceEnd": "2026-09-25",
+          "status": "done-early",
+          "visitDate": "2026-09-19"
+        },
+        {
+          "key": "inj-4",
+          "kind": "visit",
+          "nominal": "2026-10-06",
+          "due": "2026-10-06",
+          "dueDow": "화",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-10-03",
+          "graceEnd": "2026-10-09",
+          "status": "upcoming",
+          "reminderDay": "2026-10-02"
+        },
+        {
+          "key": "inj-5",
+          "kind": "photo",
+          "nominal": "2026-10-20",
+          "due": "2026-10-20",
+          "dueDow": "화",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-10-17",
+          "graceEnd": "2026-10-23",
+          "status": "upcoming",
+          "reminderDay": "2026-10-19"
+        },
+        {
+          "key": "inj-6",
+          "kind": "visit",
+          "nominal": "2026-11-03",
+          "due": "2026-11-03",
+          "dueDow": "화",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-10-31",
+          "graceEnd": "2026-11-06",
+          "status": "upcoming",
+          "reminderDay": "2026-11-02"
+        },
+        {
+          "key": "inj-7",
+          "kind": "visit",
+          "nominal": "2026-11-17",
+          "due": "2026-11-17",
+          "dueDow": "화",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-11-14",
+          "graceEnd": "2026-11-20",
+          "status": "upcoming",
+          "reminderDay": "2026-11-16"
+        },
+        {
+          "key": "inj-8",
+          "kind": "visit",
+          "nominal": "2026-12-01",
+          "due": "2026-12-01",
+          "dueDow": "화",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-11-28",
+          "graceEnd": "2026-12-04",
+          "status": "upcoming",
+          "reminderDay": "2026-11-30"
+        },
+        {
+          "key": "inj-9",
+          "kind": "visit",
+          "nominal": "2026-12-15",
+          "due": "2026-12-15",
+          "dueDow": "화",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-12-12",
+          "graceEnd": "2026-12-18",
+          "status": "upcoming",
+          "reminderDay": "2026-12-14"
+        },
+        {
+          "key": "inj-10",
+          "kind": "photo",
+          "nominal": "2026-12-29",
+          "due": "2026-12-29",
+          "dueDow": "화",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-12-26",
+          "graceEnd": "2027-01-01",
+          "status": "upcoming",
+          "reminderDay": "2026-12-28"
+        }
+      ],
+      "todayReasons": [],
+      "overdue": null,
+      "medicalReview": []
+    },
+    {
+      "id": "P026",
+      "procedure": "hair-transplant",
+      "startDate": "2026-09-08",
+      "points": [
+        {
+          "key": "d1",
+          "kind": "visit",
+          "nominal": "2026-09-09",
+          "due": "2026-09-09",
+          "dueDow": "수",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-09",
+          "graceEnd": "2026-09-10",
+          "status": "done",
+          "visitDate": "2026-09-09"
+        },
+        {
+          "key": "d3",
+          "kind": "notice",
+          "nominal": "2026-09-11",
+          "due": "2026-09-11",
+          "dueDow": "금",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-11",
+          "graceEnd": "2026-09-12",
+          "status": "notice-sent"
+        },
+        {
+          "key": "d7",
+          "kind": "photo",
+          "nominal": "2026-09-15",
+          "due": "2026-09-15",
+          "dueDow": "화",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-14",
+          "graceEnd": "2026-09-17",
+          "status": "done-early",
+          "visitDate": "2026-09-14"
+        },
+        {
+          "key": "d14",
+          "kind": "notice",
+          "nominal": "2026-09-22",
+          "due": "2026-09-22",
+          "dueDow": "화",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-22",
+          "graceEnd": "2026-09-24",
+          "status": "notice-upcoming"
+        },
+        {
+          "key": "w4",
+          "kind": "visit",
+          "nominal": "2026-10-06",
+          "due": "2026-10-06",
+          "dueDow": "화",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-10-03",
+          "graceEnd": "2026-10-13",
+          "status": "upcoming",
+          "reminderDay": "2026-10-02"
+        },
+        {
+          "key": "m6",
+          "kind": "photo",
+          "nominal": "2027-03-08",
+          "due": "2027-03-08",
+          "dueDow": "월",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2027-03-01",
+          "graceEnd": "2027-03-15",
+          "status": "upcoming",
+          "reminderDay": "2027-03-06"
+        },
+        {
+          "key": "y1",
+          "kind": "photo",
+          "nominal": "2027-09-08",
+          "due": "2027-09-08",
+          "dueDow": "수",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2027-08-25",
+          "graceEnd": "2027-09-22",
+          "status": "upcoming",
+          "reminderDay": "2027-09-07"
+        }
+      ],
+      "todayReasons": [],
+      "overdue": null,
+      "medicalReview": []
+    },
+    {
+      "id": "P027",
+      "procedure": "hair-transplant",
+      "startDate": "2026-09-17",
+      "points": [
+        {
+          "key": "d1",
+          "kind": "visit",
+          "nominal": "2026-09-18",
+          "due": "2026-09-18",
+          "dueDow": "금",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-18",
+          "graceEnd": "2026-09-19",
+          "status": "done",
+          "visitDate": "2026-09-18"
+        },
+        {
+          "key": "d3",
+          "kind": "notice",
+          "nominal": "2026-09-20",
+          "due": "2026-09-21",
+          "dueDow": "월",
+          "shifted": [
+            {
+              "from": "2026-09-20",
+              "reason": "일요일"
+            }
+          ],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-20",
+          "graceEnd": "2026-09-22",
+          "status": "notice-active"
+        },
+        {
+          "key": "d7",
+          "kind": "photo",
+          "nominal": "2026-09-24",
+          "due": "2026-09-28",
+          "dueDow": "월",
+          "shifted": [
+            {
+              "from": "2026-09-24",
+              "reason": "추석 연휴"
+            },
+            {
+              "from": "2026-09-25",
+              "reason": "추석"
+            },
+            {
+              "from": "2026-09-26",
+              "reason": "추석 연휴"
+            },
+            {
+              "from": "2026-09-27",
+              "reason": "일요일"
+            }
+          ],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-23",
+          "graceEnd": "2026-09-30",
+          "status": "upcoming",
+          "reminderDay": "2026-09-23"
+        },
+        {
+          "key": "d14",
+          "kind": "notice",
+          "nominal": "2026-10-01",
+          "due": "2026-10-01",
+          "dueDow": "목",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-10-01",
+          "graceEnd": "2026-10-03",
+          "status": "notice-upcoming"
+        },
+        {
+          "key": "w4",
+          "kind": "visit",
+          "nominal": "2026-10-15",
+          "due": "2026-10-15",
+          "dueDow": "목",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-10-12",
+          "graceEnd": "2026-10-22",
+          "status": "upcoming",
+          "reminderDay": "2026-10-14"
+        },
+        {
+          "key": "m6",
+          "kind": "photo",
+          "nominal": "2027-03-17",
+          "due": "2027-03-17",
+          "dueDow": "수",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2027-03-10",
+          "graceEnd": "2027-03-24",
+          "status": "upcoming",
+          "reminderDay": "2027-03-16"
+        },
+        {
+          "key": "y1",
+          "kind": "photo",
+          "nominal": "2027-09-17",
+          "due": "2027-09-17",
+          "dueDow": "금",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2027-09-03",
+          "graceEnd": "2027-10-01",
+          "status": "upcoming",
+          "reminderDay": "2027-09-13"
+        }
+      ],
+      "todayReasons": [
+        "care-notice"
+      ],
+      "overdue": null,
+      "medicalReview": []
+    },
+    {
+      "id": "P028",
+      "procedure": "hair-transplant",
+      "startDate": "2026-08-28",
+      "points": [
+        {
+          "key": "d1",
+          "kind": "visit",
+          "nominal": "2026-08-29",
+          "due": "2026-08-29",
+          "dueDow": "토",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-08-29",
+          "graceEnd": "2026-08-30",
+          "status": "done",
+          "visitDate": "2026-08-29",
+          "holidayUnverified": true
+        },
+        {
+          "key": "d3",
+          "kind": "notice",
+          "nominal": "2026-08-31",
+          "due": "2026-08-31",
+          "dueDow": "월",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-08-31",
+          "graceEnd": "2026-09-01",
+          "status": "notice-missed",
+          "holidayUnverified": true
+        },
+        {
+          "key": "d7",
+          "kind": "photo",
+          "nominal": "2026-09-04",
+          "due": "2026-09-04",
+          "dueDow": "금",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-03",
+          "graceEnd": "2026-09-06",
+          "status": "done",
+          "visitDate": "2026-09-04"
+        },
+        {
+          "key": "d14",
+          "kind": "notice",
+          "nominal": "2026-09-11",
+          "due": "2026-09-11",
+          "dueDow": "금",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-11",
+          "graceEnd": "2026-09-13",
+          "status": "notice-sent"
+        },
+        {
+          "key": "w4",
+          "kind": "visit",
+          "nominal": "2026-09-25",
+          "due": "2026-09-28",
+          "dueDow": "월",
+          "shifted": [
+            {
+              "from": "2026-09-25",
+              "reason": "추석"
+            },
+            {
+              "from": "2026-09-26",
+              "reason": "추석 연휴"
+            },
+            {
+              "from": "2026-09-27",
+              "reason": "일요일"
+            }
+          ],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-22",
+          "graceEnd": "2026-10-05",
+          "status": "upcoming",
+          "reminderDay": "2026-09-23"
+        },
+        {
+          "key": "m6",
+          "kind": "photo",
+          "nominal": "2027-02-28",
+          "due": "2027-03-02",
+          "dueDow": "화",
+          "shifted": [
+            {
+              "from": "2027-02-28",
+              "reason": "일요일"
+            },
+            {
+              "from": "2027-03-01",
+              "reason": "3·1절"
+            }
+          ],
+          "monthEndClamped": false,
+          "windowStart": "2027-02-21",
+          "graceEnd": "2027-03-09",
+          "status": "upcoming",
+          "reminderDay": "2027-02-27"
+        },
+        {
+          "key": "y1",
+          "kind": "photo",
+          "nominal": "2027-08-28",
+          "due": "2027-08-28",
+          "dueDow": "토",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2027-08-14",
+          "graceEnd": "2027-09-11",
+          "status": "upcoming",
+          "reminderDay": "2027-08-27"
+        }
+      ],
+      "todayReasons": [],
+      "overdue": null,
+      "medicalReview": []
+    },
+    {
+      "id": "P029",
+      "procedure": "hair-transplant",
+      "startDate": "2026-03-26",
+      "points": [
+        {
+          "key": "d1",
+          "kind": "visit",
+          "nominal": "2026-03-27",
+          "due": "2026-03-27",
+          "dueDow": "금",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-03-27",
+          "graceEnd": "2026-03-28",
+          "status": "done",
+          "visitDate": "2026-03-27",
+          "holidayUnverified": true
+        },
+        {
+          "key": "d3",
+          "kind": "notice",
+          "nominal": "2026-03-29",
+          "due": "2026-03-30",
+          "dueDow": "월",
+          "shifted": [
+            {
+              "from": "2026-03-29",
+              "reason": "일요일"
+            }
+          ],
+          "monthEndClamped": false,
+          "windowStart": "2026-03-29",
+          "graceEnd": "2026-03-31",
+          "status": "notice-missed",
+          "holidayUnverified": true
+        },
+        {
+          "key": "d7",
+          "kind": "photo",
+          "nominal": "2026-04-02",
+          "due": "2026-04-02",
+          "dueDow": "목",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-04-01",
+          "graceEnd": "2026-04-04",
+          "status": "done",
+          "visitDate": "2026-04-02",
+          "holidayUnverified": true
+        },
+        {
+          "key": "d14",
+          "kind": "notice",
+          "nominal": "2026-04-09",
+          "due": "2026-04-09",
+          "dueDow": "목",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-04-09",
+          "graceEnd": "2026-04-11",
+          "status": "notice-missed",
+          "holidayUnverified": true
+        },
+        {
+          "key": "w4",
+          "kind": "visit",
+          "nominal": "2026-04-23",
+          "due": "2026-04-23",
+          "dueDow": "목",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-04-20",
+          "graceEnd": "2026-04-30",
+          "status": "done",
+          "visitDate": "2026-04-23",
+          "holidayUnverified": true
+        },
+        {
+          "key": "m6",
+          "kind": "photo",
+          "nominal": "2026-09-26",
+          "due": "2026-09-28",
+          "dueDow": "월",
+          "shifted": [
+            {
+              "from": "2026-09-26",
+              "reason": "추석 연휴"
+            },
+            {
+              "from": "2026-09-27",
+              "reason": "일요일"
+            }
+          ],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-19",
+          "graceEnd": "2026-10-05",
+          "status": "upcoming",
+          "reminderDay": "2026-09-23"
+        },
+        {
+          "key": "y1",
+          "kind": "photo",
+          "nominal": "2027-03-26",
+          "due": "2027-03-26",
+          "dueDow": "금",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2027-03-12",
+          "graceEnd": "2027-04-09",
+          "status": "upcoming",
+          "reminderDay": "2027-03-25"
+        }
+      ],
+      "todayReasons": [],
+      "overdue": null,
+      "medicalReview": []
+    },
+    {
+      "id": "P030",
+      "procedure": "injection",
+      "startDate": "2026-09-10",
+      "points": [
+        {
+          "key": "inj-2",
+          "kind": "visit",
+          "nominal": "2026-09-24",
+          "due": "2026-09-28",
+          "dueDow": "월",
+          "shifted": [
+            {
+              "from": "2026-09-24",
+              "reason": "추석 연휴"
+            },
+            {
+              "from": "2026-09-25",
+              "reason": "추석"
+            },
+            {
+              "from": "2026-09-26",
+              "reason": "추석 연휴"
+            },
+            {
+              "from": "2026-09-27",
+              "reason": "일요일"
+            }
+          ],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-21",
+          "graceEnd": "2026-10-01",
+          "status": "upcoming",
+          "reminderDay": "2026-09-23"
+        },
+        {
+          "key": "inj-3",
+          "kind": "visit",
+          "nominal": "2026-10-08",
+          "due": "2026-10-08",
+          "dueDow": "목",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-10-05",
+          "graceEnd": "2026-10-11",
+          "status": "upcoming",
+          "reminderDay": "2026-10-07"
+        },
+        {
+          "key": "inj-4",
+          "kind": "visit",
+          "nominal": "2026-10-22",
+          "due": "2026-10-22",
+          "dueDow": "목",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-10-19",
+          "graceEnd": "2026-10-25",
+          "status": "upcoming",
+          "reminderDay": "2026-10-21"
+        },
+        {
+          "key": "inj-5",
+          "kind": "photo",
+          "nominal": "2026-11-05",
+          "due": "2026-11-05",
+          "dueDow": "목",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-11-02",
+          "graceEnd": "2026-11-08",
+          "status": "upcoming",
+          "reminderDay": "2026-11-04"
+        },
+        {
+          "key": "inj-6",
+          "kind": "visit",
+          "nominal": "2026-11-19",
+          "due": "2026-11-19",
+          "dueDow": "목",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-11-16",
+          "graceEnd": "2026-11-22",
+          "status": "upcoming",
+          "reminderDay": "2026-11-18"
+        },
+        {
+          "key": "inj-7",
+          "kind": "visit",
+          "nominal": "2026-12-03",
+          "due": "2026-12-03",
+          "dueDow": "목",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-11-30",
+          "graceEnd": "2026-12-06",
+          "status": "upcoming",
+          "reminderDay": "2026-12-02"
+        },
+        {
+          "key": "inj-8",
+          "kind": "visit",
+          "nominal": "2026-12-17",
+          "due": "2026-12-17",
+          "dueDow": "목",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-12-14",
+          "graceEnd": "2026-12-20",
+          "status": "upcoming",
+          "reminderDay": "2026-12-16"
+        },
+        {
+          "key": "inj-9",
+          "kind": "visit",
+          "nominal": "2026-12-31",
+          "due": "2026-12-31",
+          "dueDow": "목",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-12-28",
+          "graceEnd": "2027-01-03",
+          "status": "upcoming",
+          "reminderDay": "2026-12-30"
+        },
+        {
+          "key": "inj-10",
+          "kind": "photo",
+          "nominal": "2027-01-14",
+          "due": "2027-01-14",
+          "dueDow": "목",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2027-01-11",
+          "graceEnd": "2027-01-17",
+          "status": "upcoming",
+          "reminderDay": "2027-01-13"
+        }
+      ],
+      "todayReasons": [],
+      "overdue": null,
+      "medicalReview": []
+    },
+    {
+      "id": "P031",
+      "procedure": "hair-transplant",
+      "startDate": "2026-04-03",
+      "points": [
+        {
+          "key": "d1",
+          "kind": "visit",
+          "nominal": "2026-04-04",
+          "due": "2026-04-04",
+          "dueDow": "토",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-04-04",
+          "graceEnd": "2026-04-05",
+          "status": "done",
+          "visitDate": "2026-04-04",
+          "holidayUnverified": true
+        },
+        {
+          "key": "d3",
+          "kind": "notice",
+          "nominal": "2026-04-06",
+          "due": "2026-04-06",
+          "dueDow": "월",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-04-06",
+          "graceEnd": "2026-04-07",
+          "status": "notice-missed",
+          "holidayUnverified": true
+        },
+        {
+          "key": "d7",
+          "kind": "photo",
+          "nominal": "2026-04-10",
+          "due": "2026-04-10",
+          "dueDow": "금",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-04-09",
+          "graceEnd": "2026-04-12",
+          "status": "done",
+          "visitDate": "2026-04-10",
+          "holidayUnverified": true
+        },
+        {
+          "key": "d14",
+          "kind": "notice",
+          "nominal": "2026-04-17",
+          "due": "2026-04-17",
+          "dueDow": "금",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-04-17",
+          "graceEnd": "2026-04-19",
+          "status": "notice-missed",
+          "holidayUnverified": true
+        },
+        {
+          "key": "w4",
+          "kind": "visit",
+          "nominal": "2026-05-01",
+          "due": "2026-05-01",
+          "dueDow": "금",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-04-28",
+          "graceEnd": "2026-05-08",
+          "status": "done",
+          "visitDate": "2026-05-02",
+          "holidayUnverified": true
+        },
+        {
+          "key": "m6",
+          "kind": "photo",
+          "nominal": "2026-10-03",
+          "due": "2026-10-06",
+          "dueDow": "화",
+          "shifted": [
+            {
+              "from": "2026-10-03",
+              "reason": "개천절"
+            },
+            {
+              "from": "2026-10-04",
+              "reason": "일요일"
+            },
+            {
+              "from": "2026-10-05",
+              "reason": "대체공휴일(개천절)"
+            }
+          ],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-26",
+          "graceEnd": "2026-10-13",
+          "status": "upcoming",
+          "reminderDay": "2026-10-02"
+        },
+        {
+          "key": "y1",
+          "kind": "photo",
+          "nominal": "2027-04-03",
+          "due": "2027-04-03",
+          "dueDow": "토",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2027-03-20",
+          "graceEnd": "2027-04-17",
+          "status": "upcoming",
+          "reminderDay": "2027-04-02"
+        }
+      ],
+      "todayReasons": [],
+      "overdue": null,
+      "medicalReview": []
+    },
+    {
+      "id": "P032",
+      "procedure": "hair-transplant",
+      "startDate": "2026-04-09",
+      "points": [
+        {
+          "key": "d1",
+          "kind": "visit",
+          "nominal": "2026-04-10",
+          "due": "2026-04-10",
+          "dueDow": "금",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-04-10",
+          "graceEnd": "2026-04-11",
+          "status": "done",
+          "visitDate": "2026-04-10",
+          "holidayUnverified": true
+        },
+        {
+          "key": "d3",
+          "kind": "notice",
+          "nominal": "2026-04-12",
+          "due": "2026-04-13",
+          "dueDow": "월",
+          "shifted": [
+            {
+              "from": "2026-04-12",
+              "reason": "일요일"
+            }
+          ],
+          "monthEndClamped": false,
+          "windowStart": "2026-04-12",
+          "graceEnd": "2026-04-14",
+          "status": "notice-missed",
+          "holidayUnverified": true
+        },
+        {
+          "key": "d7",
+          "kind": "photo",
+          "nominal": "2026-04-16",
+          "due": "2026-04-16",
+          "dueDow": "목",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-04-15",
+          "graceEnd": "2026-04-18",
+          "status": "done",
+          "visitDate": "2026-04-16",
+          "holidayUnverified": true
+        },
+        {
+          "key": "d14",
+          "kind": "notice",
+          "nominal": "2026-04-23",
+          "due": "2026-04-23",
+          "dueDow": "목",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-04-23",
+          "graceEnd": "2026-04-25",
+          "status": "notice-missed",
+          "holidayUnverified": true
+        },
+        {
+          "key": "w4",
+          "kind": "visit",
+          "nominal": "2026-05-07",
+          "due": "2026-05-07",
+          "dueDow": "목",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-05-04",
+          "graceEnd": "2026-05-14",
+          "status": "done",
+          "visitDate": "2026-05-07",
+          "holidayUnverified": true
+        },
+        {
+          "key": "m6",
+          "kind": "photo",
+          "nominal": "2026-10-09",
+          "due": "2026-10-10",
+          "dueDow": "토",
+          "shifted": [
+            {
+              "from": "2026-10-09",
+              "reason": "한글날"
+            }
+          ],
+          "monthEndClamped": false,
+          "windowStart": "2026-10-02",
+          "graceEnd": "2026-10-17",
+          "status": "upcoming",
+          "reminderDay": "2026-10-08"
+        },
+        {
+          "key": "y1",
+          "kind": "photo",
+          "nominal": "2027-04-09",
+          "due": "2027-04-09",
+          "dueDow": "금",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2027-03-26",
+          "graceEnd": "2027-04-23",
+          "status": "upcoming",
+          "reminderDay": "2027-04-08"
+        }
+      ],
+      "todayReasons": [],
+      "overdue": null,
+      "medicalReview": []
+    },
+    {
+      "id": "P033",
+      "procedure": "hair-transplant",
+      "startDate": "2026-09-18",
+      "points": [
+        {
+          "key": "d1",
+          "kind": "visit",
+          "nominal": "2026-09-19",
+          "due": "2026-09-19",
+          "dueDow": "토",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-19",
+          "graceEnd": "2026-09-20",
+          "status": "done",
+          "visitDate": "2026-09-19"
+        },
+        {
+          "key": "d3",
+          "kind": "notice",
+          "nominal": "2026-09-21",
+          "due": "2026-09-21",
+          "dueDow": "월",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-21",
+          "graceEnd": "2026-09-22",
+          "status": "notice-active"
+        },
+        {
+          "key": "d7",
+          "kind": "photo",
+          "nominal": "2026-09-25",
+          "due": "2026-09-28",
+          "dueDow": "월",
+          "shifted": [
+            {
+              "from": "2026-09-25",
+              "reason": "추석"
+            },
+            {
+              "from": "2026-09-26",
+              "reason": "추석 연휴"
+            },
+            {
+              "from": "2026-09-27",
+              "reason": "일요일"
+            }
+          ],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-24",
+          "graceEnd": "2026-09-30",
+          "status": "upcoming",
+          "reminderDay": "2026-09-23"
+        },
+        {
+          "key": "d14",
+          "kind": "notice",
+          "nominal": "2026-10-02",
+          "due": "2026-10-02",
+          "dueDow": "금",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-10-02",
+          "graceEnd": "2026-10-04",
+          "status": "notice-upcoming"
+        },
+        {
+          "key": "w4",
+          "kind": "visit",
+          "nominal": "2026-10-16",
+          "due": "2026-10-17",
+          "dueDow": "토",
+          "shifted": [
+            {
+              "from": "2026-10-16",
+              "reason": "내부 교육"
+            }
+          ],
+          "monthEndClamped": false,
+          "windowStart": "2026-10-13",
+          "graceEnd": "2026-10-24",
+          "status": "upcoming",
+          "reminderDay": "2026-10-15"
+        },
+        {
+          "key": "m6",
+          "kind": "photo",
+          "nominal": "2027-03-18",
+          "due": "2027-03-18",
+          "dueDow": "목",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2027-03-11",
+          "graceEnd": "2027-03-25",
+          "status": "upcoming",
+          "reminderDay": "2027-03-17"
+        },
+        {
+          "key": "y1",
+          "kind": "photo",
+          "nominal": "2027-09-18",
+          "due": "2027-09-18",
+          "dueDow": "토",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2027-09-04",
+          "graceEnd": "2027-10-02",
+          "status": "upcoming",
+          "reminderDay": "2027-09-17"
+        }
+      ],
+      "todayReasons": [
+        "care-notice"
+      ],
+      "overdue": null,
+      "medicalReview": []
+    },
+    {
+      "id": "P034",
+      "procedure": "hair-transplant",
+      "startDate": "2026-03-20",
+      "points": [
+        {
+          "key": "d1",
+          "kind": "visit",
+          "nominal": "2026-03-21",
+          "due": "2026-03-21",
+          "dueDow": "토",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-03-21",
+          "graceEnd": "2026-03-22",
+          "status": "done",
+          "visitDate": "2026-03-21",
+          "holidayUnverified": true
+        },
+        {
+          "key": "d3",
+          "kind": "notice",
+          "nominal": "2026-03-23",
+          "due": "2026-03-23",
+          "dueDow": "월",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-03-23",
+          "graceEnd": "2026-03-24",
+          "status": "notice-missed",
+          "holidayUnverified": true
+        },
+        {
+          "key": "d7",
+          "kind": "photo",
+          "nominal": "2026-03-27",
+          "due": "2026-03-27",
+          "dueDow": "금",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-03-26",
+          "graceEnd": "2026-03-29",
+          "status": "done",
+          "visitDate": "2026-03-27",
+          "holidayUnverified": true
+        },
+        {
+          "key": "d14",
+          "kind": "notice",
+          "nominal": "2026-04-03",
+          "due": "2026-04-03",
+          "dueDow": "금",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-04-03",
+          "graceEnd": "2026-04-05",
+          "status": "notice-missed",
+          "holidayUnverified": true
+        },
+        {
+          "key": "w4",
+          "kind": "visit",
+          "nominal": "2026-04-17",
+          "due": "2026-04-17",
+          "dueDow": "금",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-04-14",
+          "graceEnd": "2026-04-24",
+          "status": "done",
+          "visitDate": "2026-04-17",
+          "holidayUnverified": true
+        },
+        {
+          "key": "m6",
+          "kind": "photo",
+          "nominal": "2026-09-20",
+          "due": "2026-09-21",
+          "dueDow": "월",
+          "shifted": [
+            {
+              "from": "2026-09-20",
+              "reason": "일요일"
+            }
+          ],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-13",
+          "graceEnd": "2026-09-28",
+          "status": "due-today"
+        },
+        {
+          "key": "y1",
+          "kind": "photo",
+          "nominal": "2027-03-20",
+          "due": "2027-03-20",
+          "dueDow": "토",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2027-03-06",
+          "graceEnd": "2027-04-03",
+          "status": "upcoming",
+          "reminderDay": "2027-03-19"
+        }
+      ],
+      "todayReasons": [],
+      "overdue": null,
+      "medicalReview": []
+    },
+    {
+      "id": "P035",
+      "procedure": "scalp-care",
+      "startDate": "2026-07-30",
+      "points": [
+        {
+          "key": "scalp-care",
+          "kind": "notice",
+          "nominal": "2026-09-24",
+          "due": "2026-09-28",
+          "dueDow": "월",
+          "shifted": [
+            {
+              "from": "2026-09-24",
+              "reason": "추석 연휴"
+            },
+            {
+              "from": "2026-09-25",
+              "reason": "추석"
+            },
+            {
+              "from": "2026-09-26",
+              "reason": "추석 연휴"
+            },
+            {
+              "from": "2026-09-27",
+              "reason": "일요일"
+            }
+          ],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-24",
+          "graceEnd": "2026-10-01",
+          "status": "notice-upcoming"
+        }
+      ],
+      "todayReasons": [],
+      "overdue": null,
+      "medicalReview": []
+    },
+    {
+      "id": "P036",
+      "procedure": "hair-transplant",
+      "startDate": "2026-03-31",
+      "points": [
+        {
+          "key": "d1",
+          "kind": "visit",
+          "nominal": "2026-04-01",
+          "due": "2026-04-01",
+          "dueDow": "수",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-04-01",
+          "graceEnd": "2026-04-02",
+          "status": "done",
+          "visitDate": "2026-04-01",
+          "holidayUnverified": true
+        },
+        {
+          "key": "d3",
+          "kind": "notice",
+          "nominal": "2026-04-03",
+          "due": "2026-04-03",
+          "dueDow": "금",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-04-03",
+          "graceEnd": "2026-04-04",
+          "status": "notice-missed",
+          "holidayUnverified": true
+        },
+        {
+          "key": "d7",
+          "kind": "photo",
+          "nominal": "2026-04-07",
+          "due": "2026-04-07",
+          "dueDow": "화",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-04-06",
+          "graceEnd": "2026-04-09",
+          "status": "done",
+          "visitDate": "2026-04-07",
+          "holidayUnverified": true
+        },
+        {
+          "key": "d14",
+          "kind": "notice",
+          "nominal": "2026-04-14",
+          "due": "2026-04-14",
+          "dueDow": "화",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-04-14",
+          "graceEnd": "2026-04-16",
+          "status": "notice-missed",
+          "holidayUnverified": true
+        },
+        {
+          "key": "w4",
+          "kind": "visit",
+          "nominal": "2026-04-28",
+          "due": "2026-04-28",
+          "dueDow": "화",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-04-25",
+          "graceEnd": "2026-05-05",
+          "status": "done",
+          "visitDate": "2026-04-28",
+          "holidayUnverified": true
+        },
+        {
+          "key": "m6",
+          "kind": "photo",
+          "nominal": "2026-09-30",
+          "due": "2026-09-30",
+          "dueDow": "수",
+          "shifted": [],
+          "monthEndClamped": true,
+          "windowStart": "2026-09-23",
+          "graceEnd": "2026-10-07",
+          "status": "upcoming",
+          "reminderDay": "2026-09-29"
+        },
+        {
+          "key": "y1",
+          "kind": "photo",
+          "nominal": "2027-03-31",
+          "due": "2027-03-31",
+          "dueDow": "수",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2027-03-17",
+          "graceEnd": "2027-04-14",
+          "status": "upcoming",
+          "reminderDay": "2027-03-30"
+        }
+      ],
+      "todayReasons": [],
+      "overdue": null,
+      "medicalReview": []
+    },
+    {
+      "id": "P037",
+      "procedure": "hair-transplant",
+      "startDate": "2026-08-31",
+      "points": [
+        {
+          "key": "d1",
+          "kind": "visit",
+          "nominal": "2026-09-01",
+          "due": "2026-09-01",
+          "dueDow": "화",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-01",
+          "graceEnd": "2026-09-02",
+          "status": "done",
+          "visitDate": "2026-09-01"
+        },
+        {
+          "key": "d3",
+          "kind": "notice",
+          "nominal": "2026-09-03",
+          "due": "2026-09-03",
+          "dueDow": "목",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-03",
+          "graceEnd": "2026-09-04",
+          "status": "notice-missed"
+        },
+        {
+          "key": "d7",
+          "kind": "photo",
+          "nominal": "2026-09-07",
+          "due": "2026-09-07",
+          "dueDow": "월",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-06",
+          "graceEnd": "2026-09-09",
+          "status": "done",
+          "visitDate": "2026-09-07"
+        },
+        {
+          "key": "d14",
+          "kind": "notice",
+          "nominal": "2026-09-14",
+          "due": "2026-09-14",
+          "dueDow": "월",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-14",
+          "graceEnd": "2026-09-16",
+          "status": "notice-sent"
+        },
+        {
+          "key": "w4",
+          "kind": "visit",
+          "nominal": "2026-09-28",
+          "due": "2026-09-28",
+          "dueDow": "월",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-25",
+          "graceEnd": "2026-10-05",
+          "status": "upcoming",
+          "reminderDay": "2026-09-23"
+        },
+        {
+          "key": "m6",
+          "kind": "photo",
+          "nominal": "2027-02-28",
+          "due": "2027-03-02",
+          "dueDow": "화",
+          "shifted": [
+            {
+              "from": "2027-02-28",
+              "reason": "일요일"
+            },
+            {
+              "from": "2027-03-01",
+              "reason": "3·1절"
+            }
+          ],
+          "monthEndClamped": true,
+          "windowStart": "2027-02-21",
+          "graceEnd": "2027-03-09",
+          "status": "upcoming",
+          "reminderDay": "2027-02-27"
+        },
+        {
+          "key": "y1",
+          "kind": "photo",
+          "nominal": "2027-08-31",
+          "due": "2027-08-31",
+          "dueDow": "화",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2027-08-17",
+          "graceEnd": "2027-09-14",
+          "status": "upcoming",
+          "reminderDay": "2027-08-30"
+        }
+      ],
+      "todayReasons": [],
+      "overdue": null,
+      "medicalReview": []
+    },
+    {
+      "id": "P038",
+      "procedure": "hair-transplant",
+      "startDate": "2025-10-31",
+      "points": [
+        {
+          "key": "d1",
+          "kind": "visit",
+          "nominal": "2025-11-01",
+          "due": "2025-11-01",
+          "dueDow": "토",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2025-11-01",
+          "graceEnd": "2025-11-02",
+          "status": "done",
+          "visitDate": "2025-11-01",
+          "holidayUnverified": true
+        },
+        {
+          "key": "d3",
+          "kind": "notice",
+          "nominal": "2025-11-03",
+          "due": "2025-11-03",
+          "dueDow": "월",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2025-11-03",
+          "graceEnd": "2025-11-04",
+          "status": "notice-missed",
+          "holidayUnverified": true
+        },
+        {
+          "key": "d7",
+          "kind": "photo",
+          "nominal": "2025-11-07",
+          "due": "2025-11-07",
+          "dueDow": "금",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2025-11-06",
+          "graceEnd": "2025-11-09",
+          "status": "done",
+          "visitDate": "2025-11-07",
+          "holidayUnverified": true
+        },
+        {
+          "key": "d14",
+          "kind": "notice",
+          "nominal": "2025-11-14",
+          "due": "2025-11-14",
+          "dueDow": "금",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2025-11-14",
+          "graceEnd": "2025-11-16",
+          "status": "notice-missed",
+          "holidayUnverified": true
+        },
+        {
+          "key": "w4",
+          "kind": "visit",
+          "nominal": "2025-11-28",
+          "due": "2025-11-28",
+          "dueDow": "금",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2025-11-25",
+          "graceEnd": "2025-12-05",
+          "status": "done",
+          "visitDate": "2025-11-28",
+          "holidayUnverified": true
+        },
+        {
+          "key": "m6",
+          "kind": "photo",
+          "nominal": "2026-04-30",
+          "due": "2026-04-30",
+          "dueDow": "목",
+          "shifted": [],
+          "monthEndClamped": true,
+          "windowStart": "2026-04-23",
+          "graceEnd": "2026-05-07",
+          "status": "done",
+          "visitDate": "2026-04-30",
+          "holidayUnverified": true
+        },
+        {
+          "key": "y1",
+          "kind": "photo",
+          "nominal": "2026-10-31",
+          "due": "2026-10-31",
+          "dueDow": "토",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-10-17",
+          "graceEnd": "2026-11-14",
+          "status": "upcoming",
+          "reminderDay": "2026-10-30"
+        }
+      ],
+      "todayReasons": [],
+      "overdue": null,
+      "medicalReview": []
+    },
+    {
+      "id": "P039",
+      "procedure": "injection",
+      "startDate": "2026-07-24",
+      "points": [
+        {
+          "key": "inj-2",
+          "kind": "visit",
+          "nominal": "2026-08-07",
+          "due": "2026-08-07",
+          "dueDow": "금",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-08-04",
+          "graceEnd": "2026-08-10",
+          "status": "done",
+          "visitDate": "2026-08-07",
+          "holidayUnverified": true
+        },
+        {
+          "key": "inj-3",
+          "kind": "visit",
+          "nominal": "2026-08-21",
+          "due": "2026-08-21",
+          "dueDow": "금",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-08-18",
+          "graceEnd": "2026-08-24",
+          "status": "done",
+          "visitDate": "2026-08-21",
+          "holidayUnverified": true
+        },
+        {
+          "key": "inj-4",
+          "kind": "visit",
+          "nominal": "2026-09-04",
+          "due": "2026-09-04",
+          "dueDow": "금",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-01",
+          "graceEnd": "2026-09-07",
+          "status": "done",
+          "visitDate": "2026-09-04"
+        },
+        {
+          "key": "inj-5",
+          "kind": "photo",
+          "nominal": "2026-09-18",
+          "due": "2026-09-18",
+          "dueDow": "금",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-15",
+          "graceEnd": "2026-09-21",
+          "status": "in-grace"
+        },
+        {
+          "key": "inj-6",
+          "kind": "visit",
+          "nominal": "2026-10-02",
+          "due": "2026-10-02",
+          "dueDow": "금",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-29",
+          "graceEnd": "2026-10-05",
+          "status": "upcoming",
+          "reminderDay": "2026-10-01"
+        },
+        {
+          "key": "inj-7",
+          "kind": "visit",
+          "nominal": "2026-10-16",
+          "due": "2026-10-17",
+          "dueDow": "토",
+          "shifted": [
+            {
+              "from": "2026-10-16",
+              "reason": "내부 교육"
+            }
+          ],
+          "monthEndClamped": false,
+          "windowStart": "2026-10-13",
+          "graceEnd": "2026-10-20",
+          "status": "upcoming",
+          "reminderDay": "2026-10-15"
+        },
+        {
+          "key": "inj-8",
+          "kind": "visit",
+          "nominal": "2026-10-30",
+          "due": "2026-10-30",
+          "dueDow": "금",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-10-27",
+          "graceEnd": "2026-11-02",
+          "status": "upcoming",
+          "reminderDay": "2026-10-29"
+        },
+        {
+          "key": "inj-9",
+          "kind": "visit",
+          "nominal": "2026-11-13",
+          "due": "2026-11-13",
+          "dueDow": "금",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-11-10",
+          "graceEnd": "2026-11-16",
+          "status": "upcoming",
+          "reminderDay": "2026-11-12"
+        },
+        {
+          "key": "inj-10",
+          "kind": "photo",
+          "nominal": "2026-11-27",
+          "due": "2026-11-27",
+          "dueDow": "금",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-11-24",
+          "graceEnd": "2026-11-30",
+          "status": "upcoming",
+          "reminderDay": "2026-11-26"
+        }
+      ],
+      "todayReasons": [
+        "injection-rebook"
+      ],
+      "overdue": null,
+      "medicalReview": [
+        {
+          "at": "2026-09-17T15:00:00+09:00",
+          "symptoms": [
+            "두드러기"
+          ],
+          "ambiguous": [
+            "올라왔"
+          ],
+          "context": [
+            "주사 맞"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "P040",
+      "procedure": "injection",
+      "startDate": "2026-08-22",
+      "points": [
+        {
+          "key": "inj-2",
+          "kind": "visit",
+          "nominal": "2026-09-05",
+          "due": "2026-09-05",
+          "dueDow": "토",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-02",
+          "graceEnd": "2026-09-08",
+          "status": "done",
+          "visitDate": "2026-09-05"
+        },
+        {
+          "key": "inj-3",
+          "kind": "visit",
+          "nominal": "2026-09-19",
+          "due": "2026-09-19",
+          "dueDow": "토",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-16",
+          "graceEnd": "2026-09-22",
+          "status": "in-grace"
+        },
+        {
+          "key": "inj-4",
+          "kind": "visit",
+          "nominal": "2026-10-03",
+          "due": "2026-10-06",
+          "dueDow": "화",
+          "shifted": [
+            {
+              "from": "2026-10-03",
+              "reason": "개천절"
+            },
+            {
+              "from": "2026-10-04",
+              "reason": "일요일"
+            },
+            {
+              "from": "2026-10-05",
+              "reason": "대체공휴일(개천절)"
+            }
+          ],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-30",
+          "graceEnd": "2026-10-09",
+          "status": "upcoming",
+          "reminderDay": "2026-10-02"
+        },
+        {
+          "key": "inj-5",
+          "kind": "photo",
+          "nominal": "2026-10-17",
+          "due": "2026-10-17",
+          "dueDow": "토",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-10-14",
+          "graceEnd": "2026-10-20",
+          "status": "upcoming",
+          "reminderDay": "2026-10-15"
+        },
+        {
+          "key": "inj-6",
+          "kind": "visit",
+          "nominal": "2026-10-31",
+          "due": "2026-10-31",
+          "dueDow": "토",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-10-28",
+          "graceEnd": "2026-11-03",
+          "status": "upcoming",
+          "reminderDay": "2026-10-30"
+        },
+        {
+          "key": "inj-7",
+          "kind": "visit",
+          "nominal": "2026-11-14",
+          "due": "2026-11-14",
+          "dueDow": "토",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-11-11",
+          "graceEnd": "2026-11-17",
+          "status": "upcoming",
+          "reminderDay": "2026-11-13"
+        },
+        {
+          "key": "inj-8",
+          "kind": "visit",
+          "nominal": "2026-11-28",
+          "due": "2026-11-28",
+          "dueDow": "토",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-11-25",
+          "graceEnd": "2026-12-01",
+          "status": "upcoming",
+          "reminderDay": "2026-11-27"
+        },
+        {
+          "key": "inj-9",
+          "kind": "visit",
+          "nominal": "2026-12-12",
+          "due": "2026-12-12",
+          "dueDow": "토",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-12-09",
+          "graceEnd": "2026-12-15",
+          "status": "upcoming",
+          "reminderDay": "2026-12-11"
+        },
+        {
+          "key": "inj-10",
+          "kind": "photo",
+          "nominal": "2026-12-26",
+          "due": "2026-12-26",
+          "dueDow": "토",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-12-23",
+          "graceEnd": "2026-12-29",
+          "status": "upcoming",
+          "reminderDay": "2026-12-24"
+        }
+      ],
+      "todayReasons": [
+        "injection-rebook"
+      ],
+      "overdue": null,
+      "medicalReview": []
+    },
+    {
+      "id": "P041",
+      "procedure": "injection",
+      "startDate": "2026-08-21",
+      "points": [
+        {
+          "key": "inj-2",
+          "kind": "visit",
+          "nominal": "2026-09-04",
+          "due": "2026-09-04",
+          "dueDow": "금",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-01",
+          "graceEnd": "2026-09-07",
+          "status": "done",
+          "visitDate": "2026-09-04"
+        },
+        {
+          "key": "inj-3",
+          "kind": "visit",
+          "nominal": "2026-09-18",
+          "due": "2026-09-18",
+          "dueDow": "금",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-15",
+          "graceEnd": "2026-09-21",
+          "status": "in-grace"
+        },
+        {
+          "key": "inj-4",
+          "kind": "visit",
+          "nominal": "2026-10-02",
+          "due": "2026-10-02",
+          "dueDow": "금",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-29",
+          "graceEnd": "2026-10-05",
+          "status": "upcoming",
+          "reminderDay": "2026-10-01"
+        },
+        {
+          "key": "inj-5",
+          "kind": "photo",
+          "nominal": "2026-10-16",
+          "due": "2026-10-17",
+          "dueDow": "토",
+          "shifted": [
+            {
+              "from": "2026-10-16",
+              "reason": "내부 교육"
+            }
+          ],
+          "monthEndClamped": false,
+          "windowStart": "2026-10-13",
+          "graceEnd": "2026-10-20",
+          "status": "upcoming",
+          "reminderDay": "2026-10-15"
+        },
+        {
+          "key": "inj-6",
+          "kind": "visit",
+          "nominal": "2026-10-30",
+          "due": "2026-10-30",
+          "dueDow": "금",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-10-27",
+          "graceEnd": "2026-11-02",
+          "status": "upcoming",
+          "reminderDay": "2026-10-29"
+        },
+        {
+          "key": "inj-7",
+          "kind": "visit",
+          "nominal": "2026-11-13",
+          "due": "2026-11-13",
+          "dueDow": "금",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-11-10",
+          "graceEnd": "2026-11-16",
+          "status": "upcoming",
+          "reminderDay": "2026-11-12"
+        },
+        {
+          "key": "inj-8",
+          "kind": "visit",
+          "nominal": "2026-11-27",
+          "due": "2026-11-27",
+          "dueDow": "금",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-11-24",
+          "graceEnd": "2026-11-30",
+          "status": "upcoming",
+          "reminderDay": "2026-11-26"
+        },
+        {
+          "key": "inj-9",
+          "kind": "visit",
+          "nominal": "2026-12-11",
+          "due": "2026-12-11",
+          "dueDow": "금",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-12-08",
+          "graceEnd": "2026-12-14",
+          "status": "upcoming",
+          "reminderDay": "2026-12-10"
+        },
+        {
+          "key": "inj-10",
+          "kind": "photo",
+          "nominal": "2026-12-25",
+          "due": "2026-12-26",
+          "dueDow": "토",
+          "shifted": [
+            {
+              "from": "2026-12-25",
+              "reason": "기독탄신일"
+            }
+          ],
+          "monthEndClamped": false,
+          "windowStart": "2026-12-22",
+          "graceEnd": "2026-12-29",
+          "status": "upcoming",
+          "reminderDay": "2026-12-24"
+        }
+      ],
+      "todayReasons": [],
+      "overdue": null,
+      "medicalReview": []
+    },
+    {
+      "id": "P042",
+      "procedure": "scalp-care",
+      "startDate": "2026-06-29",
+      "points": [
+        {
+          "key": "scalp-care",
+          "kind": "notice",
+          "nominal": "2026-09-21",
+          "due": "2026-09-21",
+          "dueDow": "월",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-21",
+          "graceEnd": "2026-09-24",
+          "status": "notice-active"
+        }
+      ],
+      "todayReasons": [
+        "care-notice"
+      ],
+      "overdue": null,
+      "medicalReview": []
+    },
+    {
+      "id": "P043",
+      "procedure": "scalp-care",
+      "startDate": "2026-07-25",
+      "points": [
+        {
+          "key": "scalp-care",
+          "kind": "notice",
+          "nominal": "2026-09-19",
+          "due": "2026-09-19",
+          "dueDow": "토",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-19",
+          "graceEnd": "2026-09-22",
+          "status": "notice-active"
+        }
+      ],
+      "todayReasons": [
+        "care-notice"
+      ],
+      "overdue": null,
+      "medicalReview": []
+    },
+    {
+      "id": "P044",
+      "procedure": "scalp-care",
+      "startDate": "2026-07-25",
+      "points": [
+        {
+          "key": "scalp-care",
+          "kind": "notice",
+          "nominal": "2026-09-19",
+          "due": "2026-09-19",
+          "dueDow": "토",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-19",
+          "graceEnd": "2026-09-22",
+          "status": "notice-sent"
+        }
+      ],
+      "todayReasons": [],
+      "overdue": null,
+      "medicalReview": []
+    },
+    {
+      "id": "P045",
+      "procedure": "injection",
+      "startDate": "2026-08-07",
+      "points": [
+        {
+          "key": "inj-2",
+          "kind": "visit",
+          "nominal": "2026-08-21",
+          "due": "2026-08-21",
+          "dueDow": "금",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-08-18",
+          "graceEnd": "2026-08-24",
+          "status": "done",
+          "visitDate": "2026-08-21",
+          "holidayUnverified": true
+        },
+        {
+          "key": "inj-3",
+          "kind": "visit",
+          "nominal": "2026-09-04",
+          "due": "2026-09-04",
+          "dueDow": "금",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-01",
+          "graceEnd": "2026-09-07",
+          "status": "overdue",
+          "overdueSince": "2026-09-08"
+        },
+        {
+          "key": "inj-4",
+          "kind": "visit",
+          "nominal": "2026-09-18",
+          "due": "2026-09-18",
+          "dueDow": "금",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-15",
+          "graceEnd": "2026-09-21",
+          "status": "in-grace"
+        },
+        {
+          "key": "inj-5",
+          "kind": "photo",
+          "nominal": "2026-10-02",
+          "due": "2026-10-02",
+          "dueDow": "금",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-29",
+          "graceEnd": "2026-10-05",
+          "status": "upcoming",
+          "reminderDay": "2026-10-01"
+        },
+        {
+          "key": "inj-6",
+          "kind": "visit",
+          "nominal": "2026-10-16",
+          "due": "2026-10-17",
+          "dueDow": "토",
+          "shifted": [
+            {
+              "from": "2026-10-16",
+              "reason": "내부 교육"
+            }
+          ],
+          "monthEndClamped": false,
+          "windowStart": "2026-10-13",
+          "graceEnd": "2026-10-20",
+          "status": "upcoming",
+          "reminderDay": "2026-10-15"
+        },
+        {
+          "key": "inj-7",
+          "kind": "visit",
+          "nominal": "2026-10-30",
+          "due": "2026-10-30",
+          "dueDow": "금",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-10-27",
+          "graceEnd": "2026-11-02",
+          "status": "upcoming",
+          "reminderDay": "2026-10-29"
+        },
+        {
+          "key": "inj-8",
+          "kind": "visit",
+          "nominal": "2026-11-13",
+          "due": "2026-11-13",
+          "dueDow": "금",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-11-10",
+          "graceEnd": "2026-11-16",
+          "status": "upcoming",
+          "reminderDay": "2026-11-12"
+        },
+        {
+          "key": "inj-9",
+          "kind": "visit",
+          "nominal": "2026-11-27",
+          "due": "2026-11-27",
+          "dueDow": "금",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-11-24",
+          "graceEnd": "2026-11-30",
+          "status": "upcoming",
+          "reminderDay": "2026-11-26"
+        },
+        {
+          "key": "inj-10",
+          "kind": "photo",
+          "nominal": "2026-12-11",
+          "due": "2026-12-11",
+          "dueDow": "금",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-12-08",
+          "graceEnd": "2026-12-14",
+          "status": "upcoming",
+          "reminderDay": "2026-12-10"
+        }
+      ],
+      "todayReasons": [
+        "overdue",
+        "injection-rebook"
+      ],
+      "overdue": {
+        "state": "listed",
+        "since": "2026-09-08",
+        "attempts": 0,
+        "lastContact": null,
+        "retryOn": null,
+        "points": [
+          "inj-3"
+        ],
+        "daysPastDue": 17,
+        "pastDueKey": "inj-3"
+      },
+      "medicalReview": []
+    },
+    {
+      "id": "P046",
+      "procedure": "injection",
+      "startDate": "2026-04-13",
+      "points": [
+        {
+          "key": "inj-2",
+          "kind": "visit",
+          "nominal": "2026-04-27",
+          "due": "2026-04-27",
+          "dueDow": "월",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-04-24",
+          "graceEnd": "2026-04-30",
+          "status": "done",
+          "visitDate": "2026-04-27",
+          "holidayUnverified": true
+        },
+        {
+          "key": "inj-3",
+          "kind": "visit",
+          "nominal": "2026-05-11",
+          "due": "2026-05-11",
+          "dueDow": "월",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-05-08",
+          "graceEnd": "2026-05-14",
+          "status": "done",
+          "visitDate": "2026-05-11",
+          "holidayUnverified": true
+        },
+        {
+          "key": "inj-4",
+          "kind": "visit",
+          "nominal": "2026-05-25",
+          "due": "2026-05-25",
+          "dueDow": "월",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-05-22",
+          "graceEnd": "2026-05-28",
+          "status": "done",
+          "visitDate": "2026-05-26",
+          "holidayUnverified": true
+        },
+        {
+          "key": "inj-5",
+          "kind": "photo",
+          "nominal": "2026-06-08",
+          "due": "2026-06-08",
+          "dueDow": "월",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-06-05",
+          "graceEnd": "2026-06-11",
+          "status": "done",
+          "visitDate": "2026-06-08",
+          "holidayUnverified": true
+        },
+        {
+          "key": "inj-6",
+          "kind": "visit",
+          "nominal": "2026-06-22",
+          "due": "2026-06-22",
+          "dueDow": "월",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-06-19",
+          "graceEnd": "2026-06-25",
+          "status": "done",
+          "visitDate": "2026-06-23",
+          "holidayUnverified": true
+        },
+        {
+          "key": "inj-7",
+          "kind": "visit",
+          "nominal": "2026-07-06",
+          "due": "2026-07-06",
+          "dueDow": "월",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-07-03",
+          "graceEnd": "2026-07-09",
+          "status": "done",
+          "visitDate": "2026-07-06",
+          "holidayUnverified": true
+        },
+        {
+          "key": "inj-8",
+          "kind": "visit",
+          "nominal": "2026-07-20",
+          "due": "2026-07-20",
+          "dueDow": "월",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-07-17",
+          "graceEnd": "2026-07-23",
+          "status": "done",
+          "visitDate": "2026-07-20",
+          "holidayUnverified": true
+        },
+        {
+          "key": "inj-9",
+          "kind": "visit",
+          "nominal": "2026-08-03",
+          "due": "2026-08-03",
+          "dueDow": "월",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-07-31",
+          "graceEnd": "2026-08-06",
+          "status": "done",
+          "visitDate": "2026-08-03",
+          "holidayUnverified": true
+        },
+        {
+          "key": "inj-10",
+          "kind": "photo",
+          "nominal": "2026-08-17",
+          "due": "2026-08-17",
+          "dueDow": "월",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-08-14",
+          "graceEnd": "2026-08-20",
+          "status": "done",
+          "visitDate": "2026-08-18",
+          "holidayUnverified": true
+        }
+      ],
+      "todayReasons": [],
+      "overdue": null,
+      "medicalReview": []
+    },
+    {
+      "id": "P060",
+      "procedure": "injection",
+      "startDate": "2026-06-12",
+      "points": [
+        {
+          "key": "inj-2",
+          "kind": "visit",
+          "nominal": "2026-06-26",
+          "due": "2026-06-26",
+          "dueDow": "금",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-06-23",
+          "graceEnd": "2026-06-29",
+          "status": "done",
+          "visitDate": "2026-06-26",
+          "holidayUnverified": true
+        },
+        {
+          "key": "inj-3",
+          "kind": "visit",
+          "nominal": "2026-07-10",
+          "due": "2026-07-10",
+          "dueDow": "금",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-07-07",
+          "graceEnd": "2026-07-13",
+          "status": "done",
+          "visitDate": "2026-07-10",
+          "holidayUnverified": true
+        },
+        {
+          "key": "inj-4",
+          "kind": "visit",
+          "nominal": "2026-07-24",
+          "due": "2026-07-24",
+          "dueDow": "금",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-07-21",
+          "graceEnd": "2026-07-27",
+          "status": "done",
+          "visitDate": "2026-07-24",
+          "holidayUnverified": true
+        },
+        {
+          "key": "inj-5",
+          "kind": "photo",
+          "nominal": "2026-08-07",
+          "due": "2026-08-07",
+          "dueDow": "금",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-08-04",
+          "graceEnd": "2026-08-10",
+          "status": "done-early",
+          "visitDate": "2026-08-06",
+          "holidayUnverified": true
+        },
+        {
+          "key": "inj-6",
+          "kind": "visit",
+          "nominal": "2026-08-21",
+          "due": "2026-08-21",
+          "dueDow": "금",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-08-18",
+          "graceEnd": "2026-08-24",
+          "status": "done-early",
+          "visitDate": "2026-08-20",
+          "holidayUnverified": true
+        },
+        {
+          "key": "inj-7",
+          "kind": "visit",
+          "nominal": "2026-09-04",
+          "due": "2026-09-04",
+          "dueDow": "금",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-01",
+          "graceEnd": "2026-09-07",
+          "status": "done",
+          "visitDate": "2026-09-04"
+        },
+        {
+          "key": "inj-8",
+          "kind": "visit",
+          "nominal": "2026-09-18",
+          "due": "2026-09-18",
+          "dueDow": "금",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-15",
+          "graceEnd": "2026-09-21",
+          "status": "done",
+          "visitDate": "2026-09-18"
+        },
+        {
+          "key": "inj-9",
+          "kind": "visit",
+          "nominal": "2026-10-02",
+          "due": "2026-10-02",
+          "dueDow": "금",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-29",
+          "graceEnd": "2026-10-05",
+          "status": "upcoming",
+          "reminderDay": "2026-10-01"
+        },
+        {
+          "key": "inj-10",
+          "kind": "photo",
+          "nominal": "2026-10-16",
+          "due": "2026-10-17",
+          "dueDow": "토",
+          "shifted": [
+            {
+              "from": "2026-10-16",
+              "reason": "내부 교육"
+            }
+          ],
+          "monthEndClamped": false,
+          "windowStart": "2026-10-13",
+          "graceEnd": "2026-10-20",
+          "status": "upcoming",
+          "reminderDay": "2026-10-15"
+        }
+      ],
+      "todayReasons": [],
+      "overdue": null,
+      "medicalReview": []
+    },
+    {
+      "id": "P080",
+      "procedure": "hair-transplant",
+      "startDate": "2026-08-19",
+      "points": [
+        {
+          "key": "d1",
+          "kind": "visit",
+          "nominal": "2026-08-20",
+          "due": "2026-08-20",
+          "dueDow": "목",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-08-20",
+          "graceEnd": "2026-08-21",
+          "status": "done",
+          "visitDate": "2026-08-20",
+          "holidayUnverified": true
+        },
+        {
+          "key": "d3",
+          "kind": "notice",
+          "nominal": "2026-08-22",
+          "due": "2026-08-22",
+          "dueDow": "토",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-08-22",
+          "graceEnd": "2026-08-23",
+          "status": "notice-missed",
+          "holidayUnverified": true
+        },
+        {
+          "key": "d7",
+          "kind": "photo",
+          "nominal": "2026-08-26",
+          "due": "2026-08-26",
+          "dueDow": "수",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-08-25",
+          "graceEnd": "2026-08-28",
+          "status": "done",
+          "visitDate": "2026-08-26",
+          "holidayUnverified": true
+        },
+        {
+          "key": "d14",
+          "kind": "notice",
+          "nominal": "2026-09-02",
+          "due": "2026-09-02",
+          "dueDow": "수",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-02",
+          "graceEnd": "2026-09-04",
+          "status": "notice-missed"
+        },
+        {
+          "key": "w4",
+          "kind": "visit",
+          "nominal": "2026-09-16",
+          "due": "2026-09-16",
+          "dueDow": "수",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-13",
+          "graceEnd": "2026-09-23",
+          "status": "done",
+          "visitDate": "2026-09-18"
+        },
+        {
+          "key": "m6",
+          "kind": "photo",
+          "nominal": "2027-02-19",
+          "due": "2027-02-19",
+          "dueDow": "금",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2027-02-12",
+          "graceEnd": "2027-02-26",
+          "status": "upcoming",
+          "reminderDay": "2027-02-18"
+        },
+        {
+          "key": "y1",
+          "kind": "photo",
+          "nominal": "2027-08-19",
+          "due": "2027-08-19",
+          "dueDow": "목",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2027-08-05",
+          "graceEnd": "2027-09-02",
+          "status": "upcoming",
+          "reminderDay": "2027-08-18"
+        }
+      ],
+      "todayReasons": [],
+      "overdue": null,
+      "medicalReview": []
+    },
+    {
+      "id": "P100",
+      "procedure": "scalp-care",
+      "startDate": "2026-06-20",
+      "points": [
+        {
+          "key": "scalp-care",
+          "kind": "notice",
+          "nominal": "2026-10-01",
+          "due": "2026-10-01",
+          "dueDow": "목",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-10-01",
+          "graceEnd": "2026-10-04",
+          "status": "notice-upcoming"
+        }
+      ],
+      "todayReasons": [],
+      "overdue": null,
+      "medicalReview": []
+    },
+    {
+      "id": "P120",
+      "procedure": "scalp-care",
+      "startDate": "2026-01-26",
+      "points": [
+        {
+          "key": "scalp-care",
+          "kind": "notice",
+          "nominal": "2026-10-15",
+          "due": "2026-10-15",
+          "dueDow": "목",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-10-15",
+          "graceEnd": "2026-10-18",
+          "status": "notice-upcoming"
+        }
+      ],
+      "todayReasons": [],
+      "overdue": null,
+      "medicalReview": []
+    }
+  ],
+  "hypotheticals": [
+    {
+      "id": "H1",
+      "procedure": "hair-transplant",
+      "startDate": "2026-01-31",
+      "note": "1월 31일 기준. 2026-01-31은 토요일(수술 없는 요일)이라 환자 데이터에는 넣지 않고 계산 사례로만 둔다.",
+      "points": [
+        {
+          "key": "d1",
+          "nominal": "2026-02-01",
+          "due": "2026-02-02",
+          "dueDow": "월",
+          "shifted": [
+            {
+              "from": "2026-02-01",
+              "reason": "일요일"
+            }
+          ],
+          "monthEndClamped": false,
+          "holidayUnverified": true
+        },
+        {
+          "key": "d3",
+          "nominal": "2026-02-03",
+          "due": "2026-02-03",
+          "dueDow": "화",
+          "shifted": [],
+          "monthEndClamped": false,
+          "holidayUnverified": true
+        },
+        {
+          "key": "d7",
+          "nominal": "2026-02-07",
+          "due": "2026-02-07",
+          "dueDow": "토",
+          "shifted": [],
+          "monthEndClamped": false,
+          "holidayUnverified": true
+        },
+        {
+          "key": "d14",
+          "nominal": "2026-02-14",
+          "due": "2026-02-14",
+          "dueDow": "토",
+          "shifted": [],
+          "monthEndClamped": false,
+          "holidayUnverified": true
+        },
+        {
+          "key": "w4",
+          "nominal": "2026-02-28",
+          "due": "2026-02-28",
+          "dueDow": "토",
+          "shifted": [],
+          "monthEndClamped": false,
+          "holidayUnverified": true
+        },
+        {
+          "key": "m6",
+          "nominal": "2026-07-31",
+          "due": "2026-07-31",
+          "dueDow": "금",
+          "shifted": [],
+          "monthEndClamped": false,
+          "holidayUnverified": true
+        },
+        {
+          "key": "y1",
+          "nominal": "2027-01-31",
+          "due": "2027-02-01",
+          "dueDow": "월",
+          "shifted": [
+            {
+              "from": "2027-01-31",
+              "reason": "일요일"
+            }
+          ],
+          "monthEndClamped": false
+        }
+      ]
+    },
+    {
+      "id": "H2",
+      "procedure": "hair-transplant",
+      "startDate": "2027-04-09",
+      "note": "직접 해 보기 입력 예: 6개월이 2027-10-09(한글날, 토) → 10/10(일) → 10/11(대체공휴일) → 10/12로 세 번 미뤄짐. 1년은 2028년이라 공휴일 미확인.",
+      "points": [
+        {
+          "key": "d1",
+          "nominal": "2027-04-10",
+          "due": "2027-04-10",
+          "dueDow": "토",
+          "shifted": [],
+          "monthEndClamped": false
+        },
+        {
+          "key": "d3",
+          "nominal": "2027-04-12",
+          "due": "2027-04-12",
+          "dueDow": "월",
+          "shifted": [],
+          "monthEndClamped": false
+        },
+        {
+          "key": "d7",
+          "nominal": "2027-04-16",
+          "due": "2027-04-16",
+          "dueDow": "금",
+          "shifted": [],
+          "monthEndClamped": false
+        },
+        {
+          "key": "d14",
+          "nominal": "2027-04-23",
+          "due": "2027-04-23",
+          "dueDow": "금",
+          "shifted": [],
+          "monthEndClamped": false
+        },
+        {
+          "key": "w4",
+          "nominal": "2027-05-07",
+          "due": "2027-05-07",
+          "dueDow": "금",
+          "shifted": [],
+          "monthEndClamped": false
+        },
+        {
+          "key": "m6",
+          "nominal": "2027-10-09",
+          "due": "2027-10-12",
+          "dueDow": "화",
+          "shifted": [
+            {
+              "from": "2027-10-09",
+              "reason": "한글날"
+            },
+            {
+              "from": "2027-10-10",
+              "reason": "일요일"
+            },
+            {
+              "from": "2027-10-11",
+              "reason": "대체공휴일(한글날)"
+            }
+          ],
+          "monthEndClamped": false
+        },
+        {
+          "key": "y1",
+          "nominal": "2028-04-09",
+          "due": "2028-04-10",
+          "dueDow": "월",
+          "shifted": [
+            {
+              "from": "2028-04-09",
+              "reason": "일요일"
+            }
+          ],
+          "monthEndClamped": false,
+          "holidayUnverified": true
+        }
+      ]
+    },
+    {
+      "id": "H3",
+      "procedure": "hair-transplant",
+      "startDate": "2027-08-31",
+      "note": "윤년 월말: 6개월 = 2028-02-29(clamp). 2028년은 공휴일 미확인이라 일요일·추가 휴진만 반영.",
+      "points": [
+        {
+          "key": "d1",
+          "nominal": "2027-09-01",
+          "due": "2027-09-01",
+          "dueDow": "수",
+          "shifted": [],
+          "monthEndClamped": false
+        },
+        {
+          "key": "d3",
+          "nominal": "2027-09-03",
+          "due": "2027-09-03",
+          "dueDow": "금",
+          "shifted": [],
+          "monthEndClamped": false
+        },
+        {
+          "key": "d7",
+          "nominal": "2027-09-07",
+          "due": "2027-09-07",
+          "dueDow": "화",
+          "shifted": [],
+          "monthEndClamped": false
+        },
+        {
+          "key": "d14",
+          "nominal": "2027-09-14",
+          "due": "2027-09-17",
+          "dueDow": "금",
+          "shifted": [
+            {
+              "from": "2027-09-14",
+              "reason": "추석 연휴"
+            },
+            {
+              "from": "2027-09-15",
+              "reason": "추석"
+            },
+            {
+              "from": "2027-09-16",
+              "reason": "추석 연휴"
+            }
+          ],
+          "monthEndClamped": false
+        },
+        {
+          "key": "w4",
+          "nominal": "2027-09-28",
+          "due": "2027-09-28",
+          "dueDow": "화",
+          "shifted": [],
+          "monthEndClamped": false
+        },
+        {
+          "key": "m6",
+          "nominal": "2028-02-29",
+          "due": "2028-02-29",
+          "dueDow": "화",
+          "shifted": [],
+          "monthEndClamped": true,
+          "holidayUnverified": true
+        },
+        {
+          "key": "y1",
+          "nominal": "2028-08-31",
+          "due": "2028-08-31",
+          "dueDow": "목",
+          "shifted": [],
+          "monthEndClamped": false,
+          "holidayUnverified": true
+        }
+      ]
+    }
+  ]
+}
