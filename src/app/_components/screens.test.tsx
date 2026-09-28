@@ -28,29 +28,30 @@ describe("첫 화면(오늘 목록)", () => {
   const t = text(html);
 
   it("묶음은 PRD 3절 순서, 맨 위는 빨간 '예정일 지남', 개수를 글자로", () => {
-    const order = ["h-overdue", "h-upcoming-visit", "h-care-notice", "h-injection-rebook", "h-photo-round", "h-clinician", "h-director", "h-waiting"].map((id) => html.indexOf(`id="${id}"`));
+    const order = ["h-overdue", "h-upcoming-visit", "h-care-notice", "h-injection-rebook", "h-photo-round", "h-clinician", "h-nurse", "h-waiting", "h-optout"].map((id) => html.indexOf(`id="${id}"`));
     expect(order.every((i) => i > 0)).toBe(true);
     expect([...order].sort((a, b) => a - b)).toEqual(order);
     expect(html).toMatch(/id="h-overdue"><span class="badge red">예정일 지남<\/span><span class="count">13명<\/span>/);
-    expect(t).toContain("9/21(월) 오늘 연락할 환자 25명");
+    expect(t).toContain("9/21(월) 오늘 연락할 환자 27명");
   });
 
-  it("30초 시연 0~6초: 오래 밀린 순(P006·P017 18일) 다음에 P001 6개월 경과 진료 12일 지남, 연락 2회 부재", () => {
+  it("30초 시연 0~6초: 오래 밀린 순(P006 18일, P004·P008 14일) 다음에 P001 6개월 경과 진료 12일 지남, 연락 2회 부재", () => {
     const i = (id: string) => at(html, id);
     expect(i("P006")).toBeGreaterThan(0);
-    expect(i("P006")).toBeLessThan(i("P017"));
-    expect(i("P017")).toBeLessThan(i("P001"));
+    expect(i("P006")).toBeLessThan(i("P004"));
+    expect(i("P004")).toBeLessThan(i("P008"));
+    expect(i("P008")).toBeLessThan(i("P001"));
     expect(t).toContain("6개월 경과 진료·경과 사진 · 예정일 9/9(수) · 12일 지남");
     expect(t).toContain("연락 2회 · 마지막 9/18(금) 부재");
     expect(html).toMatch(/class="rowlink t-red" href="\/patient\/P001\/?"/);
   });
 
-  it("줄 순서는 뷰 모델(todayFor) 순서 그대로: 묶음 → 의료진 확인 → 원장 확인 → 재연락 대기", () => {
+  it("줄 순서는 뷰 모델(todayFor) 순서 그대로: 묶음 → 의료진 확인 → 간호팀 확인 → 재연락 대기 → 수신 거부", () => {
     const { engine, patients } = mustDemo();
     const v = todayFor(patients, engine, EMPTY_LOG, DEMO_NOW_MS);
     // 줄 링크(rowlink)만 순서대로. '다른 묶음 줄에 함께' 링크(inline-hit)는 빼고 본다.
     const rendered = [...html.matchAll(/class="rowlink[^"]*" href="\/patient\/(P\d+)\/?"/g)].map((m) => m[1]);
-    const expected = [...v.groups.flatMap((g) => g.rows.map((r) => r.patientId)), ...v.clinician.map((c) => c.patientId), ...v.escalations.map((e) => e.patientId), ...v.waiting.map((w) => w.patientId)];
+    const expected = [...v.groups.flatMap((g) => g.rows.map((r) => r.patientId)), ...v.clinician.map((c) => c.patientId), ...v.nurse.map((n) => n.patientId), ...v.waiting.map((w) => w.patientId), ...v.optedOut.map((o) => o.patientId)];
     expect(rendered).toEqual(expected);
   });
 
@@ -63,24 +64,39 @@ describe("첫 화면(오늘 목록)", () => {
       const head = html.slice(html.indexOf(`id="h-${g.reason}"`), html.indexOf("</h2>", html.indexOf(`id="h-${g.reason}"`)));
       expect(text(head), g.label).toContain(`${g.count}명`);
     }
-    expect(t).toContain("원장 확인2명");
+    expect(t).toContain("간호팀 확인6명");
+    expect(t).toContain("수신 거부1명");
     expect(t).toContain("사진 회차3명");
     expect(t).toContain("그중 3명은 다른 묶음 줄에 함께");
   });
 
-  it("여러 이유가 있는 줄은 사유 줄을 모두 그린다(P045 지남 + 재예약, P013 지남 + 내일 내원)", () => {
-    expect(t).toContain("두피 주사 3회차 · 예정일 9/4(금) · 17일 지남");
-    expect(t).toContain("두피 주사 4회차 · 9/18(금) 예정이었음 · 9/21(월)까지 날짜 옮기기");
+  it("여러 이유가 있는 줄은 사유 줄을 모두 그린다(P014 지남 + 관리 안내, P013 지남 + 내일 내원)", () => {
+    const p14 = html.slice(at(html, "P014"), html.indexOf("</a>", at(html, "P014")));
+    expect(text(p14)).toContain("D+7 내원·경과 사진 · 예정일 9/14(월) · 7일 지남");
+    expect(text(p14)).toContain("D+14 무렵 안내 · 9/21(월) 안내");
     const p13 = html.slice(at(html, "P013"), html.indexOf("</a>", at(html, "P013")));
     expect((text(p13).match(/두피 주사 \d회차/g) ?? []).length).toBe(2);
   });
 
-  it("원장 확인·의료진 확인·재연락 대기 묶음이 있고, 원장 확인·대기 환자는 코디네이터 묶음에 없다", () => {
+  it("간호팀 확인·의료진 확인·재연락 대기·수신 거부 묶음이 있고, 간호팀 확인·대기·수신 거부 환자는 코디네이터 묶음에 없다", () => {
     const coordinator = html.slice(0, html.indexOf('id="g-clinician"'));
-    for (const id of ["P003", "P009", "P002"]) expect(coordinator).not.toMatch(href(id));
+    for (const id of ["P003", "P009", "P017", "P045", "P002", "P121"]) expect(coordinator).not.toMatch(href(id));
     const rest = html.slice(html.indexOf('id="g-clinician"'));
-    for (const id of ["P012", "P039", "P003", "P009", "P002"]) expect(rest).toMatch(href(id));
+    for (const id of ["P012", "P039", "P003", "P009", "P017", "P045", "P033", "P002", "P121"]) expect(rest).toMatch(href(id));
     expect(t).toContain("9/22(화)부터 다시 연락");
+  });
+
+  it("14일 넘게 빠진 주사 회차는 재예약 문구 대신 '의료진 진료 뒤 재시작 — 간호팀 확인', 날짜 미정은 허용 범위와 함께", () => {
+    const nurse = text(html.slice(html.indexOf('id="g-nurse"'), html.indexOf('id="g-waiting"')));
+    expect(nurse).toContain("두피 주사 2회차 · 예정일 9/3(목)에서 18일 빠짐 → 의료진 진료 뒤 재시작 — 간호팀 확인");
+    expect(nurse).toContain("D+7 내원·경과 사진 · 원래 9/25(금) · 허용 범위 9/24(목)~9/27(일), 수술 후 관리 문서 안에 진료일 없음 → 간호팀 확인");
+    expect(nurse).not.toContain("날짜 옮기기");
+  });
+
+  it("수신 거부 묶음: 무엇이 걸려 있었는지와 함께(P121)", () => {
+    const opt = text(html.slice(html.indexOf('id="g-optout"')));
+    expect(opt).toContain("9/17(목) 11:40부터 수신 거부");
+    expect(opt).toContain("수신 거부가 아니었다면: 예정일 지남");
   });
 
   it("적신호 '걸린 말'은 메모에 있는 말만(P012: '붓고 열감'에서 '고열'이 나오지 않는다)", () => {
@@ -90,18 +106,33 @@ describe("첫 화면(오늘 목록)", () => {
 });
 
 describe("환자 상세", () => {
-  it("P001: 이번 연락 문구(날짜 칸 9/9), 지금 보내기, 연락 결과 버튼 넷, 타임라인 미방문", () => {
-    const t = text(renderToStaticMarkup(<PatientScreen id="P001" />));
+  it("P001: 이번 연락 문구(날짜 칸 9/9), 지금 보내기, 연락 결과 버튼(넷 + 연락 원치 않음 + 예약 잡음), 타임라인 미방문", () => {
+    const html = renderToStaticMarkup(<PatientScreen id="P001" />);
+    const t = text(html);
     expect(t).toContain("여름 달");
     expect(t).toContain("9/9(수)로 안내드린 내원 일정이 지나 연락드립니다");
     expect(t).toContain("지금 보내기 · 연락 가능 시간대 안");
-    for (const b of ["통화함", "부재", "문자 보냄", "다음에"]) expect(t).toContain(b);
+    for (const b of ["통화함", "부재", "문자 보냄", "다음에", "연락 원치 않음"]) expect(html).toContain(`>${b}</button>`);
+    expect(html).toContain('type="submit">예약 잡음</button>');
+    expect(html).not.toContain(">수신 거부 풀기</button>");
     expect(t).toContain("미방문 · 예정일 12일 지남");
     expect(t).toContain("미방문 시도로 셈");
   });
 
-  it("P027: 밀린 시점은 원래 날짜와 사유", () => {
-    expect(text(renderToStaticMarkup(<PatientScreen id="P027" />))).toContain("원래 9/20(일)에서 미룸 — 9/20 일요일 휴진");
+  it("P027: 옮긴 시점은 원래 날짜와 사유(미룸·허용 범위 안 앞당김)", () => {
+    const t = text(renderToStaticMarkup(<PatientScreen id="P027" />));
+    expect(t).toContain("원래 9/20(일)에서 미룸 — 9/20 일요일 휴진");
+    expect(t).toContain("원래 9/24(목)에서 앞당김 — ");
+    expect(t).toContain("허용 범위 9/23(수)~9/26(토), 수술 후 관리 문서 안에 뒤 진료일이 없음");
+    expect(t).not.toMatch(/\bV0[78]\b/); // 근거 문서는 번호가 아니라 이름으로
+  });
+
+  it("P121: 수신 거부 줄과 '수신 거부 풀기' 버튼(되돌리기), 문구 없음", () => {
+    const html = renderToStaticMarkup(<PatientScreen id="P121" />);
+    expect(text(html)).toContain("연락 원치 않음 — 모든 연락 목록에서 빠져 있습니다(9/17(목)부터).");
+    expect(html).toContain(">수신 거부 풀기</button>");
+    expect(html).not.toContain(">연락 원치 않음</button>");
+    expect(html).not.toMatch(/<p class="msg">/);
   });
 
   it("P018: 사진 회차엔 같은각도 안내", () => {
@@ -134,10 +165,19 @@ describe("환자 상세", () => {
     expect(text(html)).not.toMatch(/\bV1[125]\b|\(V15\)/);
   });
 
-  it("P003: 원장 확인 배지와 설명", () => {
+  it("P003: 간호팀 확인 배지와 설명(최대 시도)", () => {
     const t = text(renderToStaticMarkup(<PatientScreen id="P003" />));
-    expect(t).toContain("원장 확인");
-    expect(t).toContain("최대 시도까지 연락해도 닿지 않아 코디네이터 목록에서 빠지고 원장 확인 목록에 있습니다.");
+    expect(t).toContain("간호팀 확인 · 최대 시도까지 닿지 않음");
+    expect(t).toContain("간호팀 확인 · 코디네이터 목록에서 빠지고 간호팀 확인 목록에 있습니다(최대 시도까지 닿지 않음).");
+    expect(t).not.toContain("원장");
+  });
+
+  it("P017: 14일 넘게 빠진 주사 회차 — 재예약 문구 없이 재시작 안내, 예약 칸도 없음", () => {
+    const html = renderToStaticMarkup(<PatientScreen id="P017" />);
+    const t = text(html);
+    expect(t).toContain("재예약 문구를 만들지 않습니다: 의료진 진료 뒤 재시작 — 간호팀 확인");
+    expect(html).not.toMatch(/<p class="msg">/);
+    expect(html).not.toContain('aria-label="예약 잡음"');
   });
 
   it("P001 타임라인은 날짜 오름차순, 연락 기록은 최근 것이 위", () => {
@@ -163,6 +203,10 @@ describe("평가 화면", () => {
     expect(t.match(/기준 충족/g)).toHaveLength(2);
     expect(renderToStaticMarkup(<EvalScreen />).match(/class="pass">생존 0</g)).toHaveLength(2); // 코어 변이, 화면 연결 변이
     expect(t).not.toContain("기준 미달");
+    // v0.2.1 규칙 변이는 동작이 같은 변이 하나가 남아 '생존 1'로 그대로 보인다(숨기지 않는다).
+    expect(t).toContain("v0.2.1 규칙에 심은 변이");
+    expect(renderToStaticMarkup(<EvalScreen />)).toContain('<span class="fail">생존 1</span>');
+    expect(t).toContain("F6 완료된 뒤 회차도 on-hold");
   });
 });
 
@@ -208,24 +252,27 @@ describe("위 띠와 머리(Chrome)", () => {
 describe("직접 해 보기(PRD 3절 13~21초)", () => {
   const html = renderToStaticMarkup(<TryScreen />);
   const t = text(html);
-  it("첫 예시 9/17 수술: 미룬 시점 2개(D+3 일요일, D+7 추석), 사유 글자와 원래·잡힌 날짜", () => {
-    expect(html.match(/다음 진료일로 미룸/g)).toHaveLength(2);
-    expect(t).toContain("미룬 시점 2개");
+  it("첫 예시 9/17 수술: D+3(9/20 일)은 다음 진료일로 미룸, D+7(9/24 추석)은 허용 범위(D+6~D+9) 안 9/23으로 앞당김", () => {
+    expect(html.match(/>다음 진료일로 미룸</g)).toHaveLength(1);
+    expect(html.match(/>허용 범위 안 이전 진료일로 앞당김</g)).toHaveLength(1);
+    expect(t).toContain("미룬 시점 1개 · 앞당긴 시점 1개");
     expect(t).toContain("9/20 일요일 휴진");
-    expect(t).toContain("9/24 공휴일(추석 연휴), 9/25 공휴일(추석), 9/26 공휴일(추석 연휴), 9/27 일요일 휴진");
+    expect(t).toContain("살펴본 휴진일: 9/24 공휴일(추석 연휴), 9/25 공휴일(추석), 9/26 공휴일(추석 연휴)");
+    expect(t).toContain("허용 범위: 9/23(수)~9/26(토), 수술 후 관리 문서");
     const d7 = html.slice(html.indexOf("D+7 내원·경과 사진"), html.indexOf("</tr>", html.indexOf("D+7 내원·경과 사진")));
     const dates = [...d7.matchAll(/data-label="([^"]+)">(?:<strong>)?([^<]+)/g)].map((m) => [m[1], m[2]]);
     expect(dates).toEqual([
       ["원래 날짜", "9/24(목)"],
-      ["잡힌 날짜", "9/28(월)"],
+      ["잡힌 날짜", "9/23(수)"],
     ]);
   });
 });
 
 describe("규칙 바꿔 보기(PRD 3절 21~27초)", () => {
   const t = text(renderToStaticMarkup(<RulesScreen />));
-  it("처음에는 지금 규칙 그대로: 25명 → 25명 (±0), 원래 값으로 버튼, 창은 오늘부터 30일", () => {
-    expect(t).toContain("25명 → 25명 (±0)");
+  it("처음에는 지금 규칙 그대로: 27명 → 27명 (±0), 간호팀 확인 6명, 원래 값으로 버튼, 창은 오늘부터 30일", () => {
+    expect(t).toContain("27명 → 27명 (±0)");
+    expect(t).toContain("간호팀 확인 6명 → 6명");
     expect(t).toContain("원래 값으로");
     expect(t).toContain("오늘부터 30일 연락 수");
     expect(t).toContain("9/21(월)");

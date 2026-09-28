@@ -8,10 +8,10 @@
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { formatShort, kstInstant } from "@/core/calendar";
-import { CONTACT_RESULT_LABEL, CONTACT_RESULTS, type ContactResult } from "@/core/patient";
+import { ATTEMPT_RESULTS, CONTACT_RESULT_LABEL, type Booking, type ContactResult } from "@/core/patient";
 import { DEMO_NOW_MS, DEMO_TODAY, formatKstTime } from "@/demo/clock";
 import { demo, mustDemo } from "@/demo/data";
-import { patientFor } from "@/demo/screen";
+import { checkBookingInput, patientFor } from "@/demo/screen";
 import type { MessageView } from "@/demo/view";
 import { useContactLog } from "../_lib/useContactLog";
 import { Badges } from "./Badge";
@@ -86,15 +86,24 @@ function PatientLive({ id, initialComposeAt }: { id: string; initialComposeAt: C
   const { base, log, record, undo, reset } = useContactLog();
   const [composeAt, setComposeAt] = useState<ComposeTime>(initialComposeAt);
   const [notice, setNotice] = useState<{ tone: "warn" | "info"; text: string } | null>(null);
+  const [bookKey, setBookKey] = useState<string | null>(null);
+  const [bookDate, setBookDate] = useState("");
   const composeMs = kstInstant(DEMO_TODAY, composeAt);
   const v = useMemo(() => patientFor(id, base, engine, log, DEMO_NOW_MS, composeMs), [id, base, engine, log, composeMs]);
   if (!v) return null;
+  // 고른 시점이 목록에서 사라졌으면(예약·방문으로 상태가 바뀜) 첫 항목으로 돌아간다.
+  const bookPoint = v.bookable.find((b) => b.key === bookKey) ?? v.bookable[0];
 
-  const onResult = (r: ContactResult) => {
-    const res = record(id, r);
+  const onResult = (r: ContactResult, booking?: Booking) => {
+    const res = record(id, r, booking);
     if (res.error) setNotice({ tone: "warn", text: res.error });
     else if (res.replaced) setNotice({ tone: "info", text: `이미 적은 결과를 바꿨습니다: ${CONTACT_RESULT_LABEL[r]}. 같은 시각의 연락은 한 번으로 셉니다.` });
     else setNotice(null);
+  };
+  const onBook = () => {
+    const c = checkBookingInput(bookDate, bookPoint, engine, DEMO_TODAY);
+    if (!c.ok) setNotice({ tone: "warn", text: c.error });
+    else onResult("booked", { pointKey: bookPoint!.key, date: c.date });
   };
 
   return (
@@ -111,7 +120,19 @@ function PatientLive({ id, initialComposeAt }: { id: string; initialComposeAt: C
         <p>{v.subtitle}</p>
         {v.badges.length > 0 ? <Badges items={v.badges} /> : <span className="badge gray">오늘 연락할 이유 없음</span>}
         {v.overdueLine && <p className="small muted">{v.overdueLine}</p>}
-        {v.badges.some((b) => b.label === "원장 확인") && <p className="small">최대 시도까지 연락해도 닿지 않아 코디네이터 목록에서 빠지고 원장 확인 목록에 있습니다.</p>}
+        {v.optOutLine && <p className="small">{v.optOutLine}</p>}
+        {v.nurse.lines.length > 0 && (
+          <div className="note warn" role="note">
+            <p>
+              <strong>간호팀 확인</strong> · 코디네이터 목록에서 빠지고 간호팀 확인 목록에 있습니다({v.nurse.causes.join(", ")}).
+            </p>
+            <ul>
+              {v.nurse.lines.map((l, i) => (
+                <li key={i}>{l}</li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
 
       {v.symptoms.length > 0 && (
@@ -155,12 +176,47 @@ function PatientLive({ id, initialComposeAt }: { id: string; initialComposeAt: C
         <h3 style={{ marginTop: 12 }}>연락 결과 적기</h3>
         {v.localCount > 0 && <p className="small muted">이 환자에게 이미 {formatKstTime(DEMO_NOW_MS)} 연락을 적었습니다. 다시 누르면 결과를 바꿉니다(쌓이지 않음).</p>}
         <div className="actions" role="group" aria-label="연락 결과">
-          {CONTACT_RESULTS.map((r) => (
+          {ATTEMPT_RESULTS.filter((r) => r !== "booked").map((r) => (
             <button key={r} type="button" onClick={() => onResult(r)}>
               {CONTACT_RESULT_LABEL[r]}
             </button>
           ))}
+          {v.optOutLine ? (
+            <button type="button" onClick={() => onResult("opt-in")}>
+              {CONTACT_RESULT_LABEL["opt-in"]}
+            </button>
+          ) : (
+            <button type="button" onClick={() => onResult("opt-out")}>
+              {CONTACT_RESULT_LABEL["opt-out"]}
+            </button>
+          )}
         </div>
+        {v.bookable.length > 0 && (
+          <form
+            className="form-row booking"
+            aria-label="예약 잡음"
+            onSubmit={(e) => {
+              e.preventDefault();
+              onBook();
+            }}
+          >
+            <label>
+              예약할 시점
+              <select value={bookPoint?.key ?? ""} onChange={(e) => setBookKey(e.target.value)}>
+                {v.bookable.map((b) => (
+                  <option key={b.key} value={b.key}>
+                    {b.label} · {b.state}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label>
+              예약 날짜
+              <input type="date" value={bookDate} min={DEMO_TODAY} onChange={(e) => setBookDate(e.target.value)} required />
+            </label>
+            <button type="submit">{CONTACT_RESULT_LABEL.booked}</button>
+          </form>
+        )}
         {notice && (
           <p className={notice.tone === "warn" ? "note warn" : "note"} role={notice.tone === "warn" ? "alert" : "status"}>
             {notice.text}

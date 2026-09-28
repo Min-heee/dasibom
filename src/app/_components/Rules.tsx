@@ -14,7 +14,7 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 import { checkDay, formatShort, type LocalDate } from "@/core/calendar";
 import { simulate } from "@/core/simulate";
-import { REASON_LABEL, type Reason } from "@/core/today";
+import { NURSE_CAUSE_LABEL, REASON_LABEL, type NurseItem, type Reason } from "@/core/today";
 import { DEMO_NOW_MS } from "@/demo/clock";
 import { demo, mustDemo } from "@/demo/data";
 import { forecastBars, parseSimValue, SIM_OPTIONS, simOption } from "@/demo/sim";
@@ -30,6 +30,7 @@ export function RulesScreen() {
 
 const signed = (n: number) => (n > 0 ? `+${n}` : n < 0 ? `−${-n}` : "±0");
 const reasons = (rs: Reason[]) => rs.map((r) => REASON_LABEL[r]).join(", ");
+const nurseCauses = (items: NurseItem[]) => [...new Set(items.map((i) => NURSE_CAUSE_LABEL[i.cause]))].join(", ");
 
 function RulesLive() {
   const { engine, patients } = mustDemo();
@@ -125,9 +126,12 @@ function RulesLive() {
             <p>
               <span className="big">{result.today.beforeCount}</span>명 → <span className="big">{result.today.afterCount}</span>명{" "}
               <strong>({signed(result.today.afterCount - result.today.beforeCount)})</strong>
-              <span className="muted"> · 원장 확인 {result.today.escalationsBefore}명 → {result.today.escalationsAfter}명</span>
+              <span className="muted"> · 간호팀 확인 {result.today.nurseBefore}명 → {result.today.nurseAfter}명</span>
             </p>
-            {result.today.added.length + result.today.removed.length + result.today.changed.length === 0 ? (
+            {result.after.optedOut.length > 0 && (
+              <p className="small muted">수신 거부 {result.after.optedOut.length}명({result.after.optedOut.map((o) => o.patientId).join(", ")})은 규칙 값과 관계없이 모든 연락 목록에서 빠져 있습니다.</p>
+            )}
+            {result.today.added.length + result.today.removed.length + result.today.changed.length + result.today.nurseAdded.length + result.today.nurseRemoved.length === 0 ? (
               <p className="muted">오늘 목록은 달라지지 않습니다.</p>
             ) : (
               <ul className="plain contacts">
@@ -152,6 +156,22 @@ function RulesLive() {
                     <span className="badge orange">이유 바뀜</span> <Link className="inline-hit" href={patientHref(c.patientId)}>{alias.get(c.patientId)} ({c.patientId})</Link> · {reasons(c.before)} → {reasons(c.after)}
                   </li>
                 ))}
+                {result.today.nurseAdded.map((id) => {
+                  const row = result.after.nurseReview.find((r) => r.patientId === id)!;
+                  return (
+                    <li key={`na${id}`}>
+                      <span className="badge orange">간호팀 확인에 오름</span> <Link className="inline-hit" href={patientHref(id)}>{alias.get(id)} ({id})</Link> · {nurseCauses(row.items)}
+                    </li>
+                  );
+                })}
+                {result.today.nurseRemoved.map((id) => {
+                  const row = result.before.nurseReview.find((r) => r.patientId === id)!;
+                  return (
+                    <li key={`nr${id}`}>
+                      <span className="badge gray">간호팀 확인에서 빠짐</span> <Link className="inline-hit" href={patientHref(id)}>{alias.get(id)} ({id})</Link> · 전에는 {nurseCauses(row.items)}
+                    </li>
+                  );
+                })}
               </ul>
             )}
           </section>

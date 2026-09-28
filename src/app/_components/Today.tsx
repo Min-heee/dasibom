@@ -60,15 +60,21 @@ export function TodayList({ view, localCount }: { view: TodayView; localCount: n
           </a>
         </li>
         <li>
-          <a href="#g-director">
-            <span className="badge gray">원장 확인</span>
-            <span className="num">{view.escalations.length}</span>명
+          <a href="#g-nurse">
+            <span className="badge orange">간호팀 확인</span>
+            <span className="num">{view.nurse.length}</span>명
           </a>
         </li>
         <li>
           <a href="#g-waiting">
             <span className="badge gray">재연락 대기</span>
             <span className="num">{view.waiting.length}</span>명
+          </a>
+        </li>
+        <li>
+          <a href="#g-optout">
+            <span className="badge gray">수신 거부</span>
+            <span className="num">{view.optedOut.length}</span>명
           </a>
         </li>
       </ul>
@@ -142,6 +148,7 @@ export function TodayList({ view, localCount }: { view: TodayView; localCount: n
                       {c.patientId} · {c.procedure}
                     </span>
                     {c.inList && <span className="badge gray">오늘 목록에도 있음</span>}
+                    {c.optedOut && <span className="badge gray">수신 거부</span>}
                   </span>
                   <ul className="lines">
                     {c.notes.map((n, i) => (
@@ -157,33 +164,38 @@ export function TodayList({ view, localCount }: { view: TodayView; localCount: n
         )}
       </section>
 
-      <section className="group" id="g-director" aria-labelledby="h-director">
-        <h2 className="group-head" id="h-director">
-          <span className="badge gray">원장 확인</span>
-          <span className="count">{view.escalations.length}명 · 최대 시도까지 연락해도 닿지 않음</span>
+      <section className="group" id="g-nurse" aria-labelledby="h-nurse">
+        <h2 className="group-head" id="h-nurse">
+          <span className="badge orange">간호팀 확인</span>
+          <span className="count">{view.nurse.length}명 · 코디네이터 연락으로 풀 수 없음</span>
         </h2>
-        {view.escalations.length === 0 ? (
+        <p className="small muted">최대 시도까지 연락해도 오지 않은 환자, 14일 넘게 빠진 주사 회차(의료진 진료 뒤 재시작), 휴진을 피할 허용 범위 안에 진료일이 없는 시점입니다. 문구를 만들지 않습니다.</p>
+        {view.nurse.length === 0 ? (
           <p className="empty">없습니다.</p>
         ) : (
           <ul className="rows">
-            {view.escalations.map((e) => (
-              <li key={e.patientId}>
-                <Link className="rowlink t-gray" href={e.href}>
+            {view.nurse.map((n) => (
+              <li key={n.patientId}>
+                <Link className="rowlink t-orange" href={n.href}>
                   <span className="rowhead">
-                    <span className="who">{e.alias}</span>
+                    <span className="who">{n.alias}</span>
                     <span className="id">
-                      {e.patientId} · {e.procedure}
+                      {n.patientId} · {n.procedure}
                     </span>
-                    {e.symptom && <span className="badge red">의료진 확인</span>}
+                    {n.causes.map((c) => (
+                      <span key={c} className="badge orange">
+                        {c}
+                      </span>
+                    ))}
+                    {n.symptom && <span className="badge red">의료진 확인</span>}
+                    {n.inList && <span className="badge gray">오늘 목록에도 있음</span>}
                   </span>
                   <ul className="lines">
-                    {e.lines.map((l, i) => (
+                    {n.lines.map((l, i) => (
                       <li key={i}>{l}</li>
                     ))}
                   </ul>
-                  <span className="attempts">
-                    {e.attempts} · {e.since}
-                  </span>
+                  {n.attempts && <span className="attempts">{n.attempts}</span>}
                 </Link>
               </li>
             ))}
@@ -212,6 +224,37 @@ export function TodayList({ view, localCount }: { view: TodayView; localCount: n
                   <span className="attempts">
                     {w.next} · {w.attempts}
                   </span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
+
+      <section className="group" id="g-optout" aria-labelledby="h-optout">
+        <h2 className="group-head" id="h-optout">
+          <span className="badge gray">수신 거부</span>
+          <span className="count">{view.optedOut.length}명 · 연락 원치 않음</span>
+        </h2>
+        <p className="small muted">위의 모든 연락 목록에서 뺐습니다. 빠진 환자가 보이지 않게 되지 않도록, 무엇이 걸려 있었는지만 적습니다. 환자 화면에서 되돌릴 수 있습니다.</p>
+        {view.optedOut.length === 0 ? (
+          <p className="empty">없습니다.</p>
+        ) : (
+          <ul className="rows">
+            {view.optedOut.map((o) => (
+              <li key={o.patientId}>
+                <Link className="rowlink t-gray" href={o.href}>
+                  <span className="rowhead">
+                    <span className="who">{o.alias}</span>
+                    <span className="id">
+                      {o.patientId} · {o.procedure}
+                    </span>
+                    <span className="badge gray">수신 거부</span>
+                  </span>
+                  <ul className="lines">
+                    <li>{o.since}</li>
+                    {o.held && <li>{o.held}</li>}
+                  </ul>
                 </Link>
               </li>
             ))}

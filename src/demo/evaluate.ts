@@ -13,7 +13,7 @@ import type { Patient, Procedure } from "@/core/patient";
 import { buildSchedule, type SchedulePoint } from "@/core/schedule";
 import { contactDate, type PointStatus } from "@/core/status";
 import { buildToday, evaluatePatient, type PatientDay, type TodayList } from "@/core/today";
-import type { EvalBundle, ExpectedPoint, Hypothetical } from "./data";
+import type { EvalBundle, ExpectedPoint, Hypothetical, MutationRecord } from "./data";
 import { isMonthEndClamped, messagesFor, noticeState } from "./view";
 
 export interface Mismatch {
@@ -40,6 +40,10 @@ export function expectedStatusName(s: PointStatus, contacts: Patient["contacts"]
       return s.early ? "done-early" : "done";
     case "missed":
       return "overdue";
+    case "unscheduled":
+    case "booked":
+    case "on-hold":
+      return s.state;
     case "notice":
       return noticeState(s, contacts, today);
     default:
@@ -54,8 +58,9 @@ export function comparePoint(exp: ExpectedPoint, p: SchedulePoint | undefined, e
   if (!p) return [["시점", exp.key, "(엔진에 없음)"]];
   const fields: Field[] = [
     ["원래 날짜", exp.nominal, p.originalDate],
-    ["미룬 날짜", exp.due, p.dueDate],
-    ["미룬 날 목록", exp.shifted.map((x) => x.from), p.skipped.map((x) => x.date)],
+    ["잡힌 날짜", exp.due, p.dueDate],
+    ["옮긴 방향", exp.shiftDirection, p.shift],
+    ["살펴본 휴진일", exp.shifted.map((x) => x.from), p.skipped.map((x) => x.date)],
     ["월말 clamp", exp.monthEndClamped, isMonthEndClamped(p, extra.startDate, extra.engine.rules)],
     ["공휴일 미확인", exp.holidayUnverified === true, p.holidayUnknown],
   ];
@@ -64,8 +69,11 @@ export function comparePoint(exp: ExpectedPoint, p: SchedulePoint | undefined, e
     // 안내 시점은 방문으로 완료하지 않으므로 '완료 인정 시작일'이 뜻이 없다. 기대값 표는 원래 날짜를, 엔진은 미룬 날짜를 적어
     // 휴진으로 밀린 안내 시점에서만 글자가 다르다(판정에는 쓰이지 않음). 내원·사진 시점만 비교한다.
     if (exp.windowStart !== undefined && p.kind !== "notice") fields.push(["완료 인정 시작일", exp.windowStart, s.windowStart]);
+    // 예약 뒤·날짜 미정의 '유예 끝'은 판정 경계로만 쓰는 값이라 내원·사진 시점만 본다(안내 시점은 옮긴 날짜 + 유예).
     if (exp.graceEnd !== undefined) fields.push(["유예 끝", exp.graceEnd, s.graceEnd]);
     if (exp.status !== undefined) fields.push(["상태", exp.status, expectedStatusName(s, extra.contacts ?? [], extra.today)]);
+    fields.push(["예약 날짜", exp.bookedDate ?? null, s.state !== "notice" && s.booking ? s.booking.date : null]);
+    fields.push(["재시작", exp.restart === true, s.restart === true]);
     fields.push(["방문일", exp.visitDate ?? null, s.state === "done" ? s.visit!.date : null]);
     fields.push(["지남 시작일", exp.overdueSince ?? null, s.state === "missed" ? (s.overdueSince ?? null) : null]);
     if (exp.reminderDay !== undefined) fields.push(["내일 내원 안내일", exp.reminderDay, extra.prevOpen ?? null]);
@@ -93,7 +101,7 @@ export interface Evaluation {
   groups: CheckGroup[];
   /** 일정 계산 정확도(PRD 6절): 시점 날짜·상태 + 가상 입력만. */
   accuracy: { matched: number; total: number };
-  /** 기대값 대조 전체(일정 + 오늘 목록·세 목록·미방문 연락·시간대). */
+  /** 기대값 대조 전체(일정 + 오늘 목록·네 목록·미방문 연락·시간대). */
   allChecks: { matched: number; total: number };
   mismatches: Mismatch[];
   missedOverdue: { missing: string[]; total: number; ids: string[] };
@@ -101,8 +109,36 @@ export interface Evaluation {
   determinism: { differing: number; runs: number };
   /** violations = 엔진 판정 위반 + 화면 배지 위반(messagesFor가 만든 '지금 보내기' 배지가 시간대 밖에 뜬 분). */
   window: { violations: number; engineViolations: number; screenViolations: number; minutes: number; expectedChecks: { time: string; expected: string; actual: string }[]; messages: { total: number; now: number; blocked: number } };
-  mutation: { run1: { killed: number; total: number }; run2: { killed: number; total: number }; survivors1: { id: string; desc: string }[]; survivors2: { id: string; desc: string }[]; families: { id: string; name: string; total: number; killed1: number; killed2: number }[]; runs: EvalBundle["mutation"]["runs"] };
+  mutation: MutationSummary;
+  /** v0.2.1 규칙 변이. 코어 기록과 같은 모양. */
+  mutationRules: MutationSummary;
   todayCount: number;
+}
+
+export interface MutationSummary {
+  /** 1차 분모는 1차에 돌린 변이만(뒤에 더한 변이는 run1이 없다). */
+  run1: { killed: number; total: number };
+  run2: { killed: number; total: number };
+  survivors1: { id: string; desc: string }[];
+  survivors2: { id: string; desc: string }[];
+  families: { id: string; name: string; total: number; total1: number; killed1: number; killed2: number }[];
+  runs: MutationRecord["runs"];
+}
+
+function summarizeMutation(mut: MutationRecord): MutationSummary {
+  const ran1 = mut.mutants.filter((m) => m.run1 !== null);
+  return {
+    run1: { killed: ran1.filter((m) => m.run1!.killed).length, total: ran1.length },
+    run2: { killed: mut.mutants.filter((m) => m.run2.killed).length, total: mut.mutants.length },
+    survivors1: ran1.filter((m) => !m.run1!.killed).map((m) => ({ id: m.id, desc: m.desc })),
+    survivors2: mut.mutants.filter((m) => !m.run2.killed).map((m) => ({ id: m.id, desc: m.desc })),
+    families: mut.families.map((f) => {
+      const ms = mut.mutants.filter((m) => m.family === f.id);
+      const ms1 = ms.filter((m) => m.run1 !== null);
+      return { id: f.id, name: f.name, total: ms.length, total1: ms1.length, killed1: ms1.filter((m) => m.run1!.killed).length, killed2: ms.filter((m) => m.run2.killed).length };
+    }),
+    runs: mut.runs,
+  };
 }
 
 export function evaluateBundle(bundle: EvalBundle, engine: Engine, patients: Patient[], nowMs: number): Evaluation {
@@ -133,7 +169,7 @@ export function evaluateBundle(bundle: EvalBundle, engine: Engine, patients: Pat
       for (const e of ep.points) {
         total++;
         const s = statusByKey.get(e.key);
-        const prevOpen = s && s.state === "upcoming" ? prevOpenOrNull(s.point, engine) : null;
+        const prevOpen = s && (s.state === "upcoming" || s.state === "booked") ? prevOpenOrNull(s, engine) : null;
         const fields = comparePoint(e, s?.point, { status: s, contacts: p.contacts, today, startDate: p.startDate, engine, prevOpen });
         const bad = fields.filter(([, a, b]) => !eq(a, b));
         if (bad.length === 0) matched++;
@@ -179,7 +215,7 @@ export function evaluateBundle(bundle: EvalBundle, engine: Engine, patients: Pat
     groups.push({ id: "today", label: `오늘 목록 (기대 ${exp.todayList.length}줄)`, matched, total: ids.size });
   }
 
-  // 4) 원장 확인·재연락 대기·의료진 확인
+  // 4) 간호팀 확인(까닭까지)·재연락 대기·의료진 확인·수신 거부
   const setCheck = (id: string, label: string, e: string[], a: string[]) => {
     const all = [...new Set([...e, ...a])].sort();
     let matched = 0;
@@ -189,9 +225,15 @@ export function evaluateBundle(bundle: EvalBundle, engine: Engine, patients: Pat
     }
     groups.push({ id, label: `${label} (기대 ${e.length}명)`, matched, total: all.length });
   };
-  setCheck("director", "원장 확인", exp.directorReview, list.escalations.map((r) => r.patientId));
+  setCheck("nurse", "간호팀 확인", exp.nurseReview.map((n) => `${n.id}|${n.causes.join("+")}`), list.nurseReview.map((r) => `${r.patientId}|${r.items.map((i) => i.cause).join("+")}`));
   setCheck("waiting", "재연락 대기", exp.waitingRetry.map((w) => `${w.id}|${w.retryOn}부터`), list.waiting.map((w) => `${w.patientId}|${w.overdue.retryOn}부터`));
   setCheck("medical", "의료진 확인", exp.medicalReview, list.clinicianReview.map((r) => r.patientId));
+  setCheck(
+    "optout",
+    "수신 거부",
+    exp.optedOut.map((o) => `${o.id}|${[...o.held, ...o.heldNurse].join("+")}`),
+    list.optedOut.map((o) => `${o.patientId}|${[...o.held.reasons, ...o.held.nurse].join("+")}`),
+  );
 
   // 5) 미방문 연락 상태(지남 시작일·센 연락 수·마지막 연락·다시 올릴 날·지난 일수)
   {
@@ -200,21 +242,27 @@ export function evaluateBundle(bundle: EvalBundle, engine: Engine, patients: Pat
     for (const ep of exp.patients) {
       if (!byId.has(ep.id)) continue;
       total++;
-      const o = dayOf(ep.id).overdue;
+      const day = dayOf(ep.id);
+      const o = day.overdue;
       const e = ep.overdue;
       const actual = o
         ? {
-            state: o.action === "escalate" ? "director-review" : o.action === "waiting" ? "waiting" : "listed",
+            state: o.action === "nurse" ? "nurse-review" : o.action === "waiting" ? "waiting" : "listed",
             since: o.since,
             attempts: o.attempts,
             lastContact: o.lastContact ? contactDate(o.lastContact) : null,
-            // 기대값 표는 연락이 없었거나 원장 확인이면 다시 올릴 날을 비워 둔다.
-            retryOn: o.attempts === 0 || o.action === "escalate" ? null : o.retryOn,
+            // 기대값 표는 연락이 없었거나 간호팀 확인이면 다시 올릴 날을 비워 둔다.
+            retryOn: o.attempts === 0 || o.action === "nurse" ? null : o.retryOn,
             points: o.missed.map((s) => s.point.key),
             daysPastDue: Math.max(...o.missed.map((s) => s.daysPastDue ?? 0)),
+            nurseCauses: o.nurseCauses,
+            nurse: day.nurse.map((n) => n.cause),
+            optedOut: day.optOut !== null,
           }
         : null;
-      const expected = e ? { state: e.state, since: e.since, attempts: e.attempts, lastContact: e.lastContact, retryOn: e.retryOn, points: e.points, daysPastDue: e.daysPastDue } : null;
+      const expected = e
+        ? { state: e.state, since: e.since, attempts: e.attempts, lastContact: e.lastContact, retryOn: e.retryOn, points: e.points, daysPastDue: e.daysPastDue, nurseCauses: e.nurseCauses, nurse: ep.nurse, optedOut: ep.optedOut }
+        : null;
       if (eq(expected, actual)) matched++;
       else if (!expected || !actual) mismatches.push({ group: "미방문 연락", target: ep.id, field: "미방문", expected: show(expected ? expected.state : null), actual: show(actual ? actual.state : null) });
       else
@@ -243,10 +291,12 @@ export function evaluateBundle(bundle: EvalBundle, engine: Engine, patients: Pat
   const accuracy = sum(groups.filter((g) => g.id === "points" || g.id === "hypotheticals"));
   const allChecks = sum(groups);
 
-  // 미방문 누락: 심은 미방문 사례가 제자리(목록·대기·원장 확인)에 있는가
+  // 미방문 누락: 심은 미방문 사례가 제자리(목록·대기·간호팀 확인·수신 거부)에 있는가
   const overduePlanted = bundle.planted.filter((p) => p.expectOverdue !== null);
   const placeOf = (id: string): string | null => {
-    if (list.escalations.some((r) => r.patientId === id)) return "director-review";
+    // 수신 거부 환자는 미방문이어도 연락 목록 어디에도 없고 수신 거부 목록에 있다 — 그것이 제자리다.
+    if (list.optedOut.some((r) => r.patientId === id)) return dayOf(id).overdue ? "opted-out" : null;
+    if (list.nurseReview.some((r) => r.patientId === id && r.overdue?.action === "nurse")) return "nurse-review";
     if (list.waiting.some((r) => r.patientId === id)) return "waiting";
     if (rows.get(id)?.includes("overdue")) return "listed";
     return null;
@@ -263,6 +313,10 @@ export function evaluateBundle(bundle: EvalBundle, engine: Engine, patients: Pat
     if (place !== p.expectOverdue) problems.push(`미방문: 기대 ${show(p.expectOverdue)} / 엔진 ${show(place)}`);
     const med = list.clinicianReview.some((r) => r.patientId === p.id);
     if (med !== p.expectMedicalReview) problems.push(`의료진 확인: 기대 ${p.expectMedicalReview ? "예" : "아니오"} / 엔진 ${med ? "예" : "아니오"}`);
+    const nurse = list.nurseReview.find((r) => r.patientId === p.id)?.items.map((i) => i.cause) ?? [];
+    if (!eq(nurse, p.expectNurse)) problems.push(`간호팀 확인: 기대 ${show(p.expectNurse)} / 엔진 ${show(nurse)}`);
+    const opted = list.optedOut.some((r) => r.patientId === p.id);
+    if (opted !== p.expectOptOut) problems.push(`수신 거부: 기대 ${p.expectOptOut ? "예" : "아니오"} / 엔진 ${opted ? "예" : "아니오"}`);
     if (problems.length > 0) wrong.push({ id: p.id, story: p.story, problems });
   }
 
@@ -304,13 +358,6 @@ export function evaluateBundle(bundle: EvalBundle, engine: Engine, patients: Pat
         else if (m.timing.mode === "now") now++;
       }
 
-  // 변이 기록
-  const mut = bundle.mutation;
-  const fam = mut.families.map((f) => {
-    const ms = mut.mutants.filter((m) => m.family === f.id);
-    return { id: f.id, name: f.name, total: ms.length, killed1: ms.filter((m) => m.run1.killed).length, killed2: ms.filter((m) => m.run2.killed).length };
-  });
-
   return {
     expectedStatus: exp._status,
     groups,
@@ -321,23 +368,17 @@ export function evaluateBundle(bundle: EvalBundle, engine: Engine, patients: Pat
     planted: { caught: bundle.planted.length - wrong.length, total: bundle.planted.length, wrong },
     determinism: { differing, runs: again.length },
     window: { violations, engineViolations, screenViolations, minutes: 1440, expectedChecks, messages: { total, now, blocked } },
-    mutation: {
-      run1: { killed: mut.mutants.filter((m) => m.run1.killed).length, total: mut.mutants.length },
-      run2: { killed: mut.mutants.filter((m) => m.run2.killed).length, total: mut.mutants.length },
-      survivors1: mut.mutants.filter((m) => !m.run1.killed).map((m) => ({ id: m.id, desc: m.desc })),
-      survivors2: mut.mutants.filter((m) => !m.run2.killed).map((m) => ({ id: m.id, desc: m.desc })),
-      families: fam,
-      runs: mut.runs,
-    },
+    mutation: summarizeMutation(bundle.mutation),
+    mutationRules: summarizeMutation(bundle.mutationRules),
     todayCount: rows.size,
   };
 }
 
-/** 예정(upcoming) 내원 시점의 '내일 내원' 안내일 = 바로 전 진료일. 안내 시점에는 없다. */
-function prevOpenOrNull(p: SchedulePoint, engine: Engine): LocalDate | null {
-  if (p.kind === "notice") return null;
+/** 예정·예약 내원 시점의 '내일 내원' 안내일 = 그 날짜(예약했으면 예약 날짜)의 바로 전 진료일. 안내 시점에는 없다. */
+function prevOpenOrNull(s: PointStatus, engine: Engine): LocalDate | null {
+  if (s.point.kind === "notice" || s.date === null) return null;
   // core/calendar.prevOpenDay를 그대로 쓴다(today.ts가 '내일 내원'을 가를 때 쓰는 것과 같은 함수).
-  return prevOpen(p.dueDate, engine);
+  return prevOpen(s.date, engine);
 }
 
 const prevOpen = (d: LocalDate, engine: Engine) => prevOpenDay(d, engine.calendar);

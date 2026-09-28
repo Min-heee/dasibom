@@ -25,6 +25,12 @@ function fixedPoint(rules: Rules, key: string) {
   return p;
 }
 
+function windowOf(rules: Rules, key: string) {
+  const w = fixedPoint(rules, key).shiftWindow;
+  if (!w) throw new Error(`D01 모발이식 ${key}에 휴진 이동 범위가 없습니다`);
+  return w;
+}
+
 function series(rules: Rules) {
   const r = rules.procedures.injection;
   if (r.type !== "series") throw new Error("D01 두피 주사가 회차 규칙이 아닙니다");
@@ -63,6 +69,16 @@ export const SIM_OPTIONS: SimOption[] = [
     current: (r) => series(r).graceDays,
   },
   {
+    id: "window-d7-after",
+    label: "휴진 이동 범위 — D+7 뒤쪽 일수",
+    unit: "일",
+    min: 0,
+    max: 7,
+    hint: "D+7이 휴진일에 걸리면 원래 날짜 뒤 며칠까지 미룰 수 있는지(지금 값은 수술 후 관리 문서의 D+9). 범위 안에 진료일이 없으면 앞당기고, 그래도 없으면 간호팀 확인",
+    change: (value) => ({ field: "shiftAfter", procedure: "hair-transplant", key: "d7", value }),
+    current: (r) => windowOf(r, "d7").after,
+  },
+  {
     id: "retry",
     label: "재연락 간격",
     unit: "일",
@@ -78,7 +94,7 @@ export const SIM_OPTIONS: SimOption[] = [
     unit: "회",
     min: 1,
     max: 8,
-    hint: "미방문 연락을 몇 번까지 하고 원장 확인으로 넘길지",
+    hint: "미방문 연락을 몇 번까지 하고 간호팀 확인으로 넘길지",
     change: (value) => ({ field: "maxAttempts", value }),
     current: (r) => r.maxAttempts,
   },

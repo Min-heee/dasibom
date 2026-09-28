@@ -11,7 +11,7 @@
 
 import { useCallback, useMemo, useSyncExternalStore } from "react";
 import { EMPTY_LOG, undoLastFor, type ContactLog } from "@/core/contact";
-import type { ContactResult, Patient } from "@/core/patient";
+import type { Booking, ContactResult, Patient } from "@/core/patient";
 import { mustDemo } from "@/demo/data";
 import { parseLog, recordDemo, serializeLog, STORAGE_KEY } from "@/demo/storage";
 
@@ -68,8 +68,8 @@ export interface ContactLogApi {
   dropped: boolean;
   /** 합성 데이터 원본(연락을 더하기 전). 화면은 demo/screen의 todayFor·patientFor에 log와 함께 넘긴다. */
   base: readonly Patient[];
-  /** 적은 결과. 이 환자에게 이미 적은 결과가 있으면 바꾼다(replaced). 실패하면 error. */
-  record: (patientId: string, result: ContactResult) => { error: string | null; replaced: boolean };
+  /** 적은 결과. 이 환자에게 이미 적은 결과가 있으면 바꾼다(replaced). 실패하면 error. 예약 잡음은 booking을 함께 넘긴다. */
+  record: (patientId: string, result: ContactResult, booking?: Booking) => { error: string | null; replaced: boolean };
   undo: (patientId: string) => void;
   reset: () => void;
 }
@@ -80,9 +80,9 @@ export function useContactLog(): ContactLogApi {
   // parseLog는 예외를 던지지 않는다(모양 검사 + try/catch). 저장값이 깨져도 띠·화면이 멈추지 않고 비운다.
   const { log, dropped } = useMemo(() => parseLog(raw, base), [raw, base]);
   const record = useCallback(
-    (patientId: string, result: ContactResult) => {
+    (patientId: string, result: ContactResult, booking?: Booking) => {
       const cur = parseLog(snapshot(), base).log;
-      const r = recordDemo(base, cur, patientId, result);
+      const r = recordDemo(base, cur, patientId, result, booking);
       if (!r.ok) return { error: r.error, replaced: false };
       write(serializeLog(r.log));
       return { error: null, replaced: r.replaced };

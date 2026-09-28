@@ -7,11 +7,12 @@ import { forecastBars, parseSimValue, SIM_OPTIONS, simOption } from "./sim";
 const { engine, patients } = mustDemo();
 
 describe("규칙 바꿔 보기 선택지", () => {
-  it("지금 값은 볼트 D01에서 읽는다(6개월 유예 7, 4주 유예 7, 주사 유예 3, 재연락 3, 최대 시도 3, 6개월 경과 진료 6개월)", () => {
+  it("지금 값은 볼트 D01에서 읽는다(6개월 유예 7, 4주 유예 7, 주사 유예 3, D+7 뒤쪽 범위 2, 재연락 3, 최대 시도 3, 6개월 경과 진료 6개월)", () => {
     expect(SIM_OPTIONS.map((o) => [o.id, o.current(engine.rules)])).toEqual([
       ["grace-m6", 7],
       ["grace-w4", 7],
       ["grace-inj", 3],
+      ["window-d7-after", 2],
       ["retry", 3],
       ["max-attempts", 3],
       ["m6-months", 6],
@@ -32,6 +33,17 @@ describe("규칙 바꿔 보기 선택지", () => {
     // 창에 오늘이 들어 있어 +1(오늘)과 −1(원래 첫 연락일 9/22)이 같은 막대 표에 보이고, 첫 연락이 앞당겨진 것이 따로 보인다.
     expect(r.forecast[0].date).toBe("2026-09-21");
     expect(r.firstContact).toContainEqual({ patientId: "P011", before: "2026-09-22", after: "2026-09-21" });
+  });
+});
+
+describe("휴진 이동 범위 바꿔 보기", () => {
+  it("D+7 뒤쪽 2 → 3일: P033 D+7(9/25)이 범위 안 9/28로 잡혀 간호팀 확인에서 빠진다. 0일이면 P027 D+7은 그대로 9/23(앞당김)", () => {
+    const r3 = simulate(patients, engine, DEMO_NOW_MS, simOption("window-d7-after").change(3));
+    if (!r3.ok) throw new Error(r3.errors.join());
+    expect([r3.today.nurseRemoved, r3.today.nurseAdded, r3.today.afterCount - r3.today.beforeCount]).toEqual([["P033"], [], 0]);
+    const r0 = simulate(patients, engine, DEMO_NOW_MS, simOption("window-d7-after").change(0));
+    if (!r0.ok) throw new Error(r0.errors.join());
+    expect(r0.today.nurseAdded).toEqual([]);
   });
 });
 

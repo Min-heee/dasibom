@@ -25,6 +25,7 @@ export function EvalScreen() {
   const survivors2 = e.mutation.survivors2.length;
   const screenKilled = bundle.mutationScreen.mutants.filter((m) => m.killed).length;
   const screenSurvivors = bundle.mutationScreen.mutants.length - screenKilled;
+  const rules = e.mutationRules;
 
   return (
     <>
@@ -59,7 +60,7 @@ export function EvalScreen() {
                 </td>
               </tr>
               <tr>
-                <td>기대값 대조 전체 (일정 + 오늘 목록·세 목록·미방문 연락·시간대)</td>
+                <td>기대값 대조 전체 (일정 + 오늘 목록·네 목록·미방문 연락·시간대)</td>
                 <td className="num">
                   {e.allChecks.matched} / {e.allChecks.total}
                 </td>
@@ -122,6 +123,28 @@ export function EvalScreen() {
                 <td>살아남은 변이도 싣는다</td>
                 <td>{screenSurvivors === 0 ? <span className="pass">생존 0</span> : <span className="fail">생존 {screenSurvivors}</span>}</td>
               </tr>
+              <tr>
+                <td>테스트가 결함을 잡는지 (v0.2.1 규칙에 심은 변이: 휴진 이동 범위·수신 거부·예약·재시작·명칭)</td>
+                <td className="num">
+                  {rules.run2.killed} / {rules.run2.total}
+                  <br />
+                  <span className="small muted">
+                    1차 {rules.run1.killed} / {rules.run1.total}
+                  </span>
+                </td>
+                <td>살아남은 변이도 싣는다</td>
+                <td>
+                  {rules.survivors2.length === 0 ? (
+                    <span className="pass">생존 0</span>
+                  ) : (
+                    <>
+                      <span className="fail">생존 {rules.survivors2.length}</span>
+                      <br />
+                      <span className="small muted">{rules.survivors2.map((m) => m.id).join("·")} — 아래 기록 참고</span>
+                    </>
+                  )}
+                </td>
+              </tr>
             </tbody>
           </table>
         </div>
@@ -159,8 +182,8 @@ export function EvalScreen() {
         <details className="dev">
           <summary>개발자용 기록: 비교한 항목</summary>
           <p className="small muted">
-            원래 날짜·미룬 날짜·미룬 날 목록·월말 clamp·공휴일 미확인·완료 인정 시작일(내원 시점만)·유예 끝·상태·방문일·지남 시작일·내일 내원 안내일. 안내 시점의 &lsquo;안내함 / 기록 없음&rsquo; 구분은 연락
-            규정에 정의가 없어 표시용 해석(미룬 날짜 뒤 첫 연락이 유예 안)으로 맞췄습니다.
+            원래 날짜·잡힌 날짜·옮긴 방향(미룸·앞당김·날짜 미정)·살펴본 휴진일·월말 clamp·공휴일 미확인·완료 인정 시작일(내원 시점만)·유예 끝·상태·예약 날짜·재시작·방문일·지남 시작일·내일 내원 안내일. 간호팀 확인은
+            까닭(재시작·최대 시도·날짜 미정)까지, 수신 거부는 걸려 있던 이유까지 비교합니다. 안내 시점의 &lsquo;안내함 / 기록 없음&rsquo; 구분은 연락 규정에 정의가 없어 표시용 해석(미룬 날짜 뒤 첫 연락이 유예 안)으로 맞췄습니다.
           </p>
         </details>
         <h3>틀린 사례</h3>
@@ -220,7 +243,9 @@ export function EvalScreen() {
             ))}
           </ul>
         )}
-        <p className="small muted">심은 사례 목록과 의도는 data/README.md와 data/scripts/planted.json에 있습니다. 대조군(목록에 오면 틀린 환자) 8명도 여기에 들어 있습니다.</p>
+        <p className="small muted">
+          심은 사례 목록과 의도는 data/README.md와 data/scripts/planted.json에 있습니다. 대조군(목록에 오면 틀린 환자) 8명도 여기에 들어 있습니다. 미방문의 제자리는 오늘 목록·재연락 대기·간호팀 확인·수신 거부 중 하나입니다.
+        </p>
       </section>
 
       <section className="card" aria-labelledby="h-mut">
@@ -247,7 +272,7 @@ export function EvalScreen() {
                 <tr key={f.id}>
                   <td>{f.name}</td>
                   <td className="num">
-                    {f.killed1} / {f.total}
+                    {f.killed1} / {f.total1}
                   </td>
                   <td className="num">
                     {f.killed2} / {f.total}
@@ -269,15 +294,69 @@ export function EvalScreen() {
           목록 안 정렬 6개, 규칙 파서 누락값 2개, 연락일 계산 1개였습니다. 각각을 잡는 시험(기대 순서는 손으로 정함)을 더한 뒤 2차에서 생존 {survivors2}개입니다.
         </p>
         </details>
+        <p>
+          위 코어 기록은 v0.2 코드 기준입니다. v0.2.1에 더한 규칙은 따로 변이를 심어 2차에서 {rules.run2.killed} / {rules.run2.total}개를 잡았고, 살아남은 변이는{" "}
+          {rules.survivors2.length}개입니다.
+        </p>
+        <details className="dev">
+          <summary>개발자용 기록: v0.2.1 규칙 변이 계열과 살아남은 변이</summary>
+          <p className="small">
+            {bundle.mutationRules._note} {rules.runs.map((r) => `${r.label}: 시험 ${r.tests}개`).join(" · ")}.
+          </p>
+          <div className="scroll-x">
+            <table className="metrics">
+              <thead>
+                <tr>
+                  <th scope="col">변이 계열</th>
+                  <th scope="col">1차 잡힘</th>
+                  <th scope="col">2차 잡힘</th>
+                </tr>
+              </thead>
+              <tbody>
+                {rules.families.map((f) => (
+                  <tr key={f.id}>
+                    <td>{f.name}</td>
+                    <td className="num">{f.total1 === 0 ? "—" : `${f.killed1} / ${f.total1}`}</td>
+                    <td className="num">
+                      {f.killed2} / {f.total}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <h3>1차에서 살아남은 변이 {rules.survivors1.length}개</h3>
+          <ul>
+            {rules.survivors1.map((m) => (
+              <li key={m.id}>
+                {m.id} {m.desc}
+              </li>
+            ))}
+          </ul>
+          <h3>2차에서 살아남은 변이 {rules.survivors2.length}개</h3>
+          <ul>
+            {rules.survivors2.map((m) => (
+              <li key={m.id}>
+                {m.id} {m.desc}
+              </li>
+            ))}
+          </ul>
+        </details>
       </section>
 
       <section className="card" aria-labelledby="h-known">
         <h2 id="h-known">대조로는 잡히지 않는 것 (오너 판단 필요)</h2>
         <ul>
           <li>
-            <strong>휴진일 이동 방향.</strong> 이 데모는 휴진일에 걸린 시점을 늘 다음 진료일로 미룹니다. 그런데 수술 후 관리 문서는 D+7 내원을 D+6~D+9 안에서만 옮기게 하고, 주사 프로그램 문서는
-            예정일 앞뒤 3일까지만 직원이 옮기게 합니다. 9/17 수술 환자의 D+7(9/24 추석)은 9/28로 미뤄져 D+11이 되고(창 밖, 창 안의 진료일은 9/23 하나), 9/24 주사 회차는 9/28로 +4일이 됩니다. 창 안에서
-            당길지, 간호팀 확인으로 보낼지 정해야 합니다(직접 해 보기의 첫 예시가 이 경우입니다).
+            <strong>휴진 이동 범위는 두 시점에만 있습니다.</strong> 병원 문서가 옮길 범위를 적은 D+7 내원(D+6~D+9)과 두피 주사 회차(예정일 앞뒤 3일)만 범위 안에서 옮기고(9/17 수술의 D+7 9/24 → 9/23 앞당김,{" "}
+            <Link className="inline-hit" href={patientHref("P027")}>P027</Link>), 범위 안에 진료일이 없으면 간호팀 확인으로 보냅니다(9/18 수술의 D+7,{" "}
+            <Link className="inline-hit" href={patientHref("P033")}>P033</Link>). D+1·4주·6개월·1년은 문서에 범위가 없어 지금처럼 다음 진료일로 미룹니다. 이 시점들의 범위와, 앞당김보다 미룸을 먼저 보는 순서가 맞는지는 병원이 정할 일입니다.
+          </li>
+          <li>
+            <strong>주사 회차 다시 계산.</strong> 14일 넘게 빠진 회차는 의료진 진료 뒤 재시작으로 간호팀 확인에 보내고 뒤 회차를 보류합니다(
+            <Link className="inline-hit" href={patientHref("P017")}>P017</Link>·<Link className="inline-hit" href={patientHref("P045")}>P045</Link>, 14일째인{" "}
+            <Link className="inline-hit" href={patientHref("P008")}>P008</Link>은 아님). 주사 프로그램 문서의 &ldquo;4일에서 14일 늦어지면 간호팀이 확인한 뒤 남은 회차 날짜를 다시 계산&rdquo;은 하지 않아, 그 사이의 회차는 지금도
+            예정일 지남 목록에 올라 재예약 안내를 씁니다.
           </li>
           <li>
             사후관리 연락 규정의 문장끼리 부딪힙니다. &ldquo;미룬 날짜가 바로 오늘인 시점은 오늘 목록에 올리지 않습니다&rdquo;를 글자 그대로 읽으면 안내 시점도 빠지지만, 관리 안내 규칙은 &ldquo;미룬 날짜부터&rdquo;라고 씁니다.
@@ -287,11 +366,15 @@ export function EvalScreen() {
           <li>data/README.md 계산 방법 5단계의 내일 내원 조건(&ldquo;그날 이후 연락이 없으면&rdquo;)은 연락 규정 본문에 없습니다. 지금 데이터에는 9/21 연락이 없어 결과가 같습니다.</li>
           <li>
             다시 연락할 날(마지막 연락 + 재연락 간격)이 휴진일이면 화면의 &lsquo;다음 연락&rsquo;은 다음 진료일로 미뤄 보입니다. 목록 판정은 규정 문장 그대로의 날짜로 하지만, 이 &lsquo;미뤄 보이기&rsquo;는 규정에 적혀
-            있지 않습니다. 원장 확인 환자에게 다른 이유(내일 내원 등)가 함께 걸리는 경우도 데이터에 없어 시험되지 않았습니다.
+            있지 않습니다. 날짜 미정 시점은 간호팀 확인에 오르지만, 코디네이터 목록의 다른 이유(<Link className="inline-hit" href={patientHref("P033")}>P033</Link>의 D+3 안내)는 그대로 둡니다.
           </li>
           <li>
-            한 환자에게 성격이 다른 문자가 두 통 만들어지는 경우가 있습니다: 미방문 + 내일 내원(<Link className="inline-hit" href={patientHref("P013")}>P013</Link>), 미방문 + 주사 날짜 다시 잡기(
-            <Link className="inline-hit" href={patientHref("P045")}>P045</Link>). 미방문 문구는 시점이 여럿이어도 가장 이른 것 하나로 줄였지만, 두 통을 한 통으로 합칠지(어떤 문구로)는 병원이 정할 일입니다.
+            한 환자에게 성격이 다른 문자가 두 통 만들어지는 경우가 있습니다: 미방문 + 내일 내원(<Link className="inline-hit" href={patientHref("P013")}>P013</Link>). 미방문 문구는 시점이 여럿이어도 가장 이른 것 하나로 줄였지만,
+            두 통을 한 통으로 합칠지(어떤 문구로)는 병원이 정할 일입니다.
+          </li>
+          <li>
+            <strong>예약 잡음은 이 브라우저의 기록일 뿐입니다.</strong> 예약표와 잇지 않아, 예약 날짜가 지나면 방문 기록이 들어오기 전까지 다시 예정일 지남입니다(
+            <Link className="inline-hit" href={patientHref("P125")}>P125</Link>). 수신 거부(<Link className="inline-hit" href={patientHref("P121")}>P121</Link>)는 의료진 확인(증상 메모)에서는 빼지 않습니다.
           </li>
         </ul>
       </section>
@@ -302,7 +385,8 @@ export function EvalScreen() {
           <li>예정일 지남 환자 수의 추이</li>
           <li>연락 뒤 재방문율</li>
           <li>연락 한 건 처리 시간</li>
-          <li>&lsquo;원장 확인&rsquo;으로 넘어간 환자 수</li>
+          <li>&lsquo;간호팀 확인&rsquo;으로 넘어간 환자 수와 까닭</li>
+          <li>수신 거부 환자 수</li>
         </ul>
       </section>
     </>

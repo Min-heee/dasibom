@@ -29,13 +29,15 @@ describe("todayView — 첫 화면", () => {
   const v = todayView(buildToday(patients, engine, DEMO_NOW_MS));
   const rows = (reason: string) => v.groups.find((g) => g.reason === reason)!.rows;
 
-  it("PRD 3절 순서의 묶음. 개수는 그 이유가 있는 환자 수(지남 13 · 내일 내원 7 · 관리 안내 5 · 주사 재예약 3 · 사진 회차 3), 줄은 가장 앞선 묶음에 한 번", () => {
-    // 여러 이유 환자: P013(지남+내일), P014(지남+안내), P045(지남+재예약), P018·P020·P022(내일+사진).
+  it("PRD 3절 순서의 묶음. 개수는 그 이유가 있는 환자 수(지남 13 · 내일 내원 8 · 관리 안내 6 · 주사 재예약 2 · 사진 회차 3), 줄은 가장 앞선 묶음에 한 번", () => {
+    // 여러 이유 환자: P013(지남+내일), P014(지남+안내), P018·P020·P022(내일+사진).
+    // v0.2와 달라진 것: P017·P045는 14일 넘게 빠진 주사 회차라 간호팀 확인으로(지남 −2, 재예약 −1), P122·P125가 지남에(+2),
+    // P124가 예약한 날 내일 내원(+1), P126이 D+3 안내(+1).
     expect(v.groups.map((g) => [g.label, g.count, g.rows.length])).toEqual([
       ["예정일 지남", 13, 13],
-      ["내일 내원", 7, 6],
-      ["관리 안내", 5, 4],
-      ["주사 재예약", 3, 2],
+      ["내일 내원", 8, 7],
+      ["관리 안내", 6, 5],
+      ["주사 재예약", 2, 2],
       ["사진 회차", 3, 0],
     ]);
     // 줄이 없는 묶음도 '0명'이 아니라 누가 어느 줄에 함께 있는지 보인다(사진 회차 = 같은각도로 잇는 장면).
@@ -45,17 +47,32 @@ describe("todayView — 첫 화면", () => {
       ["P022", "내일 내원"],
     ]);
     expect(v.groups[1].alsoIn.map((a) => a.patientId)).toEqual(["P013"]);
-    expect(v.total).toBe(25);
+    expect(v.total).toBe(27);
     expect(v.groups[0].tone).toBe("red");
   });
 
-  it("주사 회차 이름은 'D01 이름표 − 회차 + n회차': P045 3회차 지남 + 4회차 재예약", () => {
-    expect(rows("overdue").find((x) => x.patientId === "P045")!.lines).toEqual(["두피 주사 3회차 · 예정일 9/4(금) · 17일 지남", "두피 주사 4회차 · 9/18(금) 예정이었음 · 9/21(월)까지 날짜 옮기기"]);
+  it("주사 회차 이름은 'D01 이름표 − 회차 + n회차': P013 3회차 지남 + 4회차 내일, P040 3회차 재예약", () => {
+    expect(rows("overdue").find((x) => x.patientId === "P013")!.lines).toEqual(["두피 주사 3회차 · 예정일 9/8(화) · 13일 지남", "두피 주사 4회차 · 9/22(화) 내원 예정"]);
+    expect(rows("injection-rebook").find((x) => x.patientId === "P040")!.lines).toEqual(["두피 주사 3회차 · 9/19(토) 예정이었음 · 9/22(화)까지 날짜 옮기기"]);
   });
 
-  it("예정일 지남은 오래 밀린 순: 18일(P006 1년 9/3, P017 2회차 9/3 → ID 순) → 17일(P045)", () => {
-    expect(rows("overdue").slice(0, 3).map((r) => r.patientId)).toEqual(["P006", "P017", "P045"]);
+  it("예정일 지남은 오래 밀린 순: 18일(P006) → 14일(P004 4주 9/7, P008 4회차 9/7 → ID 순). 14일째인 주사 회차(P008)는 아직 재시작이 아니다", () => {
+    expect(rows("overdue").slice(0, 3).map((r) => r.patientId)).toEqual(["P006", "P004", "P008"]);
     expect(rows("overdue")[0].lines).toEqual(["1년 경과 진료·경과 사진 · 예정일 9/3(목) · 18일 지남"]);
+  });
+
+  it("예약 날짜가 지나 다시 지남(P125): 예약일을 말하고 원래 예정일을 함께, 배지는 '예약일 지남'", () => {
+    const r = rows("overdue").find((x) => x.patientId === "P125")!;
+    expect(r.lines).toEqual(["6개월 경과 진료·경과 사진 · 예약일 9/16(수) 지나고 오지 않음 · 5일 지남 (원래 예정일 9/5(토))"]);
+    expect(r.badges).toEqual([
+      { label: "예정일 지남", tone: "red" },
+      { label: "예약일 지남 · 9/16(수)", tone: "orange" },
+    ]);
+  });
+
+  it("예약한 날의 내일 내원(P124): '예약한 날 내원'과 예약 배지", () => {
+    const r = rows("upcoming-visit").find((x) => x.patientId === "P124")!;
+    expect([r.lines, r.badges.map((b) => b.label)]).toEqual([["두피 주사 3회차 · 9/22(화) 예약한 날 내원"], ["내일 내원", "예약 잡음 · 9/22(화)"]]);
   });
 
   it("30초 시연 0~6초: P001 6개월 경과 진료 예정일 12일 지남, 연락 2회 부재", () => {
@@ -79,11 +96,25 @@ describe("todayView — 첫 화면", () => {
     expect(r.attempts).toBeNull(); // 내일 내원은 미방문 시도를 세지 않는다
   });
 
-  it("원장 확인·의료진 확인·재연락 대기", () => {
-    // 둘 다 3회 → 지남이 더 오래된 P009(8/28)가 먼저
-    expect(v.escalations.map((e) => [e.patientId, e.since])).toEqual([
-      ["P009", "8/28(금)부터 예정일 지남"],
-      ["P003", "9/12(토)부터 예정일 지남"],
+  it("간호팀 확인(까닭별)·의료진 확인·재연락 대기·수신 거부", () => {
+    // 최대 시도가 걸린 환자 먼저(둘 다 3회 → 지남이 더 오래된 P009), 그다음 재시작만(시도 많은 순, 예약만 있어 시도가 없는 P127은 0회), 날짜 미정만 있는 환자는 끝.
+    expect(v.nurse.map((n) => [n.patientId, n.causes, n.inList])).toEqual([
+      ["P009", ["의료진 진료 뒤 재시작", "최대 시도까지 닿지 않음"], false],
+      ["P003", ["최대 시도까지 닿지 않음"], false],
+      ["P017", ["의료진 진료 뒤 재시작"], false],
+      ["P045", ["의료진 진료 뒤 재시작"], false],
+      ["P127", ["의료진 진료 뒤 재시작"], false],
+      ["P033", ["허용 범위 안에 진료일 없음"], true],
+    ]);
+    // 앞으로 잡힌 예약도 재시작을 빼 주지 않는다(독립 대조 불일치 1). 예약이 있다는 것만 덧붙인다.
+    expect(v.nurse.find((n) => n.patientId === "P127")!.lines).toEqual(["두피 주사 2회차 · 예정일 9/1(화)에서 20일 빠짐 → 의료진 진료 뒤 재시작 — 간호팀 확인 (예약 9/23(수) 있음)"]);
+    expect(v.nurse.find((n) => n.patientId === "P127")!.attempts).toBeNull();
+    expect(v.nurse.find((n) => n.patientId === "P045")!.lines).toEqual(["두피 주사 3회차 · 예정일 9/4(금)에서 17일 빠짐 → 의료진 진료 뒤 재시작 — 간호팀 확인"]);
+    expect(v.nurse.find((n) => n.patientId === "P033")!.lines).toEqual(["D+7 내원·경과 사진 · 원래 9/25(금) · 허용 범위 9/24(목)~9/27(일), 수술 후 관리 문서 안에 진료일 없음 → 간호팀 확인"]);
+    expect(v.nurse.find((n) => n.patientId === "P033")!.attempts).toBeNull();
+    expect(v.nurse[1].attempts).toBe("연락 3회 · 마지막 9/18(금) 문자 보냄 · 9/12(토)부터 예정일 지남");
+    expect(v.optedOut).toEqual([
+      { patientId: "P121", alias: "작은 별", procedure: "모발이식 수술", since: "9/17(목) 11:40부터 수신 거부", held: "수신 거부가 아니었다면: 예정일 지남", href: "/patient/P121/" },
     ]);
     expect(v.clinician.map((c) => [c.patientId, c.inList])).toEqual([
       ["P012", true],
@@ -101,10 +132,36 @@ describe("afterContact — 연락 결과 버튼 뒤", () => {
     });
   });
 
-  it("P001(이미 2회) 부재 → 3회 = 최대 시도 → 원장 확인", () => {
+  it("P001(이미 2회) 부재 → 3회 = 최대 시도 → 간호팀 확인", () => {
     expect(afterContact(withContact("P001", "no-answer"), engine, DEMO_NOW_MS)).toEqual({
       tone: "red",
-      lines: ["미방문 연락 3회 → 원장 확인으로 넘어갑니다(최대 3회).", "코디네이터 목록에는 다시 오르지 않습니다."],
+      lines: ["미방문 연락 3회 → 간호팀 확인으로 넘어갑니다(최대 3회).", "코디네이터 목록에는 다시 오르지 않습니다."],
+    });
+  });
+
+  it("P017(14일 넘게 빠진 주사 회차)에 연락을 적어도 재예약 대신 재시작 안내", () => {
+    expect(afterContact(withContact("P017", "no-answer"), engine, DEMO_NOW_MS)).toEqual({
+      tone: "red",
+      lines: ["14일 넘게 빠진 주사 회차가 있어 간호팀 확인에 있습니다(의료진 진료 뒤 재시작).", "코디네이터 목록에는 오르지 않습니다."],
+    });
+  });
+
+  it("P004 연락 원치 않음 → 다음 연락일을 말하지 않고 수신 거부 안내", () => {
+    expect(afterContact(withContact("P004", "opt-out"), engine, DEMO_NOW_MS).lines[0]).toBe(
+      "연락 원치 않음으로 적었습니다. 이 환자는 모든 연락 목록(오늘 목록·재연락 대기·간호팀 확인)에서 빠지고 '수신 거부'로 보입니다.",
+    );
+  });
+
+  it("P004 예약 잡음 9/23 → 그날까지 지남에서 빠지고, 예약 날짜의 전 진료일(9/22)에 내일 내원", () => {
+    const r = applyContact(patients, EMPTY_LOG, { patientId: "P004", contact: { at: DEMO_NOW, result: "booked", booking: { pointKey: "w4", date: localDate("2026-09-23") } } });
+    if (!r.ok) throw new Error(r.error);
+    expect(afterContact(currentPatients(patients, r.log).find((p) => p.id === "P004")!, engine, DEMO_NOW_MS)).toEqual({
+      tone: "blue",
+      lines: [
+        "예약 9/23(수)로 적었습니다. 그날까지 이 시점은 예정일 지남에서 빠지고, 그날이 지나도 오지 않으면 다시 예정일 지남입니다.",
+        "오늘 연락할 이유가 처리됐습니다.",
+        "다음에 목록에 오르는 날: 9/22(화) · 내일 내원",
+      ],
     });
   });
 
@@ -146,12 +203,31 @@ describe("messagesFor — 이번 연락 문구", () => {
 });
 
 describe("timeline — 환자 상세 1년", () => {
-  it("P027: D+3는 원래 9/20(일)에서 미뤄 오늘 안내, D+7은 추석·일요일을 건너 9/28", () => {
+  it("P027: D+3는 원래 9/20(일)에서 미뤄 오늘 안내, D+7은 허용 범위(9/23~9/26, V07) 안의 9/23으로 앞당김", () => {
     const tl = timeline(evaluatePatient(P("P027"), engine, DEMO_NOW_MS), engine.rules, DEMO_TODAY);
     const e = (k: string) => tl.entries.find((x) => x.key === k)!;
     expect([e("d3").dateText, e("d3").stateLabel, e("d3").shift]).toEqual(["9/21(월)", "오늘 안내할 차례", "원래 9/20(일)에서 미룸 — 9/20 일요일 휴진"]);
-    expect([e("d7").dateText, e("d7").shift, e("d7").sameAngle]).toEqual(["9/28(월)", "원래 9/24(목)에서 미룸 — 9/24 공휴일(추석 연휴), 9/25 공휴일(추석), 9/26 공휴일(추석 연휴), 9/27 일요일 휴진", true]);
+    expect([e("d7").dateText, e("d7").shift, e("d7").sameAngle]).toEqual([
+      "9/23(수)",
+      "원래 9/24(목)에서 앞당김 — 9/24 공휴일(추석 연휴), 9/25 공휴일(추석), 9/26 공휴일(추석 연휴) · 허용 범위 9/23(수)~9/26(토), 수술 후 관리 문서 안에 뒤 진료일이 없음",
+      true,
+    ]);
     expect([tl.start, tl.end]).toEqual(["2026-09-17", "2027-09-17"]);
+  });
+
+  it("새 상태: 날짜 미정(P033 D+7), 재시작·재시작 전(P017), 예약 잡음 전·후(P123·P125), 예약으로 정한 날짜 미정(P126), 예약해도 재시작(P127)", () => {
+    const e = (id: string, k: string) => timeline(evaluatePatient(P(id), engine, DEMO_NOW_MS), engine.rules, DEMO_TODAY).entries.find((x) => x.key === k)!;
+    expect([e("P033", "d7").dateText, e("P033", "d7").stateLabel, e("P033", "d7").tone]).toEqual(["날짜 미정 (원래 9/25(금))", "날짜 미정 · 허용 범위 안에 진료일 없음 → 간호팀 확인", "orange"]);
+    expect(e("P017", "inj-2").stateLabel).toBe("미방문 · 예정일에서 18일 빠짐 → 의료진 진료 뒤 재시작 — 간호팀 확인");
+    expect(e("P017", "inj-3").stateLabel).toBe("재시작 전 · 의료진 진료 뒤 날짜를 다시 정함");
+    expect([e("P123", "m6").dateText, e("P123", "m6").stateLabel]).toEqual(["9/28(월) (예약)", "예약 잡음 · 9/28(월)"]);
+    expect(e("P125", "m6").stateLabel).toBe("미방문 · 예약일 9/16(수) 지나고 5일");
+    // 예정일에서 14일 넘게 지나 앞날로 예약한 회차는 예약 잡음이면서 재시작(빨강), 뒤 회차는 재시작 전.
+    expect([e("P127", "inj-2").stateLabel, e("P127", "inj-2").tone]).toEqual(["예약 잡음 · 9/23(수) · 예정일에서 20일 빠짐 → 의료진 진료 뒤 재시작 — 간호팀 확인", "red"]);
+    expect(e("P127", "inj-3").stateLabel).toBe("재시작 전 · 의료진 진료 뒤 날짜를 다시 정함");
+    expect(e("P126", "d7").shift).toBe(
+      "원래 9/25(금) — 허용 범위 9/24(목)~9/27(일), 수술 후 관리 문서 안에 진료일 없음(9/25 공휴일(추석), 9/26 공휴일(추석 연휴), 9/27 일요일 휴진, 9/24 공휴일(추석 연휴)) → 예약 날짜로 정함",
+    );
   });
 
   it("P001: 6개월 미방문 12일 지남, 앞 시점은 완료, 띠 위치는 0~100", () => {
@@ -188,12 +264,19 @@ describe("tryIt — 직접 해 보기", () => {
     return r;
   };
 
-  it("9/17 수술: D+3 9/20(일) → 9/21, D+7 9/24(추석) → 9/28", () => {
+  it("9/17 수술: D+3 9/20(일) → 9/21(미룸), D+7 9/24(추석) → 허용 범위 안 9/23(앞당김, D+6)", () => {
     const r = rows("2026-09-17");
     const x = (k: string) => r.rows.find((y) => y.key === k)!;
-    expect([x("d3").original, x("d3").due, x("d3").shift]).toEqual(["9/20(일)", "9/21(월)", "9/20 일요일 휴진"]);
-    expect([x("d7").original, x("d7").due, x("d7").shifted, x("d7").sameAngle]).toEqual(["9/24(목)", "9/28(월)", true, true]);
+    expect([x("d3").original, x("d3").due, x("d3").direction, x("d3").shift, x("d3").window]).toEqual(["9/20(일)", "9/21(월)", "later", "9/20 일요일 휴진", null]);
+    expect([x("d7").original, x("d7").due, x("d7").direction, x("d7").window, x("d7").sameAngle]).toEqual(["9/24(목)", "9/23(수)", "earlier", "9/23(수)~9/26(토), 수술 후 관리 문서", true]);
     expect(x("d1").shift).toBeNull();
+  });
+
+  it("9/18 수술: D+7 9/25는 허용 범위 9/24~9/27이 모두 휴진 → 날짜 미정, 간호팀 확인 안내", () => {
+    const r = rows("2026-09-18");
+    const d7 = r.rows.find((y) => y.key === "d7")!;
+    expect([d7.due, d7.direction, d7.window]).toEqual(["날짜 미정", "unresolved", "9/24(목)~9/27(일), 수술 후 관리 문서"]);
+    expect(r.notes.some((n) => n.includes("간호팀 확인"))).toBe(true);
   });
 
   it("H2 2027-04-09: 6개월 10/9(토, 한글날) → 10/10(일) → 10/11(대체공휴일) → 10/12(화), 1년은 2028년이라 공휴일 미확인", () => {
@@ -220,7 +303,7 @@ describe("tryIt — 직접 해 보기", () => {
     const r = rows("2026-09-10", "injection");
     expect(r.rows).toHaveLength(9);
     expect(r.rows.filter((y) => y.sameAngle).map((y) => y.key)).toEqual(["inj-5", "inj-10"]);
-    // 2회차 9/24(추석 연휴) → 9/28
-    expect([r.rows[0].original, r.rows[0].due]).toEqual(["9/24(목)", "9/28(월)"]);
+    // 2회차 9/24(추석 연휴) → 앞뒤 3일(V08) 중 뒤 9/25~9/27이 휴진 → 9/23으로 앞당김(v0.2까지는 9/28, +4일)
+    expect([r.rows[0].original, r.rows[0].due, r.rows[0].direction, r.rows[0].window]).toEqual(["9/24(목)", "9/23(수)", "earlier", "9/21(월)~9/27(일), 두피 주사 프로그램 문서"]);
   });
 });

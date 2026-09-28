@@ -5,15 +5,15 @@
  * 색은 언제나 글자 라벨과 함께 쓴다(색만으로 구분하지 않음). tone은 배지·띠의 색 이름일 뿐이다.
  */
 
-import { addDays, addMonths, checkDay, diffDays, formatShort, isLocalDate, parseInstant, type LocalDate } from "@/core/calendar";
+import { addDays, addMonths, checkDay, diffDays, formatShort, isLocalDate, parseInstant, type LocalDate, type ShiftDirection } from "@/core/calendar";
 import { nextContactAfter, nextListedDay } from "@/core/contact";
 import type { Engine } from "@/core/engine";
 import { composeMessage, templateKeyFor, valuesForItem, type Message, type SendTiming } from "@/core/message";
-import { CONTACT_RESULT_LABEL, PROCEDURE_LABEL, PROCEDURES, type Contact, type Patient, type Procedure } from "@/core/patient";
+import { CONTACT_RESULT_LABEL, isAttempt, PROCEDURE_LABEL, PROCEDURES, type Contact, type Patient, type Procedure } from "@/core/patient";
 import { templateSlots, type Rules, type TemplateSlot } from "@/core/rules";
-import { buildSchedule, describeShift, type SchedulePoint } from "@/core/schedule";
+import { buildSchedule, describeShift, windowRange, type SchedulePoint } from "@/core/schedule";
 import { contactDate, type OverdueState, type PointStatus } from "@/core/status";
-import { REASON_LABEL, SAME_ANGLE_NOTE, type PatientDay, type Reason, type RowItem, type TodayList, type TodayRow } from "@/core/today";
+import { NURSE_CAUSE_LABEL, REASON_LABEL, SAME_ANGLE_NOTE, type NurseItem, type PatientDay, type Reason, type RowItem, type TodayList, type TodayRow } from "@/core/today";
 import { formatKstDateTime } from "./clock";
 
 export type Tone = "red" | "orange" | "green" | "blue" | "gray";
@@ -48,27 +48,79 @@ export function procedureLabel(p: Procedure): string {
   return PROCEDURE_LABEL[p];
 }
 
-/** 시점이 휴진으로 밀렸으면 "원래 9/20(일) → 휴진으로 미룸". 안 밀렸으면 null. */
-export function shiftNote(p: SchedulePoint): string | null {
-  if (p.skipped.length === 0) return null;
-  return `원래 ${fs(p.originalDate)}에서 미룸 — ${describeShift(p)}`;
+/**
+ * 근거 문서 id를 화면 이름으로. 화면은 문서 번호 대신 한국어 이름을 쓴다(적신호 증상 문서·의료진 인계 절차와 같은 방식).
+ * 표에 없는 id는 번호 그대로 두어, 새 근거 문서가 생겨도 근거가 사라지지 않게 한다.
+ */
+const BASIS_NAME: Record<string, string> = { V07: "수술 후 관리 문서", V08: "두피 주사 프로그램 문서" };
+
+/** 허용 범위 "9/23(수)~9/26(토), 수술 후 관리 문서". 범위가 없으면 null. */
+export function windowText(p: Pick<SchedulePoint, "originalDate" | "window">): string | null {
+  const r = windowRange(p);
+  return r && p.window ? `${fs(r.from)}~${fs(r.to)}, ${BASIS_NAME[p.window.basis] ?? p.window.basis}` : null;
 }
 
-/** 목록 한 줄 안의 항목 하나를 한 문장으로. */
+/** 옮긴 방향을 짧게(목록 줄 괄호 안). 안 옮겼으면 "". */
+export function shiftShort(p: Pick<SchedulePoint, "originalDate" | "shift">): string {
+  if (p.shift === "later") return ` (원래 ${fs(p.originalDate)}, 휴진으로 미룸)`;
+  if (p.shift === "earlier") return ` (원래 ${fs(p.originalDate)}, 허용 범위 안에서 앞당김)`;
+  return "";
+}
+
+/**
+ * 시점이 휴진에 걸렸을 때의 설명 한 줄. 안 걸렸으면 null.
+ *   미룸: "원래 9/20(일)에서 미룸 — 9/20 일요일 휴진"
+ *   앞당김: "원래 9/24(목)에서 앞당김 — 9/24 …, 9/25 …, 9/26 … · 허용 범위 9/23(수)~9/26(토), 수술 후 관리 문서 안에 뒤 진료일이 없음"
+ *   날짜 미정: "원래 9/25(금) — 허용 범위 9/24(목)~9/27(일), 수술 후 관리 문서 안에 진료일 없음(…) → 간호팀 확인"
+ */
+export function shiftNote(p: SchedulePoint): string | null {
+  if (p.skipped.length === 0) return null;
+  const w = windowText(p);
+  switch (p.shift) {
+    case "earlier":
+      return `원래 ${fs(p.originalDate)}에서 앞당김 — ${describeShift(p)} · 허용 범위 ${w} 안에 뒤 진료일이 없음`;
+    case "unresolved":
+      return `원래 ${fs(p.originalDate)} — 허용 범위 ${w} 안에 진료일 없음(${describeShift(p)}) → 간호팀 확인`;
+    default:
+      return `원래 ${fs(p.originalDate)}에서 미룸 — ${describeShift(p)}${w ? ` · 허용 범위 ${w} 안` : ""}`;
+  }
+}
+
+/** 목록 한 줄 안의 항목 하나를 한 문장으로. 날짜는 item.date(예약했으면 예약 날짜). */
 export function itemLine(item: RowItem): string {
   const p = item.point;
-  const shifted = p.skipped.length > 0 ? ` (원래 ${fs(p.originalDate)}, 휴진으로 미룸)` : "";
+  const d = item.date;
+  const shifted = item.viaBooking ? "" : shiftShort(p);
   switch (item.reason) {
     case "overdue":
-      return `${p.label} · 예정일 ${fs(p.dueDate)}${shifted} · ${item.daysPastDue}일 지남`;
+      return item.viaBooking
+        ? `${p.label} · 예약일 ${fs(d)} 지나고 오지 않음 · ${item.daysPastDue}일 지남${p.dueDate ? ` (원래 예정일 ${fs(p.dueDate)})` : ""}`
+        : `${p.label} · 예정일 ${fs(d)}${shifted} · ${item.daysPastDue}일 지남`;
     case "upcoming-visit":
-      return `${p.label} · ${fs(p.dueDate)} 내원 예정${shifted}`;
+      return `${p.label} · ${fs(d)} ${item.viaBooking ? "예약한 날 내원" : "내원 예정"}${shifted}`;
     case "care-notice":
-      return `${p.label} · ${fs(p.dueDate)} 안내${shifted}`;
+      return `${p.label} · ${fs(d)} 안내${shifted}`;
     case "injection-rebook":
-      return `${p.label} · ${fs(p.dueDate)} 예정이었음 · ${fs(addDays(p.dueDate, p.graceDays))}까지 날짜 옮기기${shifted}`;
+      return `${p.label} · ${fs(d)} 예정이었음 · ${fs(addDays(d, p.graceDays))}까지 날짜 옮기기${shifted}`;
     case "photo-round":
       return `${p.label} · 같은각도로 경과 사진`;
+  }
+}
+
+/** 간호팀 확인 한 건을 한 문장으로. */
+export function nurseLine(n: NurseItem, overdue: OverdueState | null, today: LocalDate): string {
+  switch (n.cause) {
+    case "injection-restart": {
+      const due = n.point!.dueDate ?? n.point!.originalDate;
+      // 앞으로 잡힌 예약도 재시작을 빼 주지 않는다(status.ts) — 간호팀이 그 예약을 진료로 바꿀지 정하도록 예약이 있다고 적는다.
+      const b = n.booking;
+      const booked = b ? (b.date < today ? ` (예약 ${fs(b.date)}도 지남)` : ` (예약 ${fs(b.date)} 있음)`) : "";
+      return `${n.point!.label} · 예정일 ${dateWithYear(due, today)}에서 ${diffDays(due, today)}일 빠짐 → 의료진 진료 뒤 재시작 — 간호팀 확인${booked}`;
+    }
+    case "max-attempts":
+      return `예정일 지남 연락 ${overdue?.attempts ?? 0}회에도 오지 않음 → 간호팀 확인`;
+    case "no-open-day":
+      return `${n.point!.label} · 원래 ${dateWithYear(n.point!.originalDate, today)} · 허용 범위 ${windowText(n.point!)} 안에 진료일 없음 → 간호팀 확인`;
   }
 }
 
@@ -117,21 +169,51 @@ export interface TodayGroupView {
   alsoIn: AlsoIn[];
 }
 
+export interface NurseView {
+  patientId: string;
+  alias: string;
+  procedure: string;
+  /** 까닭 이름("의료진 진료 뒤 재시작" 등). */
+  causes: string[];
+  lines: string[];
+  attempts: string | null;
+  href: string;
+  symptom: boolean;
+  inList: boolean;
+}
+
+export interface OptOutView {
+  patientId: string;
+  alias: string;
+  procedure: string;
+  since: string;
+  /** 수신 거부가 아니었다면 걸렸을 것. 없으면 null. */
+  held: string | null;
+  href: string;
+}
+
 export interface TodayView {
   dateLabel: string;
   total: number;
   groups: TodayGroupView[];
-  escalations: { patientId: string; alias: string; procedure: string; lines: string[]; attempts: string; since: string; href: string; symptom: boolean }[];
-  clinician: { patientId: string; alias: string; procedure: string; notes: { at: string; text: string; words: string[] }[]; href: string; inList: boolean }[];
+  nurse: NurseView[];
+  clinician: { patientId: string; alias: string; procedure: string; notes: { at: string; text: string; words: string[] }[]; href: string; inList: boolean; optedOut: boolean }[];
   waiting: { patientId: string; alias: string; procedure: string; next: string; attempts: string; href: string }[];
+  optedOut: OptOutView[];
 }
 
 export const patientHref = (id: string) => `/patient/${id}/`;
 
-export function rowBadges(row: Pick<TodayRow, "reasons" | "symptoms" | "holidayUnknown">): Badge[] {
+export function rowBadges(row: Pick<TodayRow, "reasons" | "symptoms" | "holidayUnknown"> & { items?: RowItem[] }): Badge[] {
   const out: Badge[] = row.reasons.map((r) => ({ label: REASON_LABEL[r], tone: REASON_TONE[r] }));
   if (row.symptoms.length > 0) out.push({ label: "의료진 확인", tone: "red" });
   if (row.holidayUnknown) out.push({ label: "공휴일 미확인", tone: "gray" });
+  // 예약으로 잡힌 날짜를 말하는 줄: 원래 예정일과 다른 날이라는 것을 목록에서 바로 보이게.
+  const booked = row.items?.find((i) => i.viaBooking);
+  // 예약 날짜가 지나 다시 지남이 된 줄에 '예약 잡음'이라고만 적으면 아직 예약이 살아 있는 것처럼 읽힌다.
+  if (booked) out.push(booked.reason === "overdue" ? { label: `예약일 지남 · ${fs(booked.date)}`, tone: "orange" } : { label: `예약 잡음 · ${fs(booked.date)}`, tone: "blue" });
+  const pulled = row.items?.find((i) => !i.viaBooking && i.point.shift === "earlier");
+  if (pulled) out.push({ label: "허용 범위 안 앞당김", tone: "orange" });
   return out;
 }
 
@@ -164,15 +246,16 @@ export function todayView(list: TodayList): TodayView {
         href: patientHref(r.patientId),
       })),
     })),
-    escalations: list.escalations.map((e) => ({
-      patientId: e.patientId,
-      alias: e.alias,
-      procedure: procedureLabel(e.procedure),
-      lines: e.overdue.missed.map((s) => itemLine({ reason: "overdue", point: s.point, daysPastDue: s.daysPastDue })),
-      attempts: attemptsText(e.overdue)!,
-      since: `${fs(e.overdue.since)}부터 예정일 지남`,
-      href: patientHref(e.patientId),
-      symptom: e.symptoms.length > 0,
+    nurse: list.nurseReview.map((n) => ({
+      patientId: n.patientId,
+      alias: n.alias,
+      procedure: procedureLabel(n.procedure),
+      causes: [...new Set(n.items.map((i) => NURSE_CAUSE_LABEL[i.cause]))],
+      lines: nurseLines(n.items, n.overdue, list.today),
+      attempts: n.overdue && n.overdue.action === "nurse" ? `${attemptsText(n.overdue)} · ${fs(n.overdue.since)}부터 예정일 지남` : null,
+      href: patientHref(n.patientId),
+      symptom: n.symptoms.length > 0,
+      inList: n.inList,
     })),
     clinician: list.clinicianReview.map((c) => ({
       patientId: c.patientId,
@@ -181,7 +264,23 @@ export function todayView(list: TodayList): TodayView {
       notes: c.symptoms.map((s) => ({ at: formatKstDateTime(parseInstant(s.at)), text: s.noteMasked, words: [...s.matchedSymptoms, ...s.matchedAmbiguous] })),
       href: patientHref(c.patientId),
       inList: listed.has(c.patientId),
+      optedOut: c.optedOut,
     })),
+    optedOut: list.optedOut.map((o) => {
+      const held = [
+        ...o.held.reasons.map((r) => REASON_LABEL[r]),
+        ...o.held.nurse.map((c) => `간호팀 확인(${NURSE_CAUSE_LABEL[c]})`),
+        ...(o.held.waiting ? ["재연락 대기"] : []),
+      ];
+      return {
+        patientId: o.patientId,
+        alias: o.alias,
+        procedure: procedureLabel(o.procedure),
+        since: `${formatKstDateTime(parseInstant(o.at))}부터 수신 거부`,
+        held: held.length > 0 ? `수신 거부가 아니었다면: ${[...new Set(held)].join(", ")}` : null,
+        href: patientHref(o.patientId),
+      };
+    }),
     waiting: list.waiting.map((w) => ({
       patientId: w.patientId,
       alias: w.alias,
@@ -196,6 +295,17 @@ export function todayView(list: TodayList): TodayView {
   };
 }
 
+/** 간호팀 확인 줄들. 최대 시도 줄에는 그 미방문 시점들을 함께 적는다(무엇이 안 닿았는지). */
+export function nurseLines(items: NurseItem[], overdue: OverdueState | null, today: LocalDate): string[] {
+  const out: string[] = [];
+  for (const n of items) {
+    out.push(nurseLine(n, overdue, today));
+    if (n.cause === "max-attempts" && overdue)
+      for (const s of overdue.missed) out.push(itemLine({ reason: "overdue", point: s.point, date: s.date!, daysPastDue: s.daysPastDue, ...(s.booking ? { viaBooking: true } : {}) }));
+  }
+  return out;
+}
+
 // ── 환자 상세 ─────────────────────────────────────────────
 
 export type NoticeState = "notice-upcoming" | "notice-active" | "notice-sent" | "notice-missed";
@@ -206,11 +316,14 @@ export type NoticeState = "notice-upcoming" | "notice-active" | "notice-sent" | 
  * 오늘 목록 판정(today.ts)에는 쓰지 않는다.
  */
 export function noticeState(s: Pick<PointStatus, "point" | "graceEnd">, contacts: Contact[], today: LocalDate): NoticeState {
-  const due = s.point.dueDate;
-  const after = contacts.map(contactDate).filter((d) => d >= due);
+  // 안내 시점은 휴진 이동 범위를 두지 않아(rules.ts) 날짜와 유예 끝이 늘 있다.
+  const due = s.point.dueDate!;
+  const graceEnd = s.graceEnd!;
+  // 수신 거부·풀기 기록은 안내를 보낸 연락이 아니다(core/patient.isAttempt).
+  const after = contacts.filter(isAttempt).map(contactDate).filter((d) => d >= due);
   if (due > today) return "notice-upcoming";
-  if (today <= s.graceEnd && after.length === 0) return "notice-active";
-  if (after.length > 0 && after[0] <= s.graceEnd) return "notice-sent";
+  if (today <= graceEnd && after.length === 0) return "notice-active";
+  if (after.length > 0 && after[0] <= graceEnd) return "notice-sent";
   return "notice-missed";
 }
 
@@ -230,6 +343,7 @@ export interface TimelineEntry {
   kindLabel: string;
   stateLabel: string;
   tone: Tone;
+  /** 이 시점을 말할 날짜(예약했으면 예약 날짜). 날짜 미정이면 원래 날짜를 두고 dateText가 그렇다고 말한다. */
   dueDate: LocalDate;
   dateText: string;
   shift: string | null;
@@ -254,11 +368,20 @@ function stateOf(s: PointStatus, contacts: Contact[], today: LocalDate): { label
     case "done":
       return s.early ? { label: `완료 · ${fs(s.visit!.date)} 조금 일찍 옴`, tone: "green" } : { label: `완료 · ${fs(s.visit!.date)} 방문`, tone: "green" };
     case "missed":
+      if (s.restart) return { label: `미방문 · 예정일에서 ${diffDays(s.point.dueDate ?? s.point.originalDate, today)}일 빠짐 → 의료진 진료 뒤 재시작 — 간호팀 확인`, tone: "red" };
+      if (s.booking) return { label: `미방문 · 예약일 ${fs(s.booking.date)} 지나고 ${s.daysPastDue}일`, tone: "red" };
       return { label: `미방문 · 예정일 ${s.daysPastDue}일 지남`, tone: "red" };
     case "skipped":
       return { label: "건너뜀 · 뒤 시점에 왔음", tone: "gray" };
     case "in-grace":
-      return { label: `유예 중 · ${fs(s.graceEnd)}까지`, tone: "orange" };
+      return { label: `유예 중 · ${fs(s.graceEnd!)}까지`, tone: "orange" };
+    case "booked":
+      if (s.restart) return { label: `예약 잡음 · ${fs(s.booking!.date)} · 예정일에서 ${diffDays(s.point.dueDate ?? s.point.originalDate, today)}일 빠짐 → 의료진 진료 뒤 재시작 — 간호팀 확인`, tone: "red" };
+      return { label: `예약 잡음 · ${fs(s.booking!.date)}`, tone: "blue" };
+    case "unscheduled":
+      return { label: "날짜 미정 · 허용 범위 안에 진료일 없음 → 간호팀 확인", tone: "orange" };
+    case "on-hold":
+      return { label: "재시작 전 · 의료진 진료 뒤 날짜를 다시 정함", tone: "gray" };
     case "due-today":
       return { label: "오늘 예정", tone: "blue" };
     case "upcoming":
@@ -275,29 +398,33 @@ function stateOf(s: PointStatus, contacts: Contact[], today: LocalDate): { label
 
 export function timeline(day: PatientDay, rules: Rules, today: LocalDate): Timeline {
   const start = day.patient.startDate;
-  const last = day.schedule.length > 0 ? day.schedule[day.schedule.length - 1].dueDate : start;
+  const lastPoint = day.schedule[day.schedule.length - 1];
+  const last = lastPoint ? (lastPoint.dueDate ?? lastPoint.originalDate) : start;
   const yearEnd = addMonths(start, 12);
   const end = last > yearEnd ? last : yearEnd;
   const span = Math.max(1, diffDays(start, end));
   const pct = (d: LocalDate) => Math.min(100, Math.max(0, (diffDays(start, d) / span) * 100));
   const contacts = day.patient.contacts;
   // 이미 끝난 시점(완료·건너뜀·지난 안내)에는 붙이지 않는다: 그 날짜가 공휴일이었어도 이제 바뀌는 것이 없다.
-  const openPoint = (s: PointStatus) => !(s.state === "done" || s.state === "skipped" || (s.state === "notice" && s.point.dueDate < today));
+  const openPoint = (s: PointStatus) => !(s.state === "done" || s.state === "skipped" || (s.state === "notice" && s.date !== null && s.date < today));
   const entries: TimelineEntry[] = day.statuses.map((s) => {
     const st = stateOf(s, contacts, today);
+    // 날짜 미정 시점은 띠 위에 원래 날짜 자리에 둔다(어디쯤의 일인지는 보이게), 글자로는 날짜가 없다고 말한다.
+    const d = s.date ?? s.point.originalDate;
     return {
       key: s.point.key,
       label: s.point.label,
       kindLabel: KIND_LABEL[s.point.kind],
       stateLabel: st.label,
       tone: st.tone,
-      dueDate: s.point.dueDate,
-      dateText: dateWithYear(s.point.dueDate, today),
-      shift: shiftNote(s.point),
+      dueDate: d,
+      dateText: s.date ? `${dateWithYear(s.date, today)}${s.booking && s.state !== "done" ? " (예약)" : ""}` : `날짜 미정 (원래 ${dateWithYear(s.point.originalDate, today)})`,
+      // 날짜 미정이던 시점을 예약으로 정했으면 "→ 간호팀 확인"은 이미 끝난 일이다. 예약으로 정했다고 바꿔 적는다.
+      shift: s.booking && s.point.shift === "unresolved" ? shiftNote(s.point)!.replace(/ → 간호팀 확인$/, " → 예약 날짜로 정함") : shiftNote(s.point),
       monthEnd: isMonthEndClamped(s.point, start, rules),
       holidayUnknown: s.point.holidayUnknown && openPoint(s),
       sameAngle: s.point.kind === "photo",
-      pct: pct(s.point.dueDate),
+      pct: pct(d),
     };
   });
   const c = rules.holidaysCoverage;
@@ -446,10 +573,24 @@ export interface AfterContact {
  * 미방문 환자면 "다음 연락일"(재연락 간격, 휴진이면 미룸), 아니면 "다음에 목록에 오르는 날"(오지 않는다고 가정).
  */
 export function afterContact(patient: Patient, engine: Engine, nowMs: number): AfterContact {
+  const lastRec = patient.contacts[patient.contacts.length - 1];
+  // 수신 거부는 다음 연락일을 계산하지 않는다 — 어느 목록에도 오르지 않으므로 "다음 연락 9/24" 같은 말이 거짓이 된다.
+  if (lastRec?.result === "opt-out") {
+    return { tone: "gray", lines: ["연락 원치 않음으로 적었습니다. 이 환자는 모든 연락 목록(오늘 목록·재연락 대기·간호팀 확인)에서 빠지고 '수신 거부'로 보입니다.", "되돌리려면 아래 '되돌리기'를 누르세요."] };
+  }
+  const bookedLine = lastRec?.result === "booked" && lastRec.booking ? `예약 ${fs(lastRec.booking.date)}로 적었습니다. 그날까지 이 시점은 예정일 지남에서 빠지고, 그날이 지나도 오지 않으면 다시 예정일 지남입니다.` : null;
+  const withBooked = (a: AfterContact): AfterContact => (bookedLine ? { tone: a.tone === "orange" ? "orange" : "blue", lines: [bookedLine, ...a.lines] } : a);
+  return withBooked(afterContactPlain(patient, engine, nowMs));
+}
+
+function afterContactPlain(patient: Patient, engine: Engine, nowMs: number): AfterContact {
   const n = nextContactAfter(patient, engine, nowMs);
   const o = n.overdue;
-  if (o?.action === "escalate") {
-    return { tone: "red", lines: [`미방문 연락 ${o.attempts}회 → 원장 확인으로 넘어갑니다(최대 ${engine.rules.maxAttempts}회).`, "코디네이터 목록에는 다시 오르지 않습니다."] };
+  if (o?.action === "nurse") {
+    const lines = o.nurseCauses.includes("injection-restart")
+      ? ["14일 넘게 빠진 주사 회차가 있어 간호팀 확인에 있습니다(의료진 진료 뒤 재시작).", "코디네이터 목록에는 오르지 않습니다."]
+      : [`미방문 연락 ${o.attempts}회 → 간호팀 확인으로 넘어갑니다(최대 ${engine.rules.maxAttempts}회).`, "코디네이터 목록에는 다시 오르지 않습니다."];
+    return { tone: "red", lines };
   }
   const nl = nextListedDay(patient, engine, nowMs);
   const nextListed = nl ? `다음에 목록에 오르는 날: ${fs(nl.date)} · ${nl.reasons.map((r) => REASON_LABEL[r]).join(", ")}` : "앞으로 90일 안에 목록에 다시 오르지 않습니다.";
@@ -470,8 +611,13 @@ export interface TryRow {
   label: string;
   kindLabel: string;
   original: string;
+  /** 잡힌 날짜. 허용 범위 안에 진료일이 없으면 "날짜 미정". */
   due: string;
+  /** 휴진에 걸려 옮겼거나 날짜를 못 정함. */
   shifted: boolean;
+  direction: ShiftDirection;
+  /** 허용 범위(근거 문서가 적은 시점만). */
+  window: string | null;
   shift: string | null;
   monthEnd: boolean;
   holidayUnknown: boolean;
@@ -502,6 +648,7 @@ export function tryIt(startDate: string, procedure: string, engine: Engine, toda
     notes.push(`공휴일은 ${c.from}~${c.to}만 확인했습니다. 그 밖의 날짜는 일요일·추가 휴진만 반영하고 '공휴일 미확인'으로 표시합니다.`);
   }
   if (proc === "scalp-care") notes.push("두피 관리는 마지막 방문에서 28일 뒤 안내 하나만 계산합니다. 방문할 때마다 다음 안내가 새로 잡힙니다.");
+  if (points.some((p) => p.shift === "unresolved")) notes.push("날짜 미정인 시점은 허용 범위 안에 진료일이 없어 날짜를 정하지 않았습니다. 간호팀 확인 목록에 오르고, 간호팀이 의료진과 확인한 뒤 '예약 잡음'으로 날짜를 적습니다.");
   return {
     ok: true,
     points,
@@ -512,8 +659,10 @@ export function tryIt(startDate: string, procedure: string, engine: Engine, toda
       kindLabel: KIND_LABEL[p.kind],
       // 1년 경과 진료는 해를 넘기므로 시작일과 해가 다르면 해를 붙인다.
       original: dateWithYear(p.originalDate, start),
-      due: dateWithYear(p.dueDate, start),
+      due: p.dueDate ? dateWithYear(p.dueDate, start) : "날짜 미정",
       shifted: p.skipped.length > 0,
+      direction: p.shift,
+      window: windowText(p),
       shift: describeShift(p),
       monthEnd: isMonthEndClamped(p, start, engine.rules),
       holidayUnknown: p.holidayUnknown,

@@ -712,6 +712,15 @@ ol.timeline li.past .when {
   border-left-color: var(--green);
   background: var(--green-bg);
 }
+.result.t-blue {
+  border-left-color: var(--blue);
+  background: var(--blue-bg);
+}
+.booking {
+  border-top: 1px solid var(--line);
+  margin-top: 10px;
+  padding-top: 8px;
+}
 .result p {
   margin: 0;
 }

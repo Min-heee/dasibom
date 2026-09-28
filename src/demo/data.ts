@@ -15,12 +15,16 @@ export interface ExpectedPoint {
   key: string;
   kind?: string;
   nominal: string;
-  due: string;
+  /** 허용 범위 안에 진료일이 없으면 null. */
+  due: string | null;
+  shiftDirection: "none" | "later" | "earlier" | "unresolved";
   shifted: { from: string; reason: string }[];
   monthEndClamped: boolean;
   windowStart?: string;
-  graceEnd?: string;
+  graceEnd?: string | null;
   status?: string;
+  bookedDate?: string;
+  restart?: boolean;
   visitDate?: string;
   reminderDay?: string;
   overdueSince?: string;
@@ -28,13 +32,14 @@ export interface ExpectedPoint {
 }
 
 export interface ExpectedOverdue {
-  state: "listed" | "waiting" | "director-review";
+  state: "listed" | "waiting" | "nurse-review";
   since: string;
   attempts: number;
   lastContact: string | null;
   retryOn: string | null;
   points: string[];
   daysPastDue: number;
+  nurseCauses: string[];
 }
 
 export interface ExpectedPatient {
@@ -43,6 +48,8 @@ export interface ExpectedPatient {
   startDate: string;
   todayReasons: string[];
   overdue: ExpectedOverdue | null;
+  nurse: string[];
+  optedOut: boolean;
   medicalReview: { at: string }[];
   points: ExpectedPoint[];
 }
@@ -53,9 +60,10 @@ export interface Expected {
   contactWindowAtAsOf: string;
   contactWindowChecks: { time: string; expected: "send-now" | "send-later" }[];
   todayList: { id: string; reasons: string[] }[];
-  directorReview: string[];
+  nurseReview: { id: string; causes: string[] }[];
   waitingRetry: { id: string; retryOn: string }[];
   medicalReview: string[];
+  optedOut: { id: string; held: string[]; heldNurse: string[] }[];
   patients: ExpectedPatient[];
   hypotheticals: Hypothetical[];
 }
@@ -66,8 +74,10 @@ export interface Planted {
   startDate: string;
   cats: string[];
   expectReasons: string[];
-  expectOverdue: "listed" | "waiting" | "director-review" | null;
+  expectOverdue: "listed" | "waiting" | "nurse-review" | "opted-out" | null;
   expectMedicalReview: boolean;
+  expectNurse: string[];
+  expectOptOut: boolean;
   story: string;
 }
 
@@ -75,7 +85,8 @@ export interface MutationRecord {
   _note: string;
   runs: { date: string; label: string; tests: number }[];
   families: { id: string; name: string }[];
-  mutants: { id: string; family: string; desc: string; run1: { killed: boolean; failedTests: number }; run2: { killed: boolean; failedTests: number } }[];
+  /** run1이 null이면 1차 뒤에 더한 변이다(2차에만 돌림). */
+  mutants: { id: string; family: string; desc: string; run1: { killed: boolean; failedTests: number } | null; run2: { killed: boolean; failedTests: number } }[];
 }
 
 export type Hypothetical = { id: string; procedure: string; startDate: string; note: string; points: ExpectedPoint[] };
@@ -100,6 +111,8 @@ export interface EvalBundle {
   planted: Planted[];
   mutation: MutationRecord;
   mutationScreen: ScreenMutationRecord;
+  /** v0.2.1 규칙(휴진 이동 범위·수신 거부·예약·재시작·명칭) 변이 기록. 코어 기록(mutation)은 v0.2 코드 기준이라 따로 싣는다. */
+  mutationRules: MutationRecord;
 }
 
 export const bundle = raw as unknown as Bundle;
