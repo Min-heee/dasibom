@@ -1,0 +1,997 @@
+/* 한창구 cbf5034 src/app/globals.css 에서 복사: 색 토큰·띠·탭·카드·버튼·입력·배지·접이식·안내 상자·표.
+ * 세 도구(한창구·같은각도·다시봄)가 같은 가상 의원의 한 가족으로 보이게 같은 색과 모양을 쓴다.
+ * 바꾼 곳: 띠의 가짜 표시(.fake)는 쓰지 않아 뺐다. 아래 '다시봄' 절부터가 이 저장소에서 더한 규칙이다.
+ *
+ * 규칙: 색은 토큰으로만 쓴다. 상태는 색과 함께 글자 라벨을 언제나 붙인다(색만으로 구분하지 않음).
+ * 버튼·링크 행은 최소 44px(손가락 터치). 휴대폰 폭(360px)에서 가로 스크롤이 생기지 않게 한다.
+ */
+
+:root {
+  --bg: #f6f6f3;
+  --surface: #ffffff;
+  --surface-2: #f0efea;
+  --text: #1c1c1a;
+  --muted: #5b5a55;
+  --line: #d9d7cf;
+  --accent: #1f5fbf;
+  --accent-ink: #ffffff;
+  --focus: #1f5fbf;
+
+  --red: #b3261e;
+  --red-bg: #fbe9e7;
+  --orange: #8a4b00;
+  --orange-bg: #fff1dc;
+  --green: #1d6b3a;
+  --green-bg: #e5f4ea;
+  --gray: #4a4a46;
+  --gray-bg: #ecebe6;
+  --blue: #1f4f99;
+  --blue-bg: #e6eefb;
+  --mark: #fff0a8;
+
+  --band-bg: #2b2a27;
+  --band-text: #ffffff;
+  --radius: 10px;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #161614;
+    --surface: #1f1f1c;
+    --surface-2: #292925;
+    --text: #efeee9;
+    --muted: #b3b1a8;
+    --line: #3d3c37;
+    --accent: #8fb6ff;
+    --accent-ink: #0f1830;
+    --focus: #8fb6ff;
+    --red: #ffb4ab;
+    --red-bg: #4a1714;
+    --orange: #ffc98a;
+    --orange-bg: #43290a;
+    --green: #9ad7ad;
+    --green-bg: #173323;
+    --gray: #d0cec6;
+    --gray-bg: #34332e;
+    --blue: #b0c8f5;
+    --blue-bg: #1b2a44;
+    --mark: #5c4f10;
+    --band-bg: #000000;
+    --band-text: #ffffff;
+    color-scheme: dark;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans KR", sans-serif;
+  font-size: 16px;
+  line-height: 1.55;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+a {
+  color: var(--accent);
+}
+
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+h1,
+h2,
+h3 {
+  line-height: 1.3;
+  margin: 0 0 8px;
+}
+h1 {
+  font-size: 1.35rem;
+}
+h2 {
+  font-size: 1.1rem;
+}
+h3 {
+  font-size: 1rem;
+}
+p {
+  margin: 0 0 8px;
+}
+
+/* 상단 띠: 가상 의원·합성 데이터·기준 시각을 항상 보인다(PRD F12). */
+.band {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--band-bg);
+  color: var(--band-text);
+  font-size: 0.85rem;
+  padding: 6px 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  justify-content: space-between;
+}
+.band strong {
+  font-weight: 700;
+}
+
+.top {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 12px 16px 0;
+}
+.top .brand {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.top .brand small {
+  color: var(--muted);
+}
+/* 세 도구의 관계. 휴대폰에서도 숨기지 않는다. */
+.top .tools {
+  margin: 4px 0 0;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+.top .tools strong {
+  color: var(--text);
+}
+nav.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  margin-top: 8px;
+  border-bottom: 1px solid var(--line);
+}
+nav.tabs a {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 14px;
+  text-decoration: none;
+  color: var(--muted);
+  border-bottom: 3px solid transparent;
+  white-space: nowrap;
+}
+nav.tabs .tab-short {
+  display: none;
+}
+nav.tabs a[aria-current="page"] {
+  color: var(--text);
+  border-bottom-color: var(--accent);
+  font-weight: 700;
+}
+
+main {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 16px 16px 64px;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 14px;
+  margin-bottom: 12px;
+}
+.card.alert {
+  border-left: 6px solid var(--red);
+}
+.card.warn {
+  border-left: 6px solid var(--orange);
+}
+.muted {
+  color: var(--muted);
+}
+.small {
+  font-size: 0.875rem;
+}
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+.stack > * + * {
+  margin-top: 8px;
+}
+
+button,
+.button {
+  min-height: 44px;
+  min-width: 44px;
+  padding: 0 14px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+button.primary,
+.button.primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-ink);
+  font-weight: 700;
+}
+button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+button.link {
+  border: 0;
+  background: none;
+  color: var(--accent);
+  padding: 0 6px;
+  text-decoration: underline;
+}
+
+input,
+select,
+textarea {
+  font: inherit;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  min-height: 44px;
+  padding: 8px 10px;
+  max-width: 100%;
+}
+textarea {
+  width: 100%;
+  min-height: 96px;
+  resize: vertical;
+}
+label {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+
+/* 배지·라벨: 글자 + 색. */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border-radius: 999px;
+  padding: 1px 10px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border: 1px solid var(--line);
+  background: var(--surface-2);
+  color: var(--gray);
+  white-space: nowrap;
+}
+.badge.red {
+  background: var(--red-bg);
+  color: var(--red);
+  border-color: transparent;
+}
+.badge.orange {
+  background: var(--orange-bg);
+  color: var(--orange);
+  border-color: transparent;
+}
+.badge.green {
+  background: var(--green-bg);
+  color: var(--green);
+  border-color: transparent;
+}
+.badge.blue {
+  background: var(--blue-bg);
+  color: var(--blue);
+  border-color: transparent;
+}
+.badge.gray {
+  background: var(--gray-bg);
+  color: var(--gray);
+  border-color: transparent;
+}
+
+/*
+ * 접이식 제목. display:flex면 브라우저 기본 삼각형(::marker)이 그려지지 않아 굵은 글씨처럼만 보였다.
+ * 기본 표시를 끄고 ▸/▾를 직접 붙인 뒤, 누를 수 있다는 것이 보이게 테두리를 준다.
+ */
+details > summary {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  list-style: none;
+  padding: 4px 10px;
+  margin: 6px 0;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+}
+details > summary::-webkit-details-marker {
+  display: none;
+}
+details > summary::before {
+  content: "▸";
+  flex: none;
+  color: var(--accent);
+}
+details[open] > summary::before {
+  content: "▾";
+}
+details > summary:hover {
+  border-color: var(--accent);
+}
+details.dev > summary {
+  font-weight: 400;
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+details.card.fold > summary {
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+
+/* 문장형 안내 상자. 배지(한 줄, 줄바꿈 없음)와 달리 휴대폰 폭에서 줄이 바뀐다. */
+.note {
+  border-radius: 8px;
+  padding: 8px 12px;
+  margin: 8px 0;
+  background: var(--surface-2);
+  border-left: 4px solid var(--line);
+}
+.note.warn {
+  background: var(--orange-bg);
+  border-left-color: var(--orange);
+  color: var(--text);
+}
+.note p:last-child {
+  margin-bottom: 0;
+}
+table.metrics {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+table.metrics th,
+table.metrics td {
+  text-align: left;
+  border-top: 1px solid var(--line);
+  padding: 8px 6px;
+  vertical-align: top;
+}
+.num {
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  /* "450 / 450"이 세 줄로, "1,440분"이 "144/0분"으로 끊기지 않게(body의 overflow-wrap: anywhere 때문). */
+  white-space: nowrap;
+}
+.two-col {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: 1fr;
+}
+@media (min-width: 820px) {
+  .two-col {
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+  }
+  /* 넓은 화면에서는 ③④를 붙잡아 두어, 인용 번호를 누르면 옆의 ②에서 칠해진 문단을 바로 본다. */
+  .sticky-col {
+    position: sticky;
+    top: 48px;
+    max-height: calc(100vh - 56px);
+    overflow-y: auto;
+  }
+}
+.kv {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 4px 12px;
+  font-size: 0.95rem;
+}
+.kv dt {
+  color: var(--muted);
+}
+.kv dd {
+  margin: 0;
+}
+.quote {
+  border-left: 4px solid var(--accent);
+  padding: 6px 10px;
+  background: var(--surface-2);
+  border-radius: 0 8px 8px 0;
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+
+/* ───────────── 다시봄 ───────────── */
+
+.band .band-log {
+  opacity: 0.9;
+}
+
+/* 첫 화면 요약: 묶음별 개수. 글자로 개수와 이름을 함께 적는다. */
+.counts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 8px 0 12px;
+  padding: 0;
+  list-style: none;
+}
+.counts a {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 12px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--text);
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+.counts a .num {
+  font-size: 1rem;
+}
+
+/* 이유 묶음 */
+section.group {
+  margin-bottom: 18px;
+  scroll-margin-top: 48px;
+}
+.group-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 0 0 6px;
+}
+.group-head .count {
+  color: var(--muted);
+  font-weight: 400;
+  font-size: 0.95rem;
+}
+
+ul.rows {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+ul.rows > li {
+  margin-bottom: 8px;
+}
+a.rowlink {
+  display: block;
+  min-height: 44px;
+  text-decoration: none;
+  color: inherit;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-left: 6px solid var(--line);
+  border-radius: var(--radius);
+  padding: 8px 12px;
+}
+a.rowlink:hover {
+  border-color: var(--accent);
+}
+a.rowlink.t-red {
+  border-left-color: var(--red);
+  background: linear-gradient(90deg, var(--red-bg), var(--surface) 35%);
+}
+a.rowlink.t-orange {
+  border-left-color: var(--orange);
+}
+a.rowlink.t-blue {
+  border-left-color: var(--blue);
+}
+a.rowlink.t-green {
+  border-left-color: var(--green);
+}
+a.rowlink.t-gray {
+  border-left-color: var(--gray);
+}
+.rowhead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 8px;
+}
+.rowhead .who {
+  font-weight: 700;
+}
+.rowhead .id {
+  color: var(--muted);
+  font-size: 0.85rem;
+  font-variant-numeric: tabular-nums;
+}
+.badges {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+ul.lines {
+  list-style: none;
+  padding: 0;
+  margin: 4px 0 0;
+  font-size: 0.95rem;
+}
+ul.lines li + li {
+  margin-top: 2px;
+}
+.attempts {
+  margin-top: 2px;
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+.empty {
+  color: var(--muted);
+  padding: 6px 0 2px;
+}
+
+/* 환자 상세: 1년 띠. 표시(모양)와 색을 함께 쓰고, 아래 목록이 같은 내용을 글자로 싣는다(띠는 보조). */
+.strip {
+  position: relative;
+  height: 56px;
+  margin: 12px 8px 4px;
+}
+.strip .axis {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 22px;
+  height: 2px;
+  background: var(--line);
+}
+.strip .dot {
+  position: absolute;
+  top: 12px;
+  width: 22px;
+  height: 22px;
+  margin-left: -11px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  border: 2px solid var(--surface);
+  background: var(--gray-bg);
+  color: var(--gray);
+}
+.strip .dot.t-red {
+  background: var(--red);
+  color: #fff;
+}
+.strip .dot.t-green {
+  background: var(--green-bg);
+  color: var(--green);
+}
+.strip .dot.t-orange {
+  background: var(--orange-bg);
+  color: var(--orange);
+}
+.strip .dot.t-blue {
+  background: var(--blue-bg);
+  color: var(--blue);
+}
+.strip .today {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 0;
+  border-left: 2px dashed var(--accent);
+}
+.strip .today span {
+  position: absolute;
+  top: 38px;
+  left: 4px;
+  font-size: 0.75rem;
+  color: var(--accent);
+  white-space: nowrap;
+}
+/* 오늘이 띠 오른쪽 끝 가까이면 글자를 왼쪽으로 뒤집어 잘리지 않게. */
+.strip .today.flip span {
+  left: auto;
+  right: 4px;
+}
+.strip-ends {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin: 0 8px 8px;
+}
+ol.timeline {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+ol.timeline > li {
+  display: grid;
+  grid-template-columns: 92px 1fr;
+  gap: 2px 10px;
+  border-top: 1px solid var(--line);
+  padding: 8px 0;
+}
+ol.timeline .when {
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+}
+ol.timeline .what {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 8px;
+  align-items: center;
+}
+ol.timeline .detail {
+  grid-column: 2;
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+ol.timeline li.past .when {
+  color: var(--muted);
+}
+
+/* 연락 문구 */
+.msg {
+  white-space: pre-wrap;
+  background: var(--surface-2);
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin: 6px 0;
+}
+.slots {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  font-size: 0.875rem;
+  color: var(--muted);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.slots b {
+  color: var(--green);
+}
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 8px 0;
+}
+.actions button {
+  flex: 1 1 120px;
+}
+.result {
+  border-radius: 8px;
+  padding: 10px 12px;
+  border-left: 6px solid var(--line);
+  background: var(--surface-2);
+  margin: 8px 0;
+}
+.result.t-red {
+  border-left-color: var(--red);
+  background: var(--red-bg);
+}
+.result.t-orange {
+  border-left-color: var(--orange);
+  background: var(--orange-bg);
+}
+.result.t-green {
+  border-left-color: var(--green);
+  background: var(--green-bg);
+}
+.result p {
+  margin: 0;
+}
+.result p + p {
+  margin-top: 2px;
+}
+fieldset.chips {
+  border: 0;
+  padding: 0;
+  margin: 6px 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+fieldset.chips legend {
+  font-size: 0.875rem;
+  color: var(--muted);
+  padding: 0;
+  margin-bottom: 4px;
+  width: 100%;
+}
+button.chip {
+  border-radius: 999px;
+  font-size: 0.9rem;
+}
+button.chip[aria-pressed="true"] {
+  background: var(--blue-bg);
+  border-color: var(--accent);
+  color: var(--blue);
+  font-weight: 700;
+}
+ul.plain {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+ul.contacts > li {
+  border-top: 1px solid var(--line);
+  padding: 6px 0;
+}
+
+/* 직접 해 보기·규칙 바꿔 보기 입력 */
+.form-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: flex-end;
+}
+.form-row label {
+  flex: 1 1 160px;
+}
+.form-row input,
+.form-row select {
+  width: 100%;
+}
+input[type="range"] {
+  width: 100%;
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+table.sched {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+  /* body의 overflow-wrap: anywhere를 그대로 받으면 '시점' 열이 한 글자 폭으로 줄고 날짜 열만 넓어진다. */
+  overflow-wrap: normal;
+  word-break: keep-all;
+}
+table.sched td.point {
+  min-width: 9em;
+}
+table.sched th,
+table.sched td {
+  text-align: left;
+  border-top: 1px solid var(--line);
+  padding: 8px 6px;
+  vertical-align: top;
+}
+table.sched td.date {
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+.scroll-x {
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+/* 앞으로 30일 막대: 날짜마다 두 막대(지금 규칙·바꾼 규칙)와 숫자를 함께. 차이는 +/−글자로도 적는다. */
+ol.bars {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+ol.bars > li {
+  display: grid;
+  grid-template-columns: 76px 1fr 64px;
+  gap: 2px 8px;
+  align-items: center;
+  padding: 3px 0;
+  border-top: 1px solid var(--line);
+  font-size: 0.875rem;
+}
+ol.bars > li.closed {
+  color: var(--muted);
+}
+ol.bars > li.changed {
+  background: var(--mark);
+}
+ol.bars .date {
+  font-variant-numeric: tabular-nums;
+}
+ol.bars .pair {
+  display: grid;
+  gap: 2px;
+}
+ol.bars .bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 12px;
+}
+ol.bars .bar i {
+  display: block;
+  height: 10px;
+  border-radius: 3px;
+  min-width: 0;
+}
+ol.bars .bar.before i {
+  background: var(--gray);
+  opacity: 0.55;
+}
+ol.bars .bar.after i {
+  background: var(--accent);
+}
+ol.bars .bar span {
+  font-variant-numeric: tabular-nums;
+  font-size: 0.8rem;
+}
+ol.bars .delta {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+}
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin: 4px 0 8px;
+}
+.legend i {
+  display: inline-block;
+  width: 18px;
+  height: 10px;
+  border-radius: 3px;
+  margin-right: 4px;
+  vertical-align: middle;
+}
+.legend i.before {
+  background: var(--gray);
+  opacity: 0.55;
+}
+.legend i.after {
+  background: var(--accent);
+}
+.big {
+  font-size: 1.6rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.pass {
+  color: var(--green);
+  font-weight: 700;
+}
+.fail {
+  color: var(--red);
+  font-weight: 700;
+}
+
+@media (max-width: 600px) {
+  .band {
+    font-size: 0.78rem;
+    padding: 4px 12px;
+  }
+  .top .brand small {
+    display: none;
+  }
+  nav.tabs {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+  }
+  nav.tabs a {
+    padding: 0 10px;
+  }
+  nav.tabs .tab-long {
+    display: none;
+  }
+  nav.tabs .tab-short {
+    display: inline;
+  }
+  /* 직접 해 보기 표: 휴대폰에서는 줄마다 카드로 쌓는다(시점 / 원래 → 잡힌 날짜 / 표시·사유). */
+  table.sched thead {
+    display: none;
+  }
+  table.sched,
+  table.sched tbody,
+  table.sched tr,
+  table.sched td {
+    display: block;
+    width: 100%;
+  }
+  table.sched tr {
+    border-top: 1px solid var(--line);
+    padding: 8px 0;
+  }
+  table.sched td {
+    border-top: 0;
+    padding: 2px 0;
+  }
+  table.sched td.date {
+    display: inline-block;
+    width: auto;
+    margin-right: 12px;
+  }
+  table.sched td.date::before {
+    content: attr(data-label) " ";
+    color: var(--muted);
+    font-size: 0.8rem;
+  }
+  ol.timeline > li {
+    grid-template-columns: 76px 1fr;
+  }
+  ol.bars > li {
+    grid-template-columns: 64px 1fr 44px;
+  }
+  .wide-only {
+    display: none !important;
+  }
+}
+.badge.wrap {
+  white-space: normal;
+}
+.attempts {
+  display: block;
+}
+h4 {
+  font-size: 0.95rem;
+  margin: 10px 0 4px;
+}
+code {
+  font-size: 0.85em;
+  background: var(--surface-2);
+  padding: 0 4px;
+  border-radius: 4px;
+  overflow-wrap: anywhere;
+}
+a.back {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+/* 목록·문단 안 환자 링크도 누르는 높이 44px(손가락 터치). */
+a.inline-hit {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+
+/* 다른 묶음 줄에 함께 들어간 환자(첫 화면 묶음 머리 아래). */
+.also-in {
+  margin: 0 0 6px;
+}
+.msg-block {
+  margin-top: 10px;
+}
+/* 규칙 바꿔 보기: 손을 떼기 전(아직 계산 안 한 값)의 결과는 흐리게. */
+.card.stale {
+  opacity: 0.6;
+}

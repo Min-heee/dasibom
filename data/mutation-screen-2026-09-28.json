@@ -1,0 +1,186 @@
+{
+ "_note": "화면 연결 변이 검사 기록(화면 적대 검토 반영 뒤). 실행기: scripts/mutate-screen.py — 변이마다 한 곳을 글자로 바꾸고 시험·타입 검사·lint 중 하나라도 실패하면 '잡힘'. 1차(U1~U18)에서 U18(세 도구 줄을 hidden으로 숨김)이 살아남아, 줄이 보이는지(hidden·휴대폰 CSS)를 보는 시험을 더하고 U19를 더해 다시 돌렸다. 아래는 다시 돌린 결과.",
+ "date": "2026-09-28",
+ "firstRun": {
+  "total": 18,
+  "killed": 17,
+  "survivors": [
+   "U18"
+  ]
+ },
+ "mutants": [
+  {
+   "id": "U1",
+   "desc": "첫 화면이 연락 기록을 무시(todayFor가 원본만)",
+   "file": "src/demo/screen.ts",
+   "killed": true,
+   "by": [
+    "test"
+   ]
+  },
+  {
+   "id": "U2",
+   "desc": "환자 화면 상태를 연락 전 원본으로",
+   "file": "src/demo/screen.ts",
+   "killed": true,
+   "by": [
+    "test"
+   ]
+  },
+  {
+   "id": "U3",
+   "desc": "연락 뒤 결과를 원본 환자로 계산",
+   "file": "src/demo/screen.ts",
+   "killed": true,
+   "by": [
+    "test"
+   ]
+  },
+  {
+   "id": "U4",
+   "desc": "보내기 배지를 늘 초록 '지금 보내기'로",
+   "file": "src/demo/view.ts",
+   "killed": true,
+   "by": [
+    "test"
+   ]
+  },
+  {
+   "id": "U5",
+   "desc": "문구 만드는 시각 칩 무시(늘 09:00)",
+   "file": "src/app/_components/Patient.tsx",
+   "killed": true,
+   "by": [
+    "test"
+   ]
+  },
+  {
+   "id": "U6",
+   "desc": "직접 해 보기 '다음 진료일로 미룸' 배지 제거",
+   "file": "src/app/_components/Try.tsx",
+   "killed": true,
+   "by": [
+    "test"
+   ]
+  },
+  {
+   "id": "U7",
+   "desc": "직접 해 보기 원래 날짜 칸에 잡힌 날짜",
+   "file": "src/app/_components/Try.tsx",
+   "killed": true,
+   "by": [
+    "test"
+   ]
+  },
+  {
+   "id": "U8",
+   "desc": "띠가 실제 시계를 읽음",
+   "file": "src/app/_components/Chrome.tsx",
+   "killed": true,
+   "by": [
+    "test",
+    "lint"
+   ]
+  },
+  {
+   "id": "U9",
+   "desc": "규칙 바꿔 보기가 실제 시계를 읽음",
+   "file": "src/app/_components/Rules.tsx",
+   "killed": true,
+   "by": [
+    "test",
+    "lint"
+   ]
+  },
+  {
+   "id": "U10",
+   "desc": "목록 줄에 첫 사유 줄만",
+   "file": "src/app/_components/Today.tsx",
+   "killed": true,
+   "by": [
+    "test"
+   ]
+  },
+  {
+   "id": "U11",
+   "desc": "묶음 개수를 줄 수로(사진 회차 0명)",
+   "file": "src/demo/view.ts",
+   "killed": true,
+   "by": [
+    "test"
+   ]
+  },
+  {
+   "id": "U12",
+   "desc": "저장값 모양 검사 제거",
+   "file": "src/demo/storage.ts",
+   "killed": true,
+   "by": [
+    "test"
+   ]
+  },
+  {
+   "id": "U13",
+   "desc": "같은 환자 다시 누르면 쌓임(바꾸지 않음)",
+   "file": "src/demo/storage.ts",
+   "killed": true,
+   "by": [
+    "test"
+   ]
+  },
+  {
+   "id": "U14",
+   "desc": "적신호: 어절 넘는 적중 허용(원본 동작)",
+   "file": "src/core/redflag.ts",
+   "killed": true,
+   "by": [
+    "test"
+   ]
+  },
+  {
+   "id": "U15",
+   "desc": "30일 예측 창을 내일부터",
+   "file": "src/core/simulate.ts",
+   "killed": true,
+   "by": [
+    "test"
+   ]
+  },
+  {
+   "id": "U16",
+   "desc": "미방문 문자 한 통 줄이기 제거",
+   "file": "src/demo/view.ts",
+   "killed": true,
+   "by": [
+    "test"
+   ]
+  },
+  {
+   "id": "U17",
+   "desc": "원장 확인 설명 문장 제거",
+   "file": "src/app/_components/Patient.tsx",
+   "killed": true,
+   "by": [
+    "test"
+   ]
+  },
+  {
+   "id": "U18",
+   "desc": "세 도구 줄 숨김(hidden)",
+   "file": "src/app/_components/Chrome.tsx",
+   "killed": true,
+   "by": [
+    "test"
+   ]
+  },
+  {
+   "id": "U19",
+   "desc": "휴대폰 폭에서 세 도구 줄 숨김(CSS)",
+   "file": "src/app/globals.css",
+   "killed": true,
+   "by": [
+    "test"
+   ]
+  }
+ ]
+}
