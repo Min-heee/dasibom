@@ -46,9 +46,14 @@ def D(s: str) -> dt.date:
     return fx.d(s)
 
 
-def c(day: str, hm: str, result: str, note: str) -> dict:
+def c(day: str, hm: str, result: str, note: str, booking: tuple[str, str] | None = None) -> dict:
     assert usable(D(day)), f"연락일이 진료일이 아님: {day}"
-    return {"at": f"{day}T{hm}:00+09:00", "result": result, "note": note}
+    out = {"at": f"{day}T{hm}:00+09:00", "result": result, "note": note}
+    if booking:
+        key, when = booking
+        assert result == BOOKED and rules.closed_reason(D(when)) is None and D(when) >= D(day), f"예약 날짜가 틀림: {booking}"
+        out["booking"] = {"pointKey": key, "date": when}
+    return out
 
 
 def normal_visits(p: dict, missed: set[str] = frozenset(), early: dict | None = None) -> list[dict]:
@@ -61,7 +66,8 @@ def normal_visits(p: dict, missed: set[str] = frozenset(), early: dict | None = 
         if pt["key"] in early:
             out.append({"date": early[pt["key"]], "kind": pt["key"]})
             continue
-        if pt["due"] >= TODAY:
+        # 날짜 미정(허용 범위 안에 진료일 없음) 시점에는 '그날 온 방문'을 만들 수 없다.
+        if pt["due"] is None or pt["due"] >= TODAY:
             continue
         day = pt["due"]
         while not usable(day):
@@ -85,8 +91,10 @@ def P(pid, proc, start, *, missed=(), early=None, visits=None, contacts=(), expe
 
 HT, INJ, SC = "hair-transplant", "injection", "scalp-care"
 NA, SMS, CALLED, LATER = "no-answer", "sms", "called", "later"
+BOOKED, OPT_OUT, OPT_IN = "booked", "opt-out", "opt-in"
 
-# expect = (오늘 이유 목록, 예정일 지남 상태 listed|waiting|director-review|None, 의료진 확인 여부)
+# expect = (오늘 이유 목록, 예정일 지남 자리 listed|waiting|nurse-review|opted-out|None, 의료진 확인 여부[, 간호팀 확인 까닭, 수신 거부])
+# 뒤 두 칸은 v0.2.1에서 더함. 세 칸이면 간호팀 확인 없음·수신 거부 아님.
 planted = [
     P("P001", HT, "2026-03-09", missed={"m6"}, contacts=[
         c("2026-09-08", "11:00", SMS, "내원 안내 문자 발송"),
@@ -103,8 +111,8 @@ planted = [
         c("2026-09-12", "10:40", NA, "부재중"),
         c("2026-09-15", "14:00", NA, "받지 않음"),
         c("2026-09-18", "15:30", SMS, "예약 안내 문자 보냄")],
-      expect=([], "director-review", False), cats=["지남:최대 시도 초과→원장 확인"],
-      story="6개월(9/4) 지남, 연락 3회 = maxAttempts → 원장 확인"),
+      expect=([], "nurse-review", False, ["max-attempts"]), cats=["지남:최대 시도 초과→간호팀 확인"],
+      story="6개월(9/4) 지남, 연락 3회 = maxAttempts → 간호팀 확인"),
     P("P004", HT, "2026-08-10", missed={"w4"},
       expect=(["overdue"], "listed", False), cats=["지남:첫 연락"],
       story="4주(9/7) 유예 7일 끝(9/14), 9/15부터 지남. 연락 없음"),
@@ -121,14 +129,14 @@ planted = [
       story="4주(9/9) 지남. 9/17 통화했지만 오지 않음 → 통화도 1회, 9/20부터 다시"),
     P("P008", INJ, "2026-07-27", missed={"inj-4", "inj-5"}, contacts=[
         c("2026-09-14", "17:00", LATER, "다음 주에 다시 연락 달라고 함")],
-      expect=(["overdue"], "listed", False), cats=["지남:재연락 간격 지남"],
-      story="주사 4회차(9/7) 유예 3일 끝, 9/11부터 지남. '다음에'(9/14)+3일=9/17. 5회차는 오늘(9/21) 예정이라 목록 이유 아님"),
+      expect=(["overdue"], "listed", False), cats=["지남:재연락 간격 지남", "대조:주사 14일 경계"],
+      story="주사 4회차(9/7) 유예 3일 끝, 9/11부터 지남. '다음에'(9/14)+3일=9/17. 5회차는 오늘(9/21) 예정이라 목록 이유 아님. 4회차는 예정일에서 딱 14일이라 '14일 넘게'가 아님 → 재시작 아님"),
     P("P009", INJ, "2026-06-29", missed={"inj-5", "inj-6", "inj-7"}, contacts=[
         c("2026-08-28", "10:20", NA, "부재중"),
         c("2026-09-01", "15:40", NA, "받지 않음"),
         c("2026-09-04", "11:10", NA, "부재중")],
-      expect=([], "director-review", False), cats=["지남:최대 시도 초과→원장 확인"],
-      story="주사 5·6회차 지남(8/28부터), 부재 3회 → 원장 확인"),
+      expect=([], "nurse-review", False, ["injection-restart", "max-attempts"]), cats=["지남:최대 시도 초과→간호팀 확인", "14일 초과 주사"],
+      story="주사 5회차(8/24) 8/28부터 지남, 부재 3회. 5회차가 예정일에서 28일 빠져 의료진 진료 뒤 재시작(6·7회차는 재시작 전) + 최대 시도 → 간호팀 확인"),
     P("P010", HT, "2026-03-12", missed={"m6"},
       expect=(["overdue"], "listed", False), cats=["지남:유예 경계"],
       story="6개월(9/12 토) 유예 끝 9/19, 9/20부터 지남"),
@@ -155,8 +163,8 @@ planted = [
     P("P017", INJ, "2026-08-20", missed={"inj-2", "inj-3"}, contacts=[
         c("2026-09-07", "10:30", NA, "부재중"),
         c("2026-09-10", "13:00", SMS, "예약 안내 문자 보냄")],
-      expect=(["overdue"], "listed", False), cats=["지남:재연락 간격 지남"],
-      story="주사 2회차(9/3) 9/7부터 지남, 연락 2회(마지막 9/10) → 다시 목록. 3회차(9/17)도 지남"),
+      expect=([], "nurse-review", False, ["injection-restart"]), cats=["14일 초과 주사"],
+      story="주사 2회차(9/3) 9/7부터 지남, 연락 2회. 2회차가 예정일에서 18일 빠짐 → 재예약 문구 대신 의료진 진료 뒤 재시작 — 간호팀 확인. 3회차(9/17)는 재시작 전(v0.2까지는 예정일 지남 목록)"),
 
     P("P018", HT, "2026-09-15", contacts=[c("2026-09-18", "10:00", SMS, "머리 감기 안내 문자 발송")],
       expect=(["upcoming-visit", "photo-round"], None, False), cats=["내일 내원", "사진 회차", "여러 이유"],
@@ -187,8 +195,8 @@ planted = [
       story="D+7 예정 9/15, 9/14(1일 전)에 옴 → 완료. D+14 안내는 9/22"),
 
     P("P027", HT, "2026-09-17",
-      expect=(["care-notice"], None, False), cats=["휴진 밀림"],
-      story="D+3 원래 9/20(일) → 9/21 안내 오늘. D+7 원래 9/24(추석 연휴) → 9/28"),
+      expect=(["care-notice"], None, False), cats=["휴진 밀림", "허용 범위 안 앞당김"],
+      story="D+3 원래 9/20(일) → 9/21 안내 오늘. D+7 원래 9/24(추석 연휴) → 허용 범위 9/23~9/26(V07)에서 뒤 9/25·9/26이 휴진이라 9/23으로 앞당김(v0.2까지는 9/28, D+11)"),
     P("P028", HT, "2026-08-28", contacts=[c("2026-09-11", "10:40", SMS, "2주 안내 문자 발송")],
       expect=([], None, False), cats=["휴진 밀림"],
       story="4주 원래 9/25(추석) → 9/28, 안내일은 9/23"),
@@ -196,8 +204,8 @@ planted = [
       expect=([], None, False), cats=["휴진 밀림"],
       story="6개월 원래 9/26(추석 연휴, 토) → 9/28"),
     P("P030", INJ, "2026-09-10",
-      expect=([], None, False), cats=["휴진 밀림"],
-      story="주사 2회차 원래 9/24(추석 연휴) → 9/28"),
+      expect=([], None, False), cats=["휴진 밀림", "허용 범위 안 앞당김"],
+      story="주사 2회차 원래 9/24(추석 연휴) → 앞뒤 3일(V08) 중 뒤 9/25~9/27이 휴진이라 9/23으로 앞당김(v0.2까지는 9/28, +4일). 안내일은 9/22"),
     P("P031", HT, "2026-04-03",
       expect=([], None, False), cats=["휴진 밀림"],
       story="6개월 원래 10/3(개천절) → 10/4(일) → 10/5(대체공휴일) → 10/6"),
@@ -205,8 +213,8 @@ planted = [
       expect=([], None, False), cats=["휴진 밀림"],
       story="6개월 원래 10/9(한글날) → 10/10(토)"),
     P("P033", HT, "2026-09-18",
-      expect=(["care-notice"], None, False), cats=["휴진 밀림"],
-      story="D+3 오늘(9/21) 안내. D+7 원래 9/25 → 9/28, 4주 원래 10/16(내부 교육 휴진) → 10/17"),
+      expect=(["care-notice"], None, False, ["no-open-day"]), cats=["휴진 밀림", "허용 범위 안 진료일 없음"],
+      story="D+3 오늘(9/21) 안내. D+7 원래 9/25(추석) → 허용 범위 9/24~9/27이 모두 휴진 → 날짜 미정, 간호팀 확인(v0.2까지는 9/28). 4주 원래 10/16(내부 교육 휴진) → 10/17"),
     P("P034", HT, "2026-03-20",
       expect=([], None, False), cats=["휴진 밀림", "대조:오늘이 예정일"],
       story="6개월 원래 9/20(일) → 9/21(오늘). 오늘이 예정일이면 목록에 없음(전날 안내)"),
@@ -245,15 +253,52 @@ planted = [
       expect=([], None, False), cats=["대조:관리 안내 이미 함"],
       story="9/19 안내 시점에 이미 문자 보냄 → 목록에 없음"),
     P("P045", INJ, "2026-08-07", missed={"inj-3", "inj-4"},
-      expect=(["overdue", "injection-rebook"], "listed", False), cats=["지남:첫 연락", "주사 재예약", "여러 이유"],
-      story="주사 3회차(9/4) 9/8부터 지남 + 4회차(9/18) 유예 안"),
+      expect=([], "nurse-review", False, ["injection-restart"]), cats=["14일 초과 주사"],
+      story="주사 3회차(9/4) 예정일에서 17일 빠짐 → 의료진 진료 뒤 재시작 — 간호팀 확인. 4회차(9/18)는 재시작 전이라 재예약하지 않음(v0.2까지는 예정일 지남 + 주사 재예약)"),
+
+    # v0.2.1: 연락 결과 '예약 잡음'·'연락 원치 않음'과 날짜 미정 해소를 드러내는 사례(P121~). P046~P120의 조용한 환자를 그대로 두려고 뒤에 붙인다.
+    P("P121", HT, "2026-08-11", missed={"w4"}, contacts=[
+        c("2026-09-16", "10:20", NA, "부재중"),
+        c("2026-09-17", "11:40", OPT_OUT, "앞으로 연락하지 말아 달라고 함")],
+      expect=([], "opted-out", False, [], True), cats=["수신 거부"],
+      story="4주(9/8) 9/16부터 지남, 부재 1회(9/16) + 3일 = 9/19면 다시 목록이지만 9/17 연락 원치 않음 → 모든 연락 목록에서 빠지고 수신 거부 목록에만"),
+    P("P122", HT, "2026-08-14", missed={"w4"}, contacts=[
+        c("2026-09-05", "10:00", OPT_OUT, "문자 받지 않겠다고 함"),
+        c("2026-09-12", "15:10", OPT_IN, "다시 연락 받겠다고 함")],
+      expect=(["overdue"], "listed", False), cats=["수신 거부 풀림", "지남:첫 연락"],
+      story="9/5 연락 원치 않음 → 9/12 수신 거부 풀기. 4주(9/11) 9/19부터 지남, 두 기록은 연락 시도가 아니라 첫 연락"),
+    P("P123", HT, "2026-03-11", missed={"m6"}, contacts=[
+        c("2026-09-19", "10:30", BOOKED, "통화함. 9/28로 예약", booking=("m6", "2026-09-28"))],
+      expect=([], None, False), cats=["예약 잡음 전"],
+      story="6개월(9/11) 9/19부터 지남이었지만 9/19에 9/28로 예약 → 예약 날짜까지 지남에서 빠짐. 내일 내원 안내는 9/23(9/28의 전 진료일)"),
+    P("P124", INJ, "2026-08-18", missed={"inj-3"}, contacts=[
+        c("2026-09-19", "11:15", BOOKED, "통화함. 9/22로 예약", booking=("inj-3", "2026-09-22"))],
+      expect=(["upcoming-visit"], None, False), cats=["예약 잡음 전", "내일 내원"],
+      story="주사 3회차(9/15) 9/19부터 지남 → 9/19에 9/22로 예약. 예약 날짜의 전 진료일이 오늘이라 내일 내원(예약한 날)"),
+    P("P125", HT, "2026-03-05", missed={"m6"}, contacts=[
+        c("2026-09-14", "14:00", BOOKED, "통화함. 9/16으로 예약", booking=("m6", "2026-09-16"))],
+      expect=(["overdue"], "listed", False), cats=["예약 잡음 후"],
+      story="6개월(9/5 토) 9/13부터 지남 → 9/14에 9/16으로 예약했지만 오지 않음 → 9/17부터 다시 지남, 그 뒤 연락 0회라 첫 연락. 문구 날짜는 예약일 9/16"),
+    P("P126", HT, "2026-09-18", contacts=[
+        c("2026-09-19", "12:00", BOOKED, "D+1 내원 때 간호팀이 의료진과 확인해 D+7을 9/23으로 예약", booking=("d7", "2026-09-23"))],
+      expect=(["care-notice"], None, False), cats=["허용 범위 안 진료일 없음", "예약 잡음 전"],
+      story="P033과 같은 9/18 수술: D+7(9/25)은 허용 범위 안에 진료일이 없어 날짜 미정이지만 9/23으로 예약해 간호팀 확인에서 빠짐. D+3 안내는 오늘"),
+    P("P127", INJ, "2026-08-18", missed={"inj-2", "inj-3"}, contacts=[
+        c("2026-09-18", "10:30", BOOKED, "통화함. 9/23으로 예약", booking=("inj-2", "2026-09-23"))],
+      expect=([], None, False, ["injection-restart"]), cats=["14일 초과 주사", "예약 잡음 전"],
+      story="주사 2회차(9/1)를 17일 지나 9/23으로 예약. 예약은 재시작을 빼 주지 않으므로(D01) 오늘 예정일에서 20일 빠짐 → 의료진 진료 뒤 재시작 — 간호팀 확인, 3회차(9/15)는 재시작 전이라 지남으로 올리지 않음"),
 ]
+
+
+def expect_of(p: dict) -> tuple[list, str | None, bool, list, bool]:
+    e = p["_expect"]
+    return (e[0], e[1], e[2], e[3] if len(e) > 3 else [], e[4] if len(e) > 4 else False)
 
 
 def check_planted(p: dict) -> None:
     ev = fx.evaluate(rules, p, rf)
-    reasons, state, med = p["_expect"]
-    got_state = ev["overdue"]["state"] if ev["overdue"] else None
+    reasons, state, med, nurse, opted = expect_of(p)
+    got_state = "opted-out" if ev["optedOut"] and ev["overdue"] else ev["overdue"]["state"] if ev["overdue"] else None
     problems = []
     if ev["reasons"] != reasons:
         problems.append(f"이유 {ev['reasons']} != 의도 {reasons}")
@@ -261,6 +306,10 @@ def check_planted(p: dict) -> None:
         problems.append(f"지남 상태 {got_state} != 의도 {state}")
     if bool(ev["medicalReview"]) != med:
         problems.append(f"의료진 확인 {bool(ev['medicalReview'])} != 의도 {med}")
+    if ev["nurse"] != nurse:
+        problems.append(f"간호팀 확인 {ev['nurse']} != 의도 {nurse}")
+    if (ev["optedOut"] is not None) != opted:
+        problems.append(f"수신 거부 {ev['optedOut'] is not None} != 의도 {opted}")
     if problems:
         raise SystemExit(f"{p['id']}: " + "; ".join(problems))
 
@@ -303,7 +352,7 @@ def filler(rng: random.Random, pid: str, proc: str) -> dict:
         else:
             visits = []
             for pt in fx.plan_points(rules, {**base, "visits": [], "contacts": []}):
-                if pt["kind"] == "notice" or pt["due"] >= TODAY:
+                if pt["kind"] == "notice" or pt["due"] is None or pt["due"] >= TODAY:
                     continue
                 shift = rng.choice([0, 0, 0, 0, -1, 1, 2]) if pt["earlyDays"] or pt["graceDays"] > 1 else 0
                 day = max(pt["due"] + dt.timedelta(days=shift), pt["windowStart"])
@@ -320,7 +369,7 @@ def filler(rng: random.Random, pid: str, proc: str) -> dict:
                                          "result": res, "note": rng.choice(NEUTRAL[res])})
         p = {**base, "visits": sorted(visits, key=lambda x: x["date"]), "contacts": sorted(contacts, key=lambda x: x["at"])}
         ev = fx.evaluate(rules, p, rf)
-        if not ev["reasons"] and not ev["overdue"] and not ev["medicalReview"]:
+        if not ev["reasons"] and not ev["overdue"] and not ev["medicalReview"] and not ev["nurse"]:
             return p
     raise SystemExit(f"{pid}: 조용한 환자를 만들지 못함")
 
@@ -337,12 +386,17 @@ def main() -> None:
     rng.shuffle(kinds)
     fillers = [filler(rng, f"P{i:03d}", k) for i, k in zip(range(46, 121), kinds)]
 
+    # 이름 120개(PREFIX × NOUN)는 P001~P120이 그대로 쓰고, v0.2.1에 붙인 P121~는 섞지 않은 새 이름을 받는다
+    # (섞는 순서가 바뀌면 조용한 환자 75명까지 다시 만들어져 v0.2와 숫자를 비교할 수 없게 된다).
+    first, later = planted[:45], planted[45:]
+    extra_aliases = [f"작은 {n}" for n in ["별", "숲", "섬", "길", "강", "달", "솔", "들"]]
     out = []
-    for i, p in enumerate(planted + fillers):
-        rec = {"id": p["id"], "alias": aliases[i], "procedure": p["procedure"], "startDate": p["startDate"],
-               "visits": p["visits"], "contacts": p["contacts"]}
+    for i, p in enumerate(first + fillers + later):
+        rec = {"id": p["id"], "alias": aliases[i] if i < len(aliases) else extra_aliases[i - len(aliases)], "procedure": p["procedure"],
+               "startDate": p["startDate"], "visits": p["visits"], "contacts": p["contacts"]}
         out.append(rec)
-    assert len(out) == 120 and len({p["id"] for p in out}) == 120
+    n = 120 + len(later)
+    assert len(out) == n and len({p["id"] for p in out}) == n
 
     # 중립 메모에 증상 표현이 섞이지 않았는지(심은 2건만 걸려야 한다).
     flagged = [p["id"] for p in out if fx.evaluate(rules, p, rf)["medicalReview"]]
@@ -359,7 +413,8 @@ def main() -> None:
     (ROOT / "data" / "scripts" / "expected_ids.json").write_text(json.dumps(detail) + "\n", encoding="utf-8")
     (ROOT / "data" / "scripts" / "planted.json").write_text(json.dumps(
         [{"id": p["id"], "procedure": p["procedure"], "startDate": p["startDate"], "cats": p["_cats"],
-          "expectReasons": p["_expect"][0], "expectOverdue": p["_expect"][1], "expectMedicalReview": p["_expect"][2],
+          "expectReasons": expect_of(p)[0], "expectOverdue": expect_of(p)[1], "expectMedicalReview": expect_of(p)[2],
+          "expectNurse": expect_of(p)[3], "expectOptOut": expect_of(p)[4],
           "story": p["_story"]} for p in planted], ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     from collections import Counter
     print("환자", len(out), Counter(p["procedure"] for p in out))

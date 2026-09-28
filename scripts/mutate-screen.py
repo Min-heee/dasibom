@@ -18,7 +18,7 @@ M=[
  ("U3","연락 뒤 결과를 원본 환자로 계산","src/demo/screen.ts","afterContact(current, engine, nowMs)","afterContact(basePatient, engine, nowMs)"),
  ("U4","보내기 배지를 늘 초록 '지금 보내기'로","src/demo/view.ts",'return { label: timingText(m.timing), tone: m.timing.mode === "now" ? "green" : "orange" };','return { label: "지금 보내기 · 연락 가능 시간대 안", tone: "green" };'),
  ("U5","문구 만드는 시각 칩 무시(늘 09:00)","src/app/_components/Patient.tsx","const composeMs = kstInstant(DEMO_TODAY, composeAt);",'const composeMs = kstInstant(DEMO_TODAY, "09:00");'),
- ("U6","직접 해 보기 '다음 진료일로 미룸' 배지 제거","src/app/_components/Try.tsx",'{x.shifted && <span className="badge orange">다음 진료일로 미룸</span>}',"{null}"),
+ ("U6","직접 해 보기 '허용 범위 안 앞당김' 배지 제거","src/app/_components/Try.tsx",'{x.direction === "earlier" && <span className="badge orange">허용 범위 안 이전 진료일로 앞당김</span>}',"{null}"),
  ("U7","직접 해 보기 원래 날짜 칸에 잡힌 날짜","src/app/_components/Try.tsx","{x.original}","{x.due}"),
  ("U8","띠가 실제 시계를 읽음","src/app/_components/Chrome.tsx","{bandText(DEMO_NOW_MS)}","{bandText(Date.parse(Date()))}"),
  ("U9","규칙 바꿔 보기가 실제 시계를 읽음","src/app/_components/Rules.tsx","simulate(patients, engine, DEMO_NOW_MS, simOption(committed.optId)","simulate(patients, engine, Date.parse(Date()), simOption(committed.optId)"),
@@ -29,7 +29,7 @@ M=[
  ("U14","적신호: 어절 넘는 적중 허용(원본 동작)","src/core/redflag.ts","if (!crosses || n.wordStart.has(i)) return true;","return true;"),
  ("U15","30일 예측 창을 내일부터","src/core/simulate.ts","  for (let i = 0; i < days; i++) {","  for (let i = 1; i <= days; i++) {"),
  ("U16","미방문 문자 한 통 줄이기 제거","src/demo/view.ts","      if (overdueDone) continue;\n",""),
- ("U17","원장 확인 설명 문장 제거","src/app/_components/Patient.tsx",'{v.badges.some((b) => b.label === "원장 확인") && <p className="small">최대 시도까지 연락해도 닿지 않아 코디네이터 목록에서 빠지고 원장 확인 목록에 있습니다.</p>}',"{null}"),
+ ("U17","간호팀 확인 설명 상자 제거","src/app/_components/Patient.tsx","{v.nurse.lines.length > 0 && (","{v.nurse.lines.length < 0 && ("),
  ("U18","세 도구 줄 숨김(hidden)","src/app/_components/Chrome.tsx",'<p className="tools">','<p className="tools" hidden>'),
  ("U19","휴대폰 폭에서 세 도구 줄 숨김(CSS)","src/app/globals.css","  nav.tabs .tab-long {\n    display: none;\n  }","  nav.tabs .tab-long {\n    display: none;\n  }\n  .top .tools {\n    display: none;\n  }"),
 ]

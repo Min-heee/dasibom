@@ -71,6 +71,21 @@ class Rules:
             day += dt.timedelta(days=1)
         return day, shifts
 
+    def shift_in_window(self, day: dt.date, before: int, after: int) -> tuple[dt.date | None, str, list[dict], list[dt.date]]:
+        """D01 '휴진일에 걸리면': 범위 안 다음 진료일 → 범위 안 이전 진료일(앞당김) → 없으면 날짜 미정(None).
+        살펴본 휴진일을 살펴본 순서(원래 날짜, 뒤로, 앞으로)대로 남긴다."""
+        shifts = []
+        candidates = [(day, "none")] + [(day + dt.timedelta(days=i), "later") for i in range(1, after + 1)] \
+            + [(day - dt.timedelta(days=i), "earlier") for i in range(1, before + 1)]
+        looked = []
+        for cand, direction in candidates:
+            looked.append(cand)
+            r = self.closed_reason(cand)
+            if r is None:
+                return cand, direction, shifts, looked
+            shifts.append({"from": iso(cand), "reason": r})
+        return None, "unresolved", shifts, looked
+
     def prev_open_before(self, day: dt.date) -> dt.date:
         day -= dt.timedelta(days=1)
         while self.closed_reason(day) is not None:
@@ -104,14 +119,15 @@ def plan_points(rules: Rules, p: dict) -> list[dict]:
             else:
                 nominal, clamped = add_months_clamp(start, it["offsetMonths"])
             pts.append({"key": it["key"], "kind": it["kind"], "nominal": nominal, "clamped": clamped,
-                        "earlyDays": it["earlyDays"], "graceDays": it["graceDays"]})
+                        "earlyDays": it["earlyDays"], "graceDays": it["graceDays"], "window": it.get("shiftWindow")})
     elif p["procedure"] == "injection":
         inj = proc["injection"]
         for n in range(2, inj["sessions"] + 1):
             nominal = start + dt.timedelta(days=inj["intervalDays"] * (n - 1))
             kind = "photo" if n in inj["photoSessions"] else "visit"
             pts.append({"key": f"{inj['keyPrefix']}{n}", "kind": kind, "nominal": nominal, "clamped": False,
-                        "earlyDays": inj["earlyDays"], "graceDays": inj["graceDays"]})
+                        "earlyDays": inj["earlyDays"], "graceDays": inj["graceDays"], "window": inj.get("shiftWindow"),
+                        "restartAfter": inj["restartAfterDays"]})
     elif p["procedure"] == "scalp-care":
         sc = proc["scalp-care"]
         visits = [d(v["date"]) for v in p["visits"] if v["kind"] == sc["key"] and d(v["date"]) < TODAY]
@@ -120,24 +136,41 @@ def plan_points(rules: Rules, p: dict) -> list[dict]:
         horizon, _ = add_months_clamp(start, sc["horizonMonths"])
         if nominal <= horizon:
             pts.append({"key": sc["key"], "kind": sc["kind"], "nominal": nominal, "clamped": False,
-                        "earlyDays": sc["earlyDays"], "graceDays": sc["graceDays"], "anchor": anchor})
+                        "earlyDays": sc["earlyDays"], "graceDays": sc["graceDays"], "anchor": anchor, "window": None})
     else:
         raise SystemExit(f"{p['id']}: 모르는 시술 {p['procedure']}")
+    assert rules.policy["shiftRule"] == "window-next-then-previous", rules.policy["shiftRule"]
     for pt in pts:
-        pt["due"], pt["shifts"] = rules.next_open(pt["nominal"])
+        w = pt["window"]
+        if w:
+            # 살펴본 날 전부가 확인 기간 안이어야 공휴일을 믿을 수 있다.
+            pt["due"], pt["direction"], pt["shifts"], looked = rules.shift_in_window(pt["nominal"], w["before"], w["after"])
+        else:
+            pt["due"], pt["shifts"] = rules.next_open(pt["nominal"])
+            pt["direction"] = "later" if pt["shifts"] else "none"
+            looked = [pt["nominal"], pt["due"]]
         pt["windowStart"] = pt["nominal"] - dt.timedelta(days=pt["earlyDays"])
-        pt["graceEnd"] = pt["due"] + dt.timedelta(days=pt["graceDays"])
-        pt["holidayUnverified"] = not (rules.in_coverage(pt["nominal"]) and rules.in_coverage(pt["due"]))
+        pt["graceEnd"] = pt["due"] + dt.timedelta(days=pt["graceDays"]) if pt["due"] else None
+        pt["holidayUnverified"] = not all(rules.in_coverage(x) for x in looked)
     return pts
 
 
-def contact_dates(p: dict) -> list[dt.date]:
+ATTEMPT_RESULTS = {"called", "no-answer", "sms", "later", "booked"}
+
+
+def contacts_before(p: dict) -> list[dict]:
+    """기준 시각 이전 연락(시간순). 연락 원치 않음·수신 거부 풀기도 들어 있다 — 시도 수를 셀 때 따로 거른다."""
     out = []
     for c in p["contacts"]:
         at = dt.datetime.fromisoformat(c["at"])
-        if at < dt.datetime.fromisoformat(AS_OF):
-            out.append(at.date())
-    return sorted(out)
+        if at <= dt.datetime.fromisoformat(AS_OF):
+            out.append({"date": at.date(), "result": c["result"], "booking": c.get("booking")})
+    return out
+
+
+def contact_dates(p: dict) -> list[dt.date]:
+    """연락 시도로 세는 연락의 날짜(D01: 연락 원치 않음·수신 거부 풀기는 세지 않음)."""
+    return sorted(c["date"] for c in contacts_before(p) if c["result"] in ATTEMPT_RESULTS)
 
 
 class RedFlag:
@@ -166,23 +199,67 @@ def evaluate(rules: Rules, p: dict, rf: RedFlag) -> dict:
     pol = rules.policy
     pts = plan_points(rules, p)
     visits = [(d(v["date"]), v["kind"]) for v in p["visits"] if d(v["date"]) < TODAY]
+    before = contacts_before(p)
     cdates = contact_dates(p)
+    bookings = {}
+    for c in before:
+        if c["result"] == "booked":
+            bookings[c["booking"]["pointKey"]] = d(c["booking"]["date"])  # 뒤 기록이 앞 기록을 바꾼다
+    consent = [c["result"] for c in before if c["result"] in ("opt-out", "opt-in")]
+    opted_out = bool(consent) and consent[-1] == "opt-out"
+    opt_out_at = next((c for c in reversed(p["contacts"]) if c["result"] == "opt-out"), None) if opted_out else None
 
-    # 1) 방문 시점 완료 판정
+    # 1) 방문 시점: 완료·예약·날짜 미정·유예
     for pt in pts:
         if pt["kind"] == "notice":
             continue
+        booked = bookings.get(pt["key"])
+        pt["booked"] = booked
+        if booked and booked < pt["windowStart"]:
+            pt["windowStart"] = booked
         ok = sorted(vd for vd, k in visits if k == pt["key"] and vd >= pt["windowStart"])
         pt["visitDate"] = ok[0] if ok else None
         pt["done"] = bool(ok)
         pt["early"] = bool(ok) and ok[0] < pt["nominal"]
-    # 2) 뒤 시점이 완료됐으면 앞 미완료 시점은 건너뜀
+        pt["date"] = booked or pt["due"]
+        if booked:
+            pt["graceEnd"] = booked
+        if pt["done"]:
+            pt["status"] = "done-early" if pt["early"] else "done"
+        elif booked:
+            pt["status"] = "booked" if booked >= TODAY else "overdue"
+        elif pt["due"] is None:
+            pt["status"] = "unscheduled"
+        elif TODAY > pt["graceEnd"]:
+            pt["status"] = "overdue"
+        elif pt["due"] < TODAY:
+            pt["status"] = "in-grace"
+        elif pt["due"] == TODAY:
+            pt["status"] = "due-today"
+        else:
+            pt["status"] = "upcoming"
+    # 2) 뒤 시점이 완료됐으면 앞의 지남·날짜 미정은 건너뜀
     visit_pts = [pt for pt in pts if pt["kind"] != "notice"]
     for i, pt in enumerate(visit_pts):
-        pt["skipped"] = (not pt["done"]) and any(q["done"] for q in visit_pts[i + 1:])
+        if pt["status"] in ("overdue", "unscheduled") and any(q["done"] for q in visit_pts[i + 1:]):
+            pt["status"] = "skipped"
+    # 3) 주사 재시작(V08): 첫 '지남' 회차가 예정일(옮긴 날짜, 없으면 원래 날짜)에서 restartAfterDays를 넘기면 재시작, 뒤 회차는 보류.
+    #    앞으로 잡힌 예약(booked) 회차도 대상이다 — D01이 예약으로 빼 주는 것은 지남·재예약·날짜 미정뿐이고 재시작은 아니다.
+    restart_pt = None
+    for i, pt in enumerate(visit_pts):
+        if pt["status"] in ("overdue", "booked") and "restartAfter" in pt and (TODAY - (pt["due"] or pt["nominal"])).days > pt["restartAfter"]:
+            restart_pt = pt
+            pt["restart"] = True
+            for q in visit_pts[i + 1:]:
+                if "restartAfter" in q and q["status"] not in ("done", "done-early", "skipped"):
+                    q["status"] = "on-hold"
+            break
+    for pt in visit_pts:
+        if pt["status"] == "overdue":
+            pt["overdueSince"] = (pt["booked"] + dt.timedelta(days=1)) if pt["booked"] else pt["graceEnd"] + dt.timedelta(days=1)
+            pt["daysPastDue"] = (TODAY - pt["date"]).days
 
     reasons: set[str] = set()
-    overdue_pts = []
     for pt in pts:
         if pt["kind"] == "notice":
             sent = [c for c in cdates if c >= pt["due"]]
@@ -196,53 +273,45 @@ def evaluate(rules: Rules, p: dict, rf: RedFlag) -> dict:
             else:
                 pt["status"] = "notice-missed"
             continue
-        if pt["done"]:
-            pt["status"] = "done-early" if pt["early"] else "done"
-        elif pt["skipped"]:
-            pt["status"] = "skipped"
-        elif TODAY > pt["graceEnd"]:
-            pt["status"] = "overdue"
-            pt["overdueSince"] = pt["graceEnd"] + dt.timedelta(days=1)
-            overdue_pts.append(pt)
-        elif pt["due"] < TODAY:
-            pt["status"] = "in-grace"
-            if p["procedure"] == "injection":
-                rebook_from = pt["due"] + dt.timedelta(days=1)
-                if not [c for c in cdates if c >= rebook_from]:
-                    reasons.add("injection-rebook")
-        elif pt["due"] == TODAY:
-            pt["status"] = "due-today"
-        else:
-            pt["status"] = "upcoming"
-            reminder = rules.prev_open_before(pt["due"])
+        if pt["status"] in ("upcoming", "booked"):
+            reminder = rules.prev_open_before(pt["date"])
             pt["reminderDay"] = reminder
             if reminder == TODAY and not [c for c in cdates if c >= reminder]:
                 reasons.add("upcoming-visit")
                 if pt["kind"] == "photo":
                     reasons.add("photo-round")
+        if pt["status"] == "in-grace" and p["procedure"] == "injection":
+            if not [c for c in cdates if c >= pt["due"] + dt.timedelta(days=1)]:
+                reasons.add("injection-rebook")
 
+    overdue_pts = [pt for pt in visit_pts if pt["status"] == "overdue"]
     overdue = None
+    nurse: list[str] = []
     if overdue_pts:
         since = min(pt["overdueSince"] for pt in overdue_pts)
         counted = [c for c in cdates if c >= since]
         attempts = len(counted)
         last = counted[-1] if counted else None
-        if attempts >= pol["maxAttempts"]:
-            state = "director-review"
-            nxt = None
+        causes = (["injection-restart"] if restart_pt else []) + (["max-attempts"] if attempts >= pol["maxAttempts"] else [])
+        if causes:
+            state, nxt = "nurse-review", None
         elif attempts == 0:
-            state = "listed"
-            nxt = None
+            state, nxt = "listed", None
         else:
             retry_on = last + dt.timedelta(days=pol["retryIntervalDays"])
             state = "listed" if TODAY >= retry_on else "waiting"
             nxt = retry_on
         if state == "listed":
             reasons.add("overdue")
-        worst = min(overdue_pts, key=lambda q: q["due"])
+        nurse += causes
         overdue = {"state": state, "since": iso(since), "attempts": attempts, "lastContact": iso(last),
                    "retryOn": iso(nxt), "points": [q["key"] for q in overdue_pts],
-                   "daysPastDue": (TODAY - worst["due"]).days, "pastDueKey": worst["key"]}
+                   "daysPastDue": max(q["daysPastDue"] for q in overdue_pts), "nurseCauses": causes}
+    if restart_pt and not overdue_pts:
+        # 재시작 회차가 앞으로 잡힌 예약이면 지남 회차가 없어 위 블록을 지나지 않는다.
+        nurse.append("injection-restart")
+    if any(pt["status"] == "unscheduled" for pt in visit_pts):
+        nurse.append("no-open-day")
 
     flags = []
     for c in p["contacts"]:
@@ -251,10 +320,14 @@ def evaluate(rules: Rules, p: dict, rf: RedFlag) -> dict:
             flags.append({"at": c["at"], "symptoms": h["symptoms"], "ambiguous": h["ambiguous"], "context": h["context"]})
 
     order = pol["reasonOrder"]
+    held = [r for r in order if r in reasons]
     return {
         "points": pts,
-        "reasons": [r for r in order if r in reasons],
+        # 수신 거부면 모든 연락 목록에서 뺀다(D01 '연락 결과'). 무엇이 걸려 있었는지는 held에 남긴다.
+        "reasons": [] if opted_out else held,
         "overdue": overdue,
+        "nurse": [] if opted_out else nurse,
+        "optedOut": {"at": opt_out_at["at"], "held": held, "heldNurse": nurse} if opted_out else None,
         "medicalReview": flags,
     }
 
@@ -272,13 +345,18 @@ def point_json(pt: dict, rules: Rules) -> dict:
         "kind": pt["kind"],
         "nominal": iso(pt["nominal"]),
         "due": iso(pt["due"]),
-        "dueDow": DOW_KO[pt["due"].weekday()],
+        "dueDow": DOW_KO[pt["due"].weekday()] if pt["due"] else None,
+        "shiftDirection": pt["direction"],
         "shifted": pt["shifts"],
         "monthEndClamped": pt["clamped"],
         "windowStart": iso(pt["windowStart"]),
         "graceEnd": iso(pt["graceEnd"]),
         "status": pt["status"],
     }
+    if pt.get("booked"):
+        out["bookedDate"] = iso(pt["booked"])
+    if pt.get("restart"):
+        out["restart"] = True
     if pt.get("visitDate"):
         out["visitDate"] = iso(pt["visitDate"])
     if pt.get("reminderDay"):
@@ -296,15 +374,17 @@ def main() -> None:
     patients = json.loads((ROOT / "data" / "patients.json").read_text(encoding="utf-8"))
     detail_ids = json.loads((ROOT / "data" / "scripts" / "expected_ids.json").read_text(encoding="utf-8"))
 
-    today_list, director, waiting, medical = [], [], [], []
+    today_list, nurse, waiting, medical, opted_out = [], [], [], [], []
     detailed = []
     for p in patients:
         ev = evaluate(rules, p, rf)
         if ev["reasons"]:
             today_list.append({"id": p["id"], "reasons": ev["reasons"]})
-        if ev["overdue"] and ev["overdue"]["state"] == "director-review":
-            director.append(p["id"])
-        if ev["overdue"] and ev["overdue"]["state"] == "waiting":
+        if ev["nurse"]:
+            nurse.append({"id": p["id"], "causes": ev["nurse"]})
+        if ev["optedOut"]:
+            opted_out.append({"id": p["id"], "held": ev["optedOut"]["held"], "heldNurse": ev["optedOut"]["heldNurse"]})
+        elif ev["overdue"] and ev["overdue"]["state"] == "waiting":
             waiting.append({"id": p["id"], "retryOn": ev["overdue"]["retryOn"]})
         if ev["medicalReview"]:
             medical.append(p["id"])
@@ -316,20 +396,29 @@ def main() -> None:
                 "points": [point_json(pt, rules) for pt in ev["points"]],
                 "todayReasons": ev["reasons"],
                 "overdue": ev["overdue"],
+                "nurse": ev["nurse"],
+                "optedOut": ev["optedOut"] is not None,
                 "medicalReview": ev["medicalReview"],
             })
 
     # 직접 해 보기(F10)용 가상 입력: 데이터 환자가 아닌 계산 사례.
     hypo = []
-    for hid, start, note in [
+    for item in [
         ("H1", "2026-01-31", "1월 31일 기준. 2026-01-31은 토요일(수술 없는 요일)이라 환자 데이터에는 넣지 않고 계산 사례로만 둔다."),
         ("H2", "2027-04-09", "직접 해 보기 입력 예: 6개월이 2027-10-09(한글날, 토) → 10/10(일) → 10/11(대체공휴일) → 10/12로 세 번 미뤄짐. 1년은 2028년이라 공휴일 미확인."),
         ("H3", "2027-08-31", "윤년 월말: 6개월 = 2028-02-29(clamp). 2028년은 공휴일 미확인이라 일요일·추가 휴진만 반영."),
+        ("H4", "2026-09-17", "직접 해 보기 첫 예시: D+7이 9/24(추석 연휴). 허용 범위 9/23~9/26(V07) 안에 뒤 진료일이 없어 9/23으로 앞당김. D+3은 9/20(일) → 9/21."),
+        ("H5", "2026-09-18", "D+7이 9/25(추석). 허용 범위 9/24~9/27이 모두 휴진이라 날짜 미정 → 간호팀 확인."),
+    ] + [
+        ("H6", "2026-09-10", "두피 주사 2회차 9/24(추석 연휴): 앞뒤 3일(V08) 안에서 뒤 9/25~9/27이 모두 휴진이라 9/23으로 앞당김.", "injection"),
     ]:
-        pts = plan_points(rules, {"id": hid, "procedure": "hair-transplant", "startDate": start, "visits": [], "contacts": []})
-        hypo.append({"id": hid, "procedure": "hair-transplant", "startDate": start, "note": note,
+        hid, start, note = item[:3]
+        proc = "injection" if len(item) == 4 else "hair-transplant"
+        pts = plan_points(rules, {"id": hid, "procedure": proc, "startDate": start, "visits": [], "contacts": []})
+        hypo.append({"id": hid, "procedure": proc, "startDate": start, "note": note,
                      "points": [{"key": pt["key"], "nominal": iso(pt["nominal"]), "due": iso(pt["due"]),
-                                 "dueDow": DOW_KO[pt["due"].weekday()], "shifted": pt["shifts"],
+                                 "dueDow": DOW_KO[pt["due"].weekday()] if pt["due"] else None,
+                                 "shiftDirection": pt["direction"], "shifted": pt["shifts"],
                                  "monthEndClamped": pt["clamped"],
                                  **({"holidayUnverified": True} if pt["holidayUnverified"] else {})} for pt in pts]})
 
@@ -343,14 +432,15 @@ def main() -> None:
             for t in ["08:59", "09:00", "19:59", "20:00", "21:30"]
         ],
         "todayList": today_list,
-        "directorReview": director,
+        "nurseReview": nurse,
         "waitingRetry": waiting,
         "medicalReview": medical,
+        "optedOut": opted_out,
         "patients": detailed,
         "hypotheticals": hypo,
     }
     (ROOT / "data" / "expected-schedule.json").write_text(json.dumps(out, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    print(f"todayList {len(today_list)}명, 원장 확인 {len(director)}명, 재연락 대기 {len(waiting)}명, 의료진 확인 {len(medical)}명, 상세 {len(detailed)}명")
+    print(f"todayList {len(today_list)}명, 간호팀 확인 {len(nurse)}명, 재연락 대기 {len(waiting)}명, 의료진 확인 {len(medical)}명, 수신 거부 {len(opted_out)}명, 상세 {len(detailed)}명")
 
 
 if __name__ == "__main__":

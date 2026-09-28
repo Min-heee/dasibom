@@ -1,0 +1,1079 @@
+{
+ "_note": "v0.2.1 규칙 변이 검사 기록. 실행기: scripts/mutate-rules.py — 변이마다 한 곳(또는 짝지은 몇 곳)을 글자로 바꾸고 npx vitest run, 실패한 시험이 하나라도 있으면 '잡힘'. 1차는 v0.2.1 구현 직후 시험으로 A~G 76개를 돌렸고 13개가 살아남았다(앞당김 표시, 날짜 미정 배지·설명, 기준 시각 뒤 기록, 수신 거부 환자의 간호팀 확인, 옮긴 날짜 기준 재시작 일수, 힌트의 문서 번호 등). 그 12개를 잡는 시험을 더하고, 독립 대조로 찾은 결함(14일 넘게 지난 뒤 앞날로 잡은 예약이 재시작을 가림)을 고친 뒤 H 계열 4개를 더해 2차를 돌렸다. F6(완료된 뒤 회차도 재시작 전으로)은 동작이 원본과 같은 변이다 — 뒤 회차가 완료되면 앞 미방문은 이미 건너뜀이라 재시작 대상이 되지 않는다. F7·G13은 결함을 고치며 대상 코드가 바뀌어 2차에서 대상 글자를 새 코드에 맞췄다.",
+ "runs": [
+  {
+   "date": "2026-09-28",
+   "label": "1차(v0.2.1 구현 직후)",
+   "tests": 335
+  },
+  {
+   "date": "2026-09-28",
+   "label": "2차(시험 추가·예약 재시작 수정 뒤)",
+   "tests": 349
+  }
+ ],
+ "families": [
+  {
+   "id": "A",
+   "name": "휴진 이동 범위를 무시하거나 경계를 하루 틀림"
+  },
+  {
+   "id": "B",
+   "name": "앞당김 금지·순서·방향 표시"
+  },
+  {
+   "id": "C",
+   "name": "허용 범위 안 진료일 없음(날짜 미정) 표시 누락"
+  },
+  {
+   "id": "D",
+   "name": "수신 거부 무시·잘못 셈"
+  },
+  {
+   "id": "E",
+   "name": "예약 날짜가 지나도 계속 제외·유예·기준 시각"
+  },
+  {
+   "id": "F",
+   "name": "주사 재시작 14일 경계와 기준일"
+  },
+  {
+   "id": "G",
+   "name": "볼트 명칭 매핑 누락('원장 확인' 되돌림 포함)"
+  },
+  {
+   "id": "H",
+   "name": "예약과 재시작(독립 대조 뒤 추가)"
+  }
+ ],
+ "mutants": [
+  {
+   "id": "A1",
+   "family": "A",
+   "desc": "범위 무시: 모든 시점을 다음 진료일로(shiftToOpenDay)",
+   "run1": {
+    "killed": true,
+    "failedTests": 33
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 36
+   }
+  },
+  {
+   "id": "A2",
+   "family": "A",
+   "desc": "범위 뒤 경계 무시: after 대신 31일까지 미룸(앞당김·날짜 미정 사라짐)",
+   "run1": {
+    "killed": true,
+    "failedTests": 34
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 37
+   }
+  },
+  {
+   "id": "A3",
+   "family": "A",
+   "desc": "뒤 경계 off-by-one: after 날 제외(i < after)",
+   "run1": {
+    "killed": true,
+    "failedTests": 14
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 14
+   }
+  },
+  {
+   "id": "A4",
+   "family": "A",
+   "desc": "뒤 경계 off-by-one: after+1일까지",
+   "run1": {
+    "killed": true,
+    "failedTests": 31
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 33
+   }
+  },
+  {
+   "id": "A5",
+   "family": "A",
+   "desc": "앞 경계 off-by-one: before 날 제외(i < before)",
+   "run1": {
+    "killed": true,
+    "failedTests": 20
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 21
+   }
+  },
+  {
+   "id": "A6",
+   "family": "A",
+   "desc": "앞 경계 off-by-one: before+1일까지",
+   "run1": {
+    "killed": true,
+    "failedTests": 26
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 28
+   }
+  },
+  {
+   "id": "A7",
+   "family": "A",
+   "desc": "화면 허용 범위 끝을 after+1로 표시(windowRange)",
+   "run1": {
+    "killed": true,
+    "failedTests": 10
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 10
+   }
+  },
+  {
+   "id": "B1",
+   "family": "B",
+   "desc": "앞당김 금지(before 루프 제거)",
+   "run1": {
+    "killed": true,
+    "failedTests": 22
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 23
+   }
+  },
+  {
+   "id": "B2",
+   "family": "B",
+   "desc": "앞당김을 먼저 보고 미룸은 나중(순서 뒤집기)",
+   "run1": {
+    "killed": true,
+    "failedTests": 13
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 15
+   }
+  },
+  {
+   "id": "B3",
+   "family": "B",
+   "desc": "앞당길 때 가장 먼 날부터",
+   "run1": {
+    "killed": true,
+    "failedTests": 8
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 8
+   }
+  },
+  {
+   "id": "B4",
+   "family": "B",
+   "desc": "앞당김 방향을 later로 표시",
+   "run1": {
+    "killed": true,
+    "failedTests": 13
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 14
+   }
+  },
+  {
+   "id": "B5",
+   "family": "B",
+   "desc": "규칙 검사: before > earlyDays 허용",
+   "run1": {
+    "killed": true,
+    "failedTests": 2
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 2
+   }
+  },
+  {
+   "id": "B6",
+   "family": "B",
+   "desc": "목록 배지 '허용 범위 안 앞당김' 누락",
+   "run1": {
+    "killed": false,
+    "failedTests": 0
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 1
+   }
+  },
+  {
+   "id": "B7",
+   "family": "B",
+   "desc": "목록 줄 앞당김 문구를 '미룸'으로",
+   "run1": {
+    "killed": false,
+    "failedTests": 0
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 1
+   }
+  },
+  {
+   "id": "B8",
+   "family": "B",
+   "desc": "타임라인 앞당김 설명 → 미룸 설명으로(case earlier 제거)",
+   "run1": {
+    "killed": true,
+    "failedTests": 2
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 2
+   }
+  },
+  {
+   "id": "C1",
+   "family": "C",
+   "desc": "날짜 미정 시점을 간호팀 확인에 안 올림",
+   "run1": {
+    "killed": true,
+    "failedTests": 19
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 20
+   }
+  },
+  {
+   "id": "C2",
+   "family": "C",
+   "desc": "날짜 미정 대신 범위 밖 다음 진료일로 채움",
+   "run1": {
+    "killed": true,
+    "failedTests": 25
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 26
+   }
+  },
+  {
+   "id": "C3",
+   "family": "C",
+   "desc": "shiftNote 날짜 미정에서 '→ 간호팀 확인' 빠짐",
+   "run1": {
+    "killed": true,
+    "failedTests": 1
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 1
+   }
+  },
+  {
+   "id": "C4",
+   "family": "C",
+   "desc": "타임라인 상태 '날짜 미정 · … → 간호팀 확인' → '날짜 미정'",
+   "run1": {
+    "killed": true,
+    "failedTests": 1
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 1
+   }
+  },
+  {
+   "id": "C5",
+   "family": "C",
+   "desc": "허용 범위 글자 표시 안 함(windowText null)",
+   "run1": {
+    "killed": true,
+    "failedTests": 9
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 9
+   }
+  },
+  {
+   "id": "C6",
+   "family": "C",
+   "desc": "직접 해 보기 날짜 미정 각주 누락",
+   "run1": {
+    "killed": true,
+    "failedTests": 1
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 2
+   }
+  },
+  {
+   "id": "C7",
+   "family": "C",
+   "desc": "뒤 시점 완료 시 날짜 미정도 건너뜀 처리 안 함",
+   "run1": {
+    "killed": true,
+    "failedTests": 1
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 1
+   }
+  },
+  {
+   "id": "C8",
+   "family": "C",
+   "desc": "간호팀 확인 줄(no-open-day)에서 허용 범위 빠짐",
+   "run1": {
+    "killed": true,
+    "failedTests": 2
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 2
+   }
+  },
+  {
+   "id": "C9",
+   "family": "C",
+   "desc": "직접 해 보기 표 '허용 범위 안에 진료일 없음' 배지 누락",
+   "run1": {
+    "killed": false,
+    "failedTests": 0
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 1
+   }
+  },
+  {
+   "id": "C10",
+   "family": "C",
+   "desc": "환자 화면 설명에서 no-open-day 문장 누락",
+   "run1": {
+    "killed": false,
+    "failedTests": 0
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 1
+   }
+  },
+  {
+   "id": "C11",
+   "family": "C",
+   "desc": "예약이 날짜 미정을 못 풂(unscheduled를 booking보다 먼저)",
+   "run1": {
+    "killed": true,
+    "failedTests": 14
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 14
+   }
+  },
+  {
+   "id": "D1",
+   "family": "D",
+   "desc": "수신 거부 무시(optOutOf 안 봄)",
+   "run1": {
+    "killed": true,
+    "failedTests": 23
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 26
+   }
+  },
+  {
+   "id": "D2",
+   "family": "D",
+   "desc": "수신 거부 풀기 무시(opt-in이 안 되돌림)",
+   "run1": {
+    "killed": true,
+    "failedTests": 19
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 19
+   }
+  },
+  {
+   "id": "D3",
+   "family": "D",
+   "desc": "기준 시각 뒤의 수신 거부까지 봄",
+   "run1": {
+    "killed": false,
+    "failedTests": 0
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 1
+   }
+  },
+  {
+   "id": "D4",
+   "family": "D",
+   "desc": "수신 거부여도 오늘 목록 항목 유지",
+   "run1": {
+    "killed": true,
+    "failedTests": 2
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 2
+   }
+  },
+  {
+   "id": "D5",
+   "family": "D",
+   "desc": "수신 거부여도 간호팀 확인 유지",
+   "run1": {
+    "killed": false,
+    "failedTests": 0
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 2
+   }
+  },
+  {
+   "id": "D6",
+   "family": "D",
+   "desc": "수신 거부여도 재연락 대기에 오름(continue 제거)",
+   "run1": {
+    "killed": true,
+    "failedTests": 1
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 1
+   }
+  },
+  {
+   "id": "D7",
+   "family": "D",
+   "desc": "수신 거부 환자를 의료진 확인에서도 뺌",
+   "run1": {
+    "killed": true,
+    "failedTests": 1
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 1
+   }
+  },
+  {
+   "id": "D8",
+   "family": "D",
+   "desc": "수신 거부·풀기를 '연락함'으로 셈(isAttempt 거르기 제거)",
+   "run1": {
+    "killed": true,
+    "failedTests": 1
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 1
+   }
+  },
+  {
+   "id": "D9",
+   "family": "D",
+   "desc": "수신 거부·풀기를 연락 시도로 셈",
+   "run1": {
+    "killed": true,
+    "failedTests": 13
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 13
+   }
+  },
+  {
+   "id": "D10",
+   "family": "D",
+   "desc": "수신 거부 줄의 held.waiting 항상 false",
+   "run1": {
+    "killed": true,
+    "failedTests": 1
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 1
+   }
+  },
+  {
+   "id": "D11",
+   "family": "D",
+   "desc": "수신 거부 줄의 held.reasons 비움",
+   "run1": {
+    "killed": true,
+    "failedTests": 10
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 10
+   }
+  },
+  {
+   "id": "D12",
+   "family": "D",
+   "desc": "수신 거부 줄의 held.nurse 비움",
+   "run1": {
+    "killed": true,
+    "failedTests": 2
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 3
+   }
+  },
+  {
+   "id": "D13",
+   "family": "D",
+   "desc": "환자 화면 수신 거부 배지 누락",
+   "run1": {
+    "killed": true,
+    "failedTests": 1
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 2
+   }
+  },
+  {
+   "id": "D14",
+   "family": "D",
+   "desc": "연락 적은 뒤 결과 설명: 수신 거부 분기 제거",
+   "run1": {
+    "killed": true,
+    "failedTests": 1
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 1
+   }
+  },
+  {
+   "id": "E1",
+   "family": "E",
+   "desc": "예약 날짜 지나도 계속 booked",
+   "run1": {
+    "killed": true,
+    "failedTests": 19
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 19
+   }
+  },
+  {
+   "id": "E2",
+   "family": "E",
+   "desc": "예약 다음 날까지 booked(하루 늦게 지남)",
+   "run1": {
+    "killed": true,
+    "failedTests": 3
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 3
+   }
+  },
+  {
+   "id": "E3",
+   "family": "E",
+   "desc": "예약 당일부터 지남(booking.date > today)",
+   "run1": {
+    "killed": true,
+    "failedTests": 1
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 1
+   }
+  },
+  {
+   "id": "E4",
+   "family": "E",
+   "desc": "예약 지난 뒤 지남에 유예를 붙임",
+   "run1": {
+    "killed": true,
+    "failedTests": 20
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 20
+   }
+  },
+  {
+   "id": "E5",
+   "family": "E",
+   "desc": "예약 지난 뒤 원래 예정일 기준으로 되돌아감",
+   "run1": {
+    "killed": true,
+    "failedTests": 11
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 11
+   }
+  },
+  {
+   "id": "E6",
+   "family": "E",
+   "desc": "같은 시점 예약 여러 번이면 첫 예약 사용",
+   "run1": {
+    "killed": true,
+    "failedTests": 1
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 1
+   }
+  },
+  {
+   "id": "E7",
+   "family": "E",
+   "desc": "기준 시각 뒤 예약까지 봄",
+   "run1": {
+    "killed": false,
+    "failedTests": 0
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 1
+   }
+  },
+  {
+   "id": "E8",
+   "family": "E",
+   "desc": "예약 날짜 전날 '내일 내원' 안내 안 함",
+   "run1": {
+    "killed": true,
+    "failedTests": 17
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 17
+   }
+  },
+  {
+   "id": "E9",
+   "family": "E",
+   "desc": "재시작을 예약 날짜에서 셈",
+   "run1": {
+    "killed": true,
+    "failedTests": 1
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 20
+   }
+  },
+  {
+   "id": "E10",
+   "family": "E",
+   "desc": "'예약일 지남' 배지를 '예약 잡음'으로",
+   "run1": {
+    "killed": true,
+    "failedTests": 1
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 1
+   }
+  },
+  {
+   "id": "E11",
+   "family": "E",
+   "desc": "규정보다 이른 예약 날 방문을 완료로 안 봄",
+   "run1": {
+    "killed": true,
+    "failedTests": 6
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 6
+   }
+  },
+  {
+   "id": "F1",
+   "family": "F",
+   "desc": "재시작 14일째부터(>=)",
+   "run1": {
+    "killed": true,
+    "failedTests": 26
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 28
+   }
+  },
+  {
+   "id": "F2",
+   "family": "F",
+   "desc": "재시작 16일째부터(> +1)",
+   "run1": {
+    "killed": true,
+    "failedTests": 6
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 9
+   }
+  },
+  {
+   "id": "F3",
+   "family": "F",
+   "desc": "재시작을 원래 날짜에서 셈",
+   "run1": {
+    "killed": false,
+    "failedTests": 0
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 1
+   }
+  },
+  {
+   "id": "F4",
+   "family": "F",
+   "desc": "재시작을 지남이 된 날에서 셈",
+   "run1": {
+    "killed": true,
+    "failedTests": 29
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 20
+   }
+  },
+  {
+   "id": "F5",
+   "family": "F",
+   "desc": "뒤 회차 재시작 전(on-hold) 처리 안 함",
+   "run1": {
+    "killed": true,
+    "failedTests": 23
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 25
+   }
+  },
+  {
+   "id": "F6",
+   "family": "F",
+   "desc": "완료된 뒤 회차도 on-hold",
+   "run1": {
+    "killed": false,
+    "failedTests": 0
+   },
+   "run2": {
+    "killed": false,
+    "failedTests": 0
+   }
+  },
+  {
+   "id": "F7",
+   "family": "F",
+   "desc": "재시작 회차를 간호팀으로 안 보냄",
+   "run1": {
+    "killed": true,
+    "failedTests": 28
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 30
+   }
+  },
+  {
+   "id": "F8",
+   "family": "F",
+   "desc": "규칙 검사: restartAfterDays == graceDays 허용",
+   "run1": {
+    "killed": true,
+    "failedTests": 1
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 1
+   }
+  },
+  {
+   "id": "F9",
+   "family": "F",
+   "desc": "타임라인 재시작 일수를 원래 날짜에서 셈",
+   "run1": {
+    "killed": false,
+    "failedTests": 0
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 1
+   }
+  },
+  {
+   "id": "F10",
+   "family": "F",
+   "desc": "간호팀 줄 재시작 일수 +1",
+   "run1": {
+    "killed": true,
+    "failedTests": 2
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 2
+   }
+  },
+  {
+   "id": "F11",
+   "family": "F",
+   "desc": "재시작을 첫 회차가 아닌 마지막 해당 회차에",
+   "run1": {
+    "killed": false,
+    "failedTests": 0
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 1
+   }
+  },
+  {
+   "id": "G1",
+   "family": "G",
+   "desc": "근거 문서 이름 매핑에서 V07 누락",
+   "run1": {
+    "killed": true,
+    "failedTests": 8
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 8
+   }
+  },
+  {
+   "id": "G2",
+   "family": "G",
+   "desc": "근거 문서 이름 매핑에서 V08 누락",
+   "run1": {
+    "killed": true,
+    "failedTests": 1
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 1
+   }
+  },
+  {
+   "id": "G3",
+   "family": "G",
+   "desc": "간호팀 까닭 no-open-day 라벨 누락(키 그대로)",
+   "run1": {
+    "killed": true,
+    "failedTests": 1
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 1
+   }
+  },
+  {
+   "id": "G4",
+   "family": "G",
+   "desc": "간호팀 까닭 injection-restart 라벨 → 원장 확인",
+   "run1": {
+    "killed": true,
+    "failedTests": 2
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 2
+   }
+  },
+  {
+   "id": "G5",
+   "family": "G",
+   "desc": "간호팀 까닭 max-attempts 라벨 누락",
+   "run1": {
+    "killed": true,
+    "failedTests": 3
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 4
+   }
+  },
+  {
+   "id": "G6",
+   "family": "G",
+   "desc": "연락 결과 opt-out 라벨 누락",
+   "run1": {
+    "killed": true,
+    "failedTests": 1
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 1
+   }
+  },
+  {
+   "id": "G7",
+   "family": "G",
+   "desc": "연락 결과 opt-in 라벨 누락",
+   "run1": {
+    "killed": true,
+    "failedTests": 1
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 1
+   }
+  },
+  {
+   "id": "G8",
+   "family": "G",
+   "desc": "연락 결과 booked 라벨 누락",
+   "run1": {
+    "killed": true,
+    "failedTests": 1
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 1
+   }
+  },
+  {
+   "id": "G9",
+   "family": "G",
+   "desc": "오늘 화면 간호팀 확인 제목 → 원장 확인(2곳)",
+   "run1": {
+    "killed": true,
+    "failedTests": 1
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 1
+   }
+  },
+  {
+   "id": "G10",
+   "family": "G",
+   "desc": "환자 화면 간호팀 확인 → 원장 확인",
+   "run1": {
+    "killed": true,
+    "failedTests": 1
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 1
+   }
+  },
+  {
+   "id": "G11",
+   "family": "G",
+   "desc": "환자 배지 '간호팀 확인 · ' → '원장 확인 · '",
+   "run1": {
+    "killed": true,
+    "failedTests": 2
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 2
+   }
+  },
+  {
+   "id": "G12",
+   "family": "G",
+   "desc": "규칙 바꿔 보기 힌트 문서 이름 → V07",
+   "run1": {
+    "killed": false,
+    "failedTests": 0
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 1
+   }
+  },
+  {
+   "id": "G13",
+   "family": "G",
+   "desc": "간호팀 줄 재시작 '— 간호팀 확인' → '— 원장 확인'",
+   "run1": {
+    "killed": true,
+    "failedTests": 2
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 2
+   }
+  },
+  {
+   "id": "G14",
+   "family": "G",
+   "desc": "수신 거부 held 간호팀 라벨 → 원장 확인",
+   "run1": {
+    "killed": false,
+    "failedTests": 0
+   },
+   "run2": {
+    "killed": true,
+    "failedTests": 1
+   }
+  },
+  {
+   "id": "H1",
+   "family": "H",
+   "desc": "앞으로 잡힌 예약 회차를 재시작에서 뺌(고치기 전 동작)",
+   "run1": null,
+   "run2": {
+    "killed": true,
+    "failedTests": 19
+   }
+  },
+  {
+   "id": "H2",
+   "family": "H",
+   "desc": "간호팀 줄에서 '예약 … 있음' 누락",
+   "run1": null,
+   "run2": {
+    "killed": true,
+    "failedTests": 1
+   }
+  },
+  {
+   "id": "H3",
+   "family": "H",
+   "desc": "타임라인에서 예약 잡은 재시작 회차를 파란 '예약 잡음'으로만",
+   "run1": null,
+   "run2": {
+    "killed": true,
+    "failedTests": 1
+   }
+  },
+  {
+   "id": "H4",
+   "family": "H",
+   "desc": "간호팀 확인 정렬: 미방문 연락 상태 없는 재시작을 날짜 미정 뒤로",
+   "run1": null,
+   "run2": {
+    "killed": true,
+    "failedTests": 1
+   }
+  }
+ ]
+}

@@ -36,6 +36,7 @@ const evalBundle = {
   planted: json("data/scripts/planted.json"),
   mutation: json("data/mutation-2026-09-28.json"),
   mutationScreen: json("data/mutation-screen-2026-09-28.json"),
+  mutationRules: json("data/mutation-rules-2026-09-28.json"),
 };
 
 mkdirSync(join(ROOT, "src/generated"), { recursive: true });

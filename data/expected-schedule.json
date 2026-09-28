@@ -95,12 +95,6 @@
       ]
     },
     {
-      "id": "P017",
-      "reasons": [
-        "overdue"
-      ]
-    },
-    {
       "id": "P018",
       "reasons": [
         "upcoming-visit",
@@ -176,16 +170,68 @@
       ]
     },
     {
-      "id": "P045",
+      "id": "P122",
       "reasons": [
-        "overdue",
-        "injection-rebook"
+        "overdue"
+      ]
+    },
+    {
+      "id": "P124",
+      "reasons": [
+        "upcoming-visit"
+      ]
+    },
+    {
+      "id": "P125",
+      "reasons": [
+        "overdue"
+      ]
+    },
+    {
+      "id": "P126",
+      "reasons": [
+        "care-notice"
       ]
     }
   ],
-  "directorReview": [
-    "P003",
-    "P009"
+  "nurseReview": [
+    {
+      "id": "P003",
+      "causes": [
+        "max-attempts"
+      ]
+    },
+    {
+      "id": "P009",
+      "causes": [
+        "injection-restart",
+        "max-attempts"
+      ]
+    },
+    {
+      "id": "P017",
+      "causes": [
+        "injection-restart"
+      ]
+    },
+    {
+      "id": "P033",
+      "causes": [
+        "no-open-day"
+      ]
+    },
+    {
+      "id": "P045",
+      "causes": [
+        "injection-restart"
+      ]
+    },
+    {
+      "id": "P127",
+      "causes": [
+        "injection-restart"
+      ]
+    }
   ],
   "waitingRetry": [
     {
@@ -196,6 +242,15 @@
   "medicalReview": [
     "P012",
     "P039"
+  ],
+  "optedOut": [
+    {
+      "id": "P121",
+      "held": [
+        "overdue"
+      ],
+      "heldNurse": []
+    }
   ],
   "patients": [
     {
@@ -209,6 +264,7 @@
           "nominal": "2026-03-10",
           "due": "2026-03-10",
           "dueDow": "화",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-03-10",
@@ -223,6 +279,7 @@
           "nominal": "2026-03-12",
           "due": "2026-03-12",
           "dueDow": "목",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-03-12",
@@ -236,6 +293,7 @@
           "nominal": "2026-03-16",
           "due": "2026-03-16",
           "dueDow": "월",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-03-15",
@@ -250,6 +308,7 @@
           "nominal": "2026-03-23",
           "due": "2026-03-23",
           "dueDow": "월",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-03-23",
@@ -263,6 +322,7 @@
           "nominal": "2026-04-06",
           "due": "2026-04-06",
           "dueDow": "월",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-04-03",
@@ -277,6 +337,7 @@
           "nominal": "2026-09-09",
           "due": "2026-09-09",
           "dueDow": "수",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-09-02",
@@ -290,6 +351,7 @@
           "nominal": "2027-03-09",
           "due": "2027-03-09",
           "dueDow": "화",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2027-02-23",
@@ -311,8 +373,10 @@
           "m6"
         ],
         "daysPastDue": 12,
-        "pastDueKey": "m6"
+        "nurseCauses": []
       },
+      "nurse": [],
+      "optedOut": false,
       "medicalReview": []
     },
     {
@@ -326,6 +390,7 @@
           "nominal": "2026-03-11",
           "due": "2026-03-11",
           "dueDow": "수",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-03-11",
@@ -340,6 +405,7 @@
           "nominal": "2026-03-13",
           "due": "2026-03-13",
           "dueDow": "금",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-03-13",
@@ -353,6 +419,7 @@
           "nominal": "2026-03-17",
           "due": "2026-03-17",
           "dueDow": "화",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-03-16",
@@ -367,6 +434,7 @@
           "nominal": "2026-03-24",
           "due": "2026-03-24",
           "dueDow": "화",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-03-24",
@@ -380,6 +448,7 @@
           "nominal": "2026-04-07",
           "due": "2026-04-07",
           "dueDow": "화",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-04-04",
@@ -394,6 +463,7 @@
           "nominal": "2026-09-10",
           "due": "2026-09-10",
           "dueDow": "목",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-09-03",
@@ -407,6 +477,7 @@
           "nominal": "2027-03-10",
           "due": "2027-03-10",
           "dueDow": "수",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2027-02-24",
@@ -426,8 +497,10 @@
           "m6"
         ],
         "daysPastDue": 11,
-        "pastDueKey": "m6"
+        "nurseCauses": []
       },
+      "nurse": [],
+      "optedOut": false,
       "medicalReview": []
     },
     {
@@ -441,6 +514,7 @@
           "nominal": "2026-03-05",
           "due": "2026-03-05",
           "dueDow": "목",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-03-05",
@@ -455,6 +529,7 @@
           "nominal": "2026-03-07",
           "due": "2026-03-07",
           "dueDow": "토",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-03-07",
@@ -468,6 +543,7 @@
           "nominal": "2026-03-11",
           "due": "2026-03-11",
           "dueDow": "수",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-03-10",
@@ -482,6 +558,7 @@
           "nominal": "2026-03-18",
           "due": "2026-03-18",
           "dueDow": "수",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-03-18",
@@ -495,6 +572,7 @@
           "nominal": "2026-04-01",
           "due": "2026-04-01",
           "dueDow": "수",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-03-29",
@@ -509,6 +587,7 @@
           "nominal": "2026-09-04",
           "due": "2026-09-04",
           "dueDow": "금",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-08-28",
@@ -522,6 +601,7 @@
           "nominal": "2027-03-04",
           "due": "2027-03-04",
           "dueDow": "목",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2027-02-18",
@@ -532,7 +612,7 @@
       ],
       "todayReasons": [],
       "overdue": {
-        "state": "director-review",
+        "state": "nurse-review",
         "since": "2026-09-12",
         "attempts": 3,
         "lastContact": "2026-09-18",
@@ -541,8 +621,14 @@
           "m6"
         ],
         "daysPastDue": 17,
-        "pastDueKey": "m6"
+        "nurseCauses": [
+          "max-attempts"
+        ]
       },
+      "nurse": [
+        "max-attempts"
+      ],
+      "optedOut": false,
       "medicalReview": []
     },
     {
@@ -556,6 +642,7 @@
           "nominal": "2026-08-11",
           "due": "2026-08-11",
           "dueDow": "화",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-08-11",
@@ -570,6 +657,7 @@
           "nominal": "2026-08-13",
           "due": "2026-08-13",
           "dueDow": "목",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-08-13",
@@ -583,6 +671,7 @@
           "nominal": "2026-08-17",
           "due": "2026-08-17",
           "dueDow": "월",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-08-16",
@@ -597,6 +686,7 @@
           "nominal": "2026-08-24",
           "due": "2026-08-24",
           "dueDow": "월",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-08-24",
@@ -610,6 +700,7 @@
           "nominal": "2026-09-07",
           "due": "2026-09-07",
           "dueDow": "월",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-09-04",
@@ -623,6 +714,7 @@
           "nominal": "2027-02-10",
           "due": "2027-02-10",
           "dueDow": "수",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2027-02-03",
@@ -636,6 +728,7 @@
           "nominal": "2027-08-10",
           "due": "2027-08-10",
           "dueDow": "화",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2027-07-27",
@@ -657,8 +750,10 @@
           "w4"
         ],
         "daysPastDue": 14,
-        "pastDueKey": "w4"
+        "nurseCauses": []
       },
+      "nurse": [],
+      "optedOut": false,
       "medicalReview": []
     },
     {
@@ -672,6 +767,7 @@
           "nominal": "2026-09-10",
           "due": "2026-09-10",
           "dueDow": "목",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-09-10",
@@ -685,6 +781,7 @@
           "nominal": "2026-09-12",
           "due": "2026-09-12",
           "dueDow": "토",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-09-12",
@@ -697,6 +794,7 @@
           "nominal": "2026-09-16",
           "due": "2026-09-16",
           "dueDow": "수",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-09-15",
@@ -710,6 +808,7 @@
           "nominal": "2026-09-23",
           "due": "2026-09-23",
           "dueDow": "수",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-09-23",
@@ -722,6 +821,7 @@
           "nominal": "2026-10-07",
           "due": "2026-10-07",
           "dueDow": "수",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-10-04",
@@ -735,6 +835,7 @@
           "nominal": "2027-03-09",
           "due": "2027-03-09",
           "dueDow": "화",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2027-03-02",
@@ -748,6 +849,7 @@
           "nominal": "2027-09-09",
           "due": "2027-09-09",
           "dueDow": "목",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2027-08-26",
@@ -769,8 +871,10 @@
           "d7"
         ],
         "daysPastDue": 5,
-        "pastDueKey": "d7"
+        "nurseCauses": []
       },
+      "nurse": [],
+      "optedOut": false,
       "medicalReview": []
     },
     {
@@ -784,6 +888,7 @@
           "nominal": "2025-09-04",
           "due": "2025-09-04",
           "dueDow": "목",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2025-09-04",
@@ -798,6 +903,7 @@
           "nominal": "2025-09-06",
           "due": "2025-09-06",
           "dueDow": "토",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2025-09-06",
@@ -811,6 +917,7 @@
           "nominal": "2025-09-10",
           "due": "2025-09-10",
           "dueDow": "수",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2025-09-09",
@@ -825,6 +932,7 @@
           "nominal": "2025-09-17",
           "due": "2025-09-17",
           "dueDow": "수",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2025-09-17",
@@ -838,6 +946,7 @@
           "nominal": "2025-10-01",
           "due": "2025-10-01",
           "dueDow": "수",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2025-09-28",
@@ -852,6 +961,7 @@
           "nominal": "2026-03-03",
           "due": "2026-03-03",
           "dueDow": "화",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-02-24",
@@ -866,6 +976,7 @@
           "nominal": "2026-09-03",
           "due": "2026-09-03",
           "dueDow": "목",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-08-20",
@@ -887,8 +998,10 @@
           "y1"
         ],
         "daysPastDue": 18,
-        "pastDueKey": "y1"
+        "nurseCauses": []
       },
+      "nurse": [],
+      "optedOut": false,
       "medicalReview": []
     },
     {
@@ -902,6 +1015,7 @@
           "nominal": "2026-08-13",
           "due": "2026-08-13",
           "dueDow": "목",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-08-13",
@@ -916,6 +1030,7 @@
           "nominal": "2026-08-15",
           "due": "2026-08-15",
           "dueDow": "토",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-08-15",
@@ -929,6 +1044,7 @@
           "nominal": "2026-08-19",
           "due": "2026-08-19",
           "dueDow": "수",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-08-18",
@@ -943,6 +1059,7 @@
           "nominal": "2026-08-26",
           "due": "2026-08-26",
           "dueDow": "수",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-08-26",
@@ -956,6 +1073,7 @@
           "nominal": "2026-09-09",
           "due": "2026-09-09",
           "dueDow": "수",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-09-06",
@@ -969,6 +1087,7 @@
           "nominal": "2027-02-12",
           "due": "2027-02-12",
           "dueDow": "금",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2027-02-05",
@@ -982,6 +1101,7 @@
           "nominal": "2027-08-12",
           "due": "2027-08-12",
           "dueDow": "목",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2027-07-29",
@@ -1003,8 +1123,10 @@
           "w4"
         ],
         "daysPastDue": 12,
-        "pastDueKey": "w4"
+        "nurseCauses": []
       },
+      "nurse": [],
+      "optedOut": false,
       "medicalReview": []
     },
     {
@@ -1018,6 +1140,7 @@
           "nominal": "2026-08-10",
           "due": "2026-08-10",
           "dueDow": "월",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-08-07",
@@ -1032,6 +1155,7 @@
           "nominal": "2026-08-24",
           "due": "2026-08-24",
           "dueDow": "월",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-08-21",
@@ -1046,6 +1170,7 @@
           "nominal": "2026-09-07",
           "due": "2026-09-07",
           "dueDow": "월",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-09-04",
@@ -1059,6 +1184,7 @@
           "nominal": "2026-09-21",
           "due": "2026-09-21",
           "dueDow": "월",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-09-18",
@@ -1071,6 +1197,7 @@
           "nominal": "2026-10-05",
           "due": "2026-10-06",
           "dueDow": "화",
+          "shiftDirection": "later",
           "shifted": [
             {
               "from": "2026-10-05",
@@ -1089,6 +1216,7 @@
           "nominal": "2026-10-19",
           "due": "2026-10-19",
           "dueDow": "월",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-10-16",
@@ -1102,6 +1230,7 @@
           "nominal": "2026-11-02",
           "due": "2026-11-02",
           "dueDow": "월",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-10-30",
@@ -1115,6 +1244,7 @@
           "nominal": "2026-11-16",
           "due": "2026-11-16",
           "dueDow": "월",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-11-13",
@@ -1128,6 +1258,7 @@
           "nominal": "2026-11-30",
           "due": "2026-11-30",
           "dueDow": "월",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-11-27",
@@ -1149,8 +1280,10 @@
           "inj-4"
         ],
         "daysPastDue": 14,
-        "pastDueKey": "inj-4"
+        "nurseCauses": []
       },
+      "nurse": [],
+      "optedOut": false,
       "medicalReview": []
     },
     {
@@ -1164,6 +1297,7 @@
           "nominal": "2026-07-13",
           "due": "2026-07-13",
           "dueDow": "월",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-07-10",
@@ -1178,6 +1312,7 @@
           "nominal": "2026-07-27",
           "due": "2026-07-27",
           "dueDow": "월",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-07-24",
@@ -1192,6 +1327,7 @@
           "nominal": "2026-08-10",
           "due": "2026-08-10",
           "dueDow": "월",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-08-07",
@@ -1206,11 +1342,13 @@
           "nominal": "2026-08-24",
           "due": "2026-08-24",
           "dueDow": "월",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-08-21",
           "graceEnd": "2026-08-27",
           "status": "overdue",
+          "restart": true,
           "overdueSince": "2026-08-28",
           "holidayUnverified": true
         },
@@ -1220,12 +1358,12 @@
           "nominal": "2026-09-07",
           "due": "2026-09-07",
           "dueDow": "월",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-09-04",
           "graceEnd": "2026-09-10",
-          "status": "overdue",
-          "overdueSince": "2026-09-11"
+          "status": "on-hold"
         },
         {
           "key": "inj-7",
@@ -1233,11 +1371,12 @@
           "nominal": "2026-09-21",
           "due": "2026-09-21",
           "dueDow": "월",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-09-18",
           "graceEnd": "2026-09-24",
-          "status": "due-today"
+          "status": "on-hold"
         },
         {
           "key": "inj-8",
@@ -1245,6 +1384,7 @@
           "nominal": "2026-10-05",
           "due": "2026-10-06",
           "dueDow": "화",
+          "shiftDirection": "later",
           "shifted": [
             {
               "from": "2026-10-05",
@@ -1254,8 +1394,7 @@
           "monthEndClamped": false,
           "windowStart": "2026-10-02",
           "graceEnd": "2026-10-09",
-          "status": "upcoming",
-          "reminderDay": "2026-10-02"
+          "status": "on-hold"
         },
         {
           "key": "inj-9",
@@ -1263,12 +1402,12 @@
           "nominal": "2026-10-19",
           "due": "2026-10-19",
           "dueDow": "월",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-10-16",
           "graceEnd": "2026-10-22",
-          "status": "upcoming",
-          "reminderDay": "2026-10-17"
+          "status": "on-hold"
         },
         {
           "key": "inj-10",
@@ -1276,28 +1415,35 @@
           "nominal": "2026-11-02",
           "due": "2026-11-02",
           "dueDow": "월",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-10-30",
           "graceEnd": "2026-11-05",
-          "status": "upcoming",
-          "reminderDay": "2026-10-31"
+          "status": "on-hold"
         }
       ],
       "todayReasons": [],
       "overdue": {
-        "state": "director-review",
+        "state": "nurse-review",
         "since": "2026-08-28",
         "attempts": 3,
         "lastContact": "2026-09-04",
         "retryOn": null,
         "points": [
-          "inj-5",
-          "inj-6"
+          "inj-5"
         ],
         "daysPastDue": 28,
-        "pastDueKey": "inj-5"
+        "nurseCauses": [
+          "injection-restart",
+          "max-attempts"
+        ]
       },
+      "nurse": [
+        "injection-restart",
+        "max-attempts"
+      ],
+      "optedOut": false,
       "medicalReview": []
     },
     {
@@ -1311,6 +1457,7 @@
           "nominal": "2026-03-13",
           "due": "2026-03-13",
           "dueDow": "금",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-03-13",
@@ -1325,6 +1472,7 @@
           "nominal": "2026-03-15",
           "due": "2026-03-16",
           "dueDow": "월",
+          "shiftDirection": "later",
           "shifted": [
             {
               "from": "2026-03-15",
@@ -1343,6 +1491,7 @@
           "nominal": "2026-03-19",
           "due": "2026-03-19",
           "dueDow": "목",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-03-18",
@@ -1357,6 +1506,7 @@
           "nominal": "2026-03-26",
           "due": "2026-03-26",
           "dueDow": "목",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-03-26",
@@ -1370,6 +1520,7 @@
           "nominal": "2026-04-09",
           "due": "2026-04-09",
           "dueDow": "목",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-04-06",
@@ -1384,6 +1535,7 @@
           "nominal": "2026-09-12",
           "due": "2026-09-12",
           "dueDow": "토",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-09-05",
@@ -1397,6 +1549,7 @@
           "nominal": "2027-03-12",
           "due": "2027-03-12",
           "dueDow": "금",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2027-02-26",
@@ -1418,8 +1571,10 @@
           "m6"
         ],
         "daysPastDue": 9,
-        "pastDueKey": "m6"
+        "nurseCauses": []
       },
+      "nurse": [],
+      "optedOut": false,
       "medicalReview": []
     },
     {
@@ -1433,6 +1588,7 @@
           "nominal": "2026-03-14",
           "due": "2026-03-14",
           "dueDow": "토",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-03-14",
@@ -1447,6 +1603,7 @@
           "nominal": "2026-03-16",
           "due": "2026-03-16",
           "dueDow": "월",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-03-16",
@@ -1460,6 +1617,7 @@
           "nominal": "2026-03-20",
           "due": "2026-03-20",
           "dueDow": "금",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-03-19",
@@ -1474,6 +1632,7 @@
           "nominal": "2026-03-27",
           "due": "2026-03-27",
           "dueDow": "금",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-03-27",
@@ -1487,6 +1646,7 @@
           "nominal": "2026-04-10",
           "due": "2026-04-10",
           "dueDow": "금",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-04-07",
@@ -1501,6 +1661,7 @@
           "nominal": "2026-09-13",
           "due": "2026-09-14",
           "dueDow": "월",
+          "shiftDirection": "later",
           "shifted": [
             {
               "from": "2026-09-13",
@@ -1518,6 +1679,7 @@
           "nominal": "2027-03-13",
           "due": "2027-03-13",
           "dueDow": "토",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2027-02-27",
@@ -1528,6 +1690,8 @@
       ],
       "todayReasons": [],
       "overdue": null,
+      "nurse": [],
+      "optedOut": false,
       "medicalReview": []
     },
     {
@@ -1541,6 +1705,7 @@
           "nominal": "2026-08-14",
           "due": "2026-08-14",
           "dueDow": "금",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-08-14",
@@ -1555,6 +1720,7 @@
           "nominal": "2026-08-16",
           "due": "2026-08-17",
           "dueDow": "월",
+          "shiftDirection": "later",
           "shifted": [
             {
               "from": "2026-08-16",
@@ -1573,6 +1739,7 @@
           "nominal": "2026-08-20",
           "due": "2026-08-20",
           "dueDow": "목",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-08-19",
@@ -1587,6 +1754,7 @@
           "nominal": "2026-08-27",
           "due": "2026-08-27",
           "dueDow": "목",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-08-27",
@@ -1600,6 +1768,7 @@
           "nominal": "2026-09-10",
           "due": "2026-09-10",
           "dueDow": "목",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-09-07",
@@ -1613,6 +1782,7 @@
           "nominal": "2027-02-13",
           "due": "2027-02-13",
           "dueDow": "토",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2027-02-06",
@@ -1626,6 +1796,7 @@
           "nominal": "2027-08-13",
           "due": "2027-08-13",
           "dueDow": "금",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2027-07-30",
@@ -1647,8 +1818,10 @@
           "w4"
         ],
         "daysPastDue": 11,
-        "pastDueKey": "w4"
+        "nurseCauses": []
       },
+      "nurse": [],
+      "optedOut": false,
       "medicalReview": [
         {
           "at": "2026-09-18T11:20:00+09:00",
@@ -1674,6 +1847,7 @@
           "nominal": "2026-08-25",
           "due": "2026-08-25",
           "dueDow": "화",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-08-22",
@@ -1688,6 +1862,7 @@
           "nominal": "2026-09-08",
           "due": "2026-09-08",
           "dueDow": "화",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-09-05",
@@ -1701,6 +1876,7 @@
           "nominal": "2026-09-22",
           "due": "2026-09-22",
           "dueDow": "화",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-09-19",
@@ -1714,6 +1890,7 @@
           "nominal": "2026-10-06",
           "due": "2026-10-06",
           "dueDow": "화",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-10-03",
@@ -1727,6 +1904,7 @@
           "nominal": "2026-10-20",
           "due": "2026-10-20",
           "dueDow": "화",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-10-17",
@@ -1740,6 +1918,7 @@
           "nominal": "2026-11-03",
           "due": "2026-11-03",
           "dueDow": "화",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-10-31",
@@ -1753,6 +1932,7 @@
           "nominal": "2026-11-17",
           "due": "2026-11-17",
           "dueDow": "화",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-11-14",
@@ -1766,6 +1946,7 @@
           "nominal": "2026-12-01",
           "due": "2026-12-01",
           "dueDow": "화",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-11-28",
@@ -1779,6 +1960,7 @@
           "nominal": "2026-12-15",
           "due": "2026-12-15",
           "dueDow": "화",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-12-12",
@@ -1801,8 +1983,10 @@
           "inj-3"
         ],
         "daysPastDue": 13,
-        "pastDueKey": "inj-3"
+        "nurseCauses": []
       },
+      "nurse": [],
+      "optedOut": false,
       "medicalReview": []
     },
     {
@@ -1816,6 +2000,7 @@
           "nominal": "2026-09-08",
           "due": "2026-09-08",
           "dueDow": "화",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-09-08",
@@ -1829,6 +2014,7 @@
           "nominal": "2026-09-10",
           "due": "2026-09-10",
           "dueDow": "목",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-09-10",
@@ -1841,6 +2027,7 @@
           "nominal": "2026-09-14",
           "due": "2026-09-14",
           "dueDow": "월",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-09-13",
@@ -1854,6 +2041,7 @@
           "nominal": "2026-09-21",
           "due": "2026-09-21",
           "dueDow": "월",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-09-21",
@@ -1866,6 +2054,7 @@
           "nominal": "2026-10-05",
           "due": "2026-10-06",
           "dueDow": "화",
+          "shiftDirection": "later",
           "shifted": [
             {
               "from": "2026-10-05",
@@ -1884,6 +2073,7 @@
           "nominal": "2027-03-07",
           "due": "2027-03-08",
           "dueDow": "월",
+          "shiftDirection": "later",
           "shifted": [
             {
               "from": "2027-03-07",
@@ -1902,6 +2092,7 @@
           "nominal": "2027-09-07",
           "due": "2027-09-07",
           "dueDow": "화",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2027-08-24",
@@ -1924,8 +2115,10 @@
           "d7"
         ],
         "daysPastDue": 7,
-        "pastDueKey": "d7"
+        "nurseCauses": []
       },
+      "nurse": [],
+      "optedOut": false,
       "medicalReview": []
     },
     {
@@ -1939,6 +2132,7 @@
           "nominal": "2026-07-22",
           "due": "2026-07-22",
           "dueDow": "수",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-07-22",
@@ -1953,6 +2147,7 @@
           "nominal": "2026-07-24",
           "due": "2026-07-24",
           "dueDow": "금",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-07-24",
@@ -1966,6 +2161,7 @@
           "nominal": "2026-07-28",
           "due": "2026-07-28",
           "dueDow": "화",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-07-27",
@@ -1979,6 +2175,7 @@
           "nominal": "2026-08-04",
           "due": "2026-08-04",
           "dueDow": "화",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-08-04",
@@ -1992,6 +2189,7 @@
           "nominal": "2026-08-18",
           "due": "2026-08-18",
           "dueDow": "화",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-08-15",
@@ -2006,6 +2204,7 @@
           "nominal": "2027-01-21",
           "due": "2027-01-21",
           "dueDow": "목",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2027-01-14",
@@ -2019,6 +2218,7 @@
           "nominal": "2027-07-21",
           "due": "2027-07-21",
           "dueDow": "수",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2027-07-07",
@@ -2029,6 +2229,8 @@
       ],
       "todayReasons": [],
       "overdue": null,
+      "nurse": [],
+      "optedOut": false,
       "medicalReview": []
     },
     {
@@ -2042,6 +2244,7 @@
           "nominal": "2026-09-17",
           "due": "2026-09-17",
           "dueDow": "목",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-09-17",
@@ -2055,6 +2258,7 @@
           "nominal": "2026-09-19",
           "due": "2026-09-19",
           "dueDow": "토",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-09-19",
@@ -2067,6 +2271,7 @@
           "nominal": "2026-09-23",
           "due": "2026-09-23",
           "dueDow": "수",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-09-22",
@@ -2080,6 +2285,7 @@
           "nominal": "2026-09-30",
           "due": "2026-09-30",
           "dueDow": "수",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-09-30",
@@ -2092,6 +2298,7 @@
           "nominal": "2026-10-14",
           "due": "2026-10-14",
           "dueDow": "수",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-10-11",
@@ -2105,6 +2312,7 @@
           "nominal": "2027-03-16",
           "due": "2027-03-16",
           "dueDow": "화",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2027-03-09",
@@ -2118,6 +2326,7 @@
           "nominal": "2027-09-16",
           "due": "2027-09-17",
           "dueDow": "금",
+          "shiftDirection": "later",
           "shifted": [
             {
               "from": "2027-09-16",
@@ -2144,8 +2353,10 @@
           "d1"
         ],
         "daysPastDue": 4,
-        "pastDueKey": "d1"
+        "nurseCauses": []
       },
+      "nurse": [],
+      "optedOut": false,
       "medicalReview": []
     },
     {
@@ -2159,11 +2370,13 @@
           "nominal": "2026-09-03",
           "due": "2026-09-03",
           "dueDow": "목",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-08-31",
           "graceEnd": "2026-09-06",
           "status": "overdue",
+          "restart": true,
           "overdueSince": "2026-09-07"
         },
         {
@@ -2172,12 +2385,12 @@
           "nominal": "2026-09-17",
           "due": "2026-09-17",
           "dueDow": "목",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-09-14",
           "graceEnd": "2026-09-20",
-          "status": "overdue",
-          "overdueSince": "2026-09-21"
+          "status": "on-hold"
         },
         {
           "key": "inj-4",
@@ -2185,12 +2398,12 @@
           "nominal": "2026-10-01",
           "due": "2026-10-01",
           "dueDow": "목",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-09-28",
           "graceEnd": "2026-10-04",
-          "status": "upcoming",
-          "reminderDay": "2026-09-30"
+          "status": "on-hold"
         },
         {
           "key": "inj-5",
@@ -2198,12 +2411,12 @@
           "nominal": "2026-10-15",
           "due": "2026-10-15",
           "dueDow": "목",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-10-12",
           "graceEnd": "2026-10-18",
-          "status": "upcoming",
-          "reminderDay": "2026-10-14"
+          "status": "on-hold"
         },
         {
           "key": "inj-6",
@@ -2211,12 +2424,12 @@
           "nominal": "2026-10-29",
           "due": "2026-10-29",
           "dueDow": "목",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-10-26",
           "graceEnd": "2026-11-01",
-          "status": "upcoming",
-          "reminderDay": "2026-10-28"
+          "status": "on-hold"
         },
         {
           "key": "inj-7",
@@ -2224,12 +2437,12 @@
           "nominal": "2026-11-12",
           "due": "2026-11-12",
           "dueDow": "목",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-11-09",
           "graceEnd": "2026-11-15",
-          "status": "upcoming",
-          "reminderDay": "2026-11-11"
+          "status": "on-hold"
         },
         {
           "key": "inj-8",
@@ -2237,12 +2450,12 @@
           "nominal": "2026-11-26",
           "due": "2026-11-26",
           "dueDow": "목",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-11-23",
           "graceEnd": "2026-11-29",
-          "status": "upcoming",
-          "reminderDay": "2026-11-25"
+          "status": "on-hold"
         },
         {
           "key": "inj-9",
@@ -2250,12 +2463,12 @@
           "nominal": "2026-12-10",
           "due": "2026-12-10",
           "dueDow": "목",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-12-07",
           "graceEnd": "2026-12-13",
-          "status": "upcoming",
-          "reminderDay": "2026-12-09"
+          "status": "on-hold"
         },
         {
           "key": "inj-10",
@@ -2263,30 +2476,33 @@
           "nominal": "2026-12-24",
           "due": "2026-12-24",
           "dueDow": "목",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-12-21",
           "graceEnd": "2026-12-27",
-          "status": "upcoming",
-          "reminderDay": "2026-12-23"
+          "status": "on-hold"
         }
       ],
-      "todayReasons": [
-        "overdue"
-      ],
+      "todayReasons": [],
       "overdue": {
-        "state": "listed",
+        "state": "nurse-review",
         "since": "2026-09-07",
         "attempts": 2,
         "lastContact": "2026-09-10",
-        "retryOn": "2026-09-13",
+        "retryOn": null,
         "points": [
-          "inj-2",
-          "inj-3"
+          "inj-2"
         ],
         "daysPastDue": 18,
-        "pastDueKey": "inj-2"
+        "nurseCauses": [
+          "injection-restart"
+        ]
       },
+      "nurse": [
+        "injection-restart"
+      ],
+      "optedOut": false,
       "medicalReview": []
     },
     {
@@ -2300,6 +2516,7 @@
           "nominal": "2026-09-16",
           "due": "2026-09-16",
           "dueDow": "수",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-09-16",
@@ -2313,6 +2530,7 @@
           "nominal": "2026-09-18",
           "due": "2026-09-18",
           "dueDow": "금",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-09-18",
@@ -2325,6 +2543,7 @@
           "nominal": "2026-09-22",
           "due": "2026-09-22",
           "dueDow": "화",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-09-21",
@@ -2338,6 +2557,7 @@
           "nominal": "2026-09-29",
           "due": "2026-09-29",
           "dueDow": "화",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-09-29",
@@ -2350,6 +2570,7 @@
           "nominal": "2026-10-13",
           "due": "2026-10-13",
           "dueDow": "화",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-10-10",
@@ -2363,6 +2584,7 @@
           "nominal": "2027-03-15",
           "due": "2027-03-15",
           "dueDow": "월",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2027-03-08",
@@ -2376,6 +2598,7 @@
           "nominal": "2027-09-15",
           "due": "2027-09-17",
           "dueDow": "금",
+          "shiftDirection": "later",
           "shifted": [
             {
               "from": "2027-09-15",
@@ -2398,6 +2621,8 @@
         "photo-round"
       ],
       "overdue": null,
+      "nurse": [],
+      "optedOut": false,
       "medicalReview": []
     },
     {
@@ -2411,6 +2636,7 @@
           "nominal": "2026-08-26",
           "due": "2026-08-26",
           "dueDow": "수",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-08-26",
@@ -2425,6 +2651,7 @@
           "nominal": "2026-08-28",
           "due": "2026-08-28",
           "dueDow": "금",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-08-28",
@@ -2438,6 +2665,7 @@
           "nominal": "2026-09-01",
           "due": "2026-09-01",
           "dueDow": "화",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-08-31",
@@ -2451,6 +2679,7 @@
           "nominal": "2026-09-08",
           "due": "2026-09-08",
           "dueDow": "화",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-09-08",
@@ -2463,6 +2692,7 @@
           "nominal": "2026-09-22",
           "due": "2026-09-22",
           "dueDow": "화",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-09-19",
@@ -2476,6 +2706,7 @@
           "nominal": "2027-02-25",
           "due": "2027-02-25",
           "dueDow": "목",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2027-02-18",
@@ -2489,6 +2720,7 @@
           "nominal": "2027-08-25",
           "due": "2027-08-25",
           "dueDow": "수",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2027-08-11",
@@ -2501,6 +2733,8 @@
         "upcoming-visit"
       ],
       "overdue": null,
+      "nurse": [],
+      "optedOut": false,
       "medicalReview": []
     },
     {
@@ -2514,6 +2748,7 @@
           "nominal": "2025-09-23",
           "due": "2025-09-23",
           "dueDow": "화",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2025-09-23",
@@ -2528,6 +2763,7 @@
           "nominal": "2025-09-25",
           "due": "2025-09-25",
           "dueDow": "목",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2025-09-25",
@@ -2541,6 +2777,7 @@
           "nominal": "2025-09-29",
           "due": "2025-09-29",
           "dueDow": "월",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2025-09-28",
@@ -2555,6 +2792,7 @@
           "nominal": "2025-10-06",
           "due": "2025-10-06",
           "dueDow": "월",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2025-10-06",
@@ -2568,6 +2806,7 @@
           "nominal": "2025-10-20",
           "due": "2025-10-20",
           "dueDow": "월",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2025-10-17",
@@ -2582,6 +2821,7 @@
           "nominal": "2026-03-22",
           "due": "2026-03-23",
           "dueDow": "월",
+          "shiftDirection": "later",
           "shifted": [
             {
               "from": "2026-03-22",
@@ -2601,6 +2841,7 @@
           "nominal": "2026-09-22",
           "due": "2026-09-22",
           "dueDow": "화",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-09-08",
@@ -2614,6 +2855,8 @@
         "photo-round"
       ],
       "overdue": null,
+      "nurse": [],
+      "optedOut": false,
       "medicalReview": []
     },
     {
@@ -2627,6 +2870,7 @@
           "nominal": "2026-09-22",
           "due": "2026-09-22",
           "dueDow": "화",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-09-19",
@@ -2640,6 +2884,7 @@
           "nominal": "2026-10-06",
           "due": "2026-10-06",
           "dueDow": "화",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-10-03",
@@ -2653,6 +2898,7 @@
           "nominal": "2026-10-20",
           "due": "2026-10-20",
           "dueDow": "화",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-10-17",
@@ -2666,6 +2912,7 @@
           "nominal": "2026-11-03",
           "due": "2026-11-03",
           "dueDow": "화",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-10-31",
@@ -2679,6 +2926,7 @@
           "nominal": "2026-11-17",
           "due": "2026-11-17",
           "dueDow": "화",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-11-14",
@@ -2692,6 +2940,7 @@
           "nominal": "2026-12-01",
           "due": "2026-12-01",
           "dueDow": "화",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-11-28",
@@ -2705,6 +2954,7 @@
           "nominal": "2026-12-15",
           "due": "2026-12-15",
           "dueDow": "화",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-12-12",
@@ -2718,6 +2968,7 @@
           "nominal": "2026-12-29",
           "due": "2026-12-29",
           "dueDow": "화",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-12-26",
@@ -2731,6 +2982,7 @@
           "nominal": "2027-01-12",
           "due": "2027-01-12",
           "dueDow": "화",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2027-01-09",
@@ -2743,6 +2995,8 @@
         "upcoming-visit"
       ],
       "overdue": null,
+      "nurse": [],
+      "optedOut": false,
       "medicalReview": []
     },
     {
@@ -2756,6 +3010,7 @@
           "nominal": "2026-08-11",
           "due": "2026-08-11",
           "dueDow": "화",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-08-08",
@@ -2770,6 +3025,7 @@
           "nominal": "2026-08-25",
           "due": "2026-08-25",
           "dueDow": "화",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-08-22",
@@ -2784,6 +3040,7 @@
           "nominal": "2026-09-08",
           "due": "2026-09-08",
           "dueDow": "화",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-09-05",
@@ -2797,6 +3054,7 @@
           "nominal": "2026-09-22",
           "due": "2026-09-22",
           "dueDow": "화",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-09-19",
@@ -2810,6 +3068,7 @@
           "nominal": "2026-10-06",
           "due": "2026-10-06",
           "dueDow": "화",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-10-03",
@@ -2823,6 +3082,7 @@
           "nominal": "2026-10-20",
           "due": "2026-10-20",
           "dueDow": "화",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-10-17",
@@ -2836,6 +3096,7 @@
           "nominal": "2026-11-03",
           "due": "2026-11-03",
           "dueDow": "화",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-10-31",
@@ -2849,6 +3110,7 @@
           "nominal": "2026-11-17",
           "due": "2026-11-17",
           "dueDow": "화",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-11-14",
@@ -2862,6 +3124,7 @@
           "nominal": "2026-12-01",
           "due": "2026-12-01",
           "dueDow": "화",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-11-28",
@@ -2875,6 +3138,8 @@
         "photo-round"
       ],
       "overdue": null,
+      "nurse": [],
+      "optedOut": false,
       "medicalReview": []
     },
     {
@@ -2888,6 +3153,7 @@
           "nominal": "2026-06-30",
           "due": "2026-06-30",
           "dueDow": "화",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-06-27",
@@ -2902,6 +3168,7 @@
           "nominal": "2026-07-14",
           "due": "2026-07-14",
           "dueDow": "화",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-07-11",
@@ -2916,6 +3183,7 @@
           "nominal": "2026-07-28",
           "due": "2026-07-28",
           "dueDow": "화",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-07-25",
@@ -2930,6 +3198,7 @@
           "nominal": "2026-08-11",
           "due": "2026-08-11",
           "dueDow": "화",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-08-08",
@@ -2944,6 +3213,7 @@
           "nominal": "2026-08-25",
           "due": "2026-08-25",
           "dueDow": "화",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-08-22",
@@ -2958,6 +3228,7 @@
           "nominal": "2026-09-08",
           "due": "2026-09-08",
           "dueDow": "화",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-09-05",
@@ -2971,6 +3242,7 @@
           "nominal": "2026-09-22",
           "due": "2026-09-22",
           "dueDow": "화",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-09-19",
@@ -2984,6 +3256,7 @@
           "nominal": "2026-10-06",
           "due": "2026-10-06",
           "dueDow": "화",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-10-03",
@@ -2997,6 +3270,7 @@
           "nominal": "2026-10-20",
           "due": "2026-10-20",
           "dueDow": "화",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-10-17",
@@ -3009,6 +3283,8 @@
         "upcoming-visit"
       ],
       "overdue": null,
+      "nurse": [],
+      "optedOut": false,
       "medicalReview": []
     },
     {
@@ -3022,6 +3298,7 @@
           "nominal": "2026-08-26",
           "due": "2026-08-26",
           "dueDow": "수",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-08-26",
@@ -3036,6 +3313,7 @@
           "nominal": "2026-08-28",
           "due": "2026-08-28",
           "dueDow": "금",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-08-28",
@@ -3049,6 +3327,7 @@
           "nominal": "2026-09-01",
           "due": "2026-09-01",
           "dueDow": "화",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-08-31",
@@ -3062,6 +3341,7 @@
           "nominal": "2026-09-08",
           "due": "2026-09-08",
           "dueDow": "화",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-09-08",
@@ -3074,6 +3354,7 @@
           "nominal": "2026-09-22",
           "due": "2026-09-22",
           "dueDow": "화",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-09-19",
@@ -3087,6 +3368,7 @@
           "nominal": "2027-02-25",
           "due": "2027-02-25",
           "dueDow": "목",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2027-02-18",
@@ -3100,6 +3382,7 @@
           "nominal": "2027-08-25",
           "due": "2027-08-25",
           "dueDow": "수",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2027-08-11",
@@ -3110,6 +3393,8 @@
       ],
       "todayReasons": [],
       "overdue": null,
+      "nurse": [],
+      "optedOut": false,
       "medicalReview": []
     },
     {
@@ -3123,6 +3408,7 @@
           "nominal": "2026-09-08",
           "due": "2026-09-08",
           "dueDow": "화",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-09-05",
@@ -3136,6 +3422,7 @@
           "nominal": "2026-09-22",
           "due": "2026-09-22",
           "dueDow": "화",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-09-19",
@@ -3149,6 +3436,7 @@
           "nominal": "2026-10-06",
           "due": "2026-10-06",
           "dueDow": "화",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-10-03",
@@ -3162,6 +3450,7 @@
           "nominal": "2026-10-20",
           "due": "2026-10-20",
           "dueDow": "화",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-10-17",
@@ -3175,6 +3464,7 @@
           "nominal": "2026-11-03",
           "due": "2026-11-03",
           "dueDow": "화",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-10-31",
@@ -3188,6 +3478,7 @@
           "nominal": "2026-11-17",
           "due": "2026-11-17",
           "dueDow": "화",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-11-14",
@@ -3201,6 +3492,7 @@
           "nominal": "2026-12-01",
           "due": "2026-12-01",
           "dueDow": "화",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-11-28",
@@ -3214,6 +3506,7 @@
           "nominal": "2026-12-15",
           "due": "2026-12-15",
           "dueDow": "화",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-12-12",
@@ -3227,6 +3520,7 @@
           "nominal": "2026-12-29",
           "due": "2026-12-29",
           "dueDow": "화",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-12-26",
@@ -3237,6 +3531,8 @@
       ],
       "todayReasons": [],
       "overdue": null,
+      "nurse": [],
+      "optedOut": false,
       "medicalReview": []
     },
     {
@@ -3250,6 +3546,7 @@
           "nominal": "2026-09-09",
           "due": "2026-09-09",
           "dueDow": "수",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-09-09",
@@ -3263,6 +3560,7 @@
           "nominal": "2026-09-11",
           "due": "2026-09-11",
           "dueDow": "금",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-09-11",
@@ -3275,6 +3573,7 @@
           "nominal": "2026-09-15",
           "due": "2026-09-15",
           "dueDow": "화",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-09-14",
@@ -3288,6 +3587,7 @@
           "nominal": "2026-09-22",
           "due": "2026-09-22",
           "dueDow": "화",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-09-22",
@@ -3300,6 +3600,7 @@
           "nominal": "2026-10-06",
           "due": "2026-10-06",
           "dueDow": "화",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-10-03",
@@ -3313,6 +3614,7 @@
           "nominal": "2027-03-08",
           "due": "2027-03-08",
           "dueDow": "월",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2027-03-01",
@@ -3326,6 +3628,7 @@
           "nominal": "2027-09-08",
           "due": "2027-09-08",
           "dueDow": "수",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2027-08-25",
@@ -3336,6 +3639,8 @@
       ],
       "todayReasons": [],
       "overdue": null,
+      "nurse": [],
+      "optedOut": false,
       "medicalReview": []
     },
     {
@@ -3349,6 +3654,7 @@
           "nominal": "2026-09-18",
           "due": "2026-09-18",
           "dueDow": "금",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-09-18",
@@ -3362,6 +3668,7 @@
           "nominal": "2026-09-20",
           "due": "2026-09-21",
           "dueDow": "월",
+          "shiftDirection": "later",
           "shifted": [
             {
               "from": "2026-09-20",
@@ -3377,8 +3684,9 @@
           "key": "d7",
           "kind": "photo",
           "nominal": "2026-09-24",
-          "due": "2026-09-28",
-          "dueDow": "월",
+          "due": "2026-09-23",
+          "dueDow": "수",
+          "shiftDirection": "earlier",
           "shifted": [
             {
               "from": "2026-09-24",
@@ -3391,17 +3699,13 @@
             {
               "from": "2026-09-26",
               "reason": "추석 연휴"
-            },
-            {
-              "from": "2026-09-27",
-              "reason": "일요일"
             }
           ],
           "monthEndClamped": false,
           "windowStart": "2026-09-23",
-          "graceEnd": "2026-09-30",
+          "graceEnd": "2026-09-25",
           "status": "upcoming",
-          "reminderDay": "2026-09-23"
+          "reminderDay": "2026-09-22"
         },
         {
           "key": "d14",
@@ -3409,6 +3713,7 @@
           "nominal": "2026-10-01",
           "due": "2026-10-01",
           "dueDow": "목",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-10-01",
@@ -3421,6 +3726,7 @@
           "nominal": "2026-10-15",
           "due": "2026-10-15",
           "dueDow": "목",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-10-12",
@@ -3434,6 +3740,7 @@
           "nominal": "2027-03-17",
           "due": "2027-03-17",
           "dueDow": "수",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2027-03-10",
@@ -3447,6 +3754,7 @@
           "nominal": "2027-09-17",
           "due": "2027-09-17",
           "dueDow": "금",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2027-09-03",
@@ -3459,6 +3767,8 @@
         "care-notice"
       ],
       "overdue": null,
+      "nurse": [],
+      "optedOut": false,
       "medicalReview": []
     },
     {
@@ -3472,6 +3782,7 @@
           "nominal": "2026-08-29",
           "due": "2026-08-29",
           "dueDow": "토",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-08-29",
@@ -3486,6 +3797,7 @@
           "nominal": "2026-08-31",
           "due": "2026-08-31",
           "dueDow": "월",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-08-31",
@@ -3499,6 +3811,7 @@
           "nominal": "2026-09-04",
           "due": "2026-09-04",
           "dueDow": "금",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-09-03",
@@ -3512,6 +3825,7 @@
           "nominal": "2026-09-11",
           "due": "2026-09-11",
           "dueDow": "금",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-09-11",
@@ -3524,6 +3838,7 @@
           "nominal": "2026-09-25",
           "due": "2026-09-28",
           "dueDow": "월",
+          "shiftDirection": "later",
           "shifted": [
             {
               "from": "2026-09-25",
@@ -3550,6 +3865,7 @@
           "nominal": "2027-02-28",
           "due": "2027-03-02",
           "dueDow": "화",
+          "shiftDirection": "later",
           "shifted": [
             {
               "from": "2027-02-28",
@@ -3572,6 +3888,7 @@
           "nominal": "2027-08-28",
           "due": "2027-08-28",
           "dueDow": "토",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2027-08-14",
@@ -3582,6 +3899,8 @@
       ],
       "todayReasons": [],
       "overdue": null,
+      "nurse": [],
+      "optedOut": false,
       "medicalReview": []
     },
     {
@@ -3595,6 +3914,7 @@
           "nominal": "2026-03-27",
           "due": "2026-03-27",
           "dueDow": "금",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-03-27",
@@ -3609,6 +3929,7 @@
           "nominal": "2026-03-29",
           "due": "2026-03-30",
           "dueDow": "월",
+          "shiftDirection": "later",
           "shifted": [
             {
               "from": "2026-03-29",
@@ -3627,6 +3948,7 @@
           "nominal": "2026-04-02",
           "due": "2026-04-02",
           "dueDow": "목",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-04-01",
@@ -3641,6 +3963,7 @@
           "nominal": "2026-04-09",
           "due": "2026-04-09",
           "dueDow": "목",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-04-09",
@@ -3654,6 +3977,7 @@
           "nominal": "2026-04-23",
           "due": "2026-04-23",
           "dueDow": "목",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-04-20",
@@ -3668,6 +3992,7 @@
           "nominal": "2026-09-26",
           "due": "2026-09-28",
           "dueDow": "월",
+          "shiftDirection": "later",
           "shifted": [
             {
               "from": "2026-09-26",
@@ -3690,6 +4015,7 @@
           "nominal": "2027-03-26",
           "due": "2027-03-26",
           "dueDow": "금",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2027-03-12",
@@ -3700,6 +4026,8 @@
       ],
       "todayReasons": [],
       "overdue": null,
+      "nurse": [],
+      "optedOut": false,
       "medicalReview": []
     },
     {
@@ -3711,8 +4039,9 @@
           "key": "inj-2",
           "kind": "visit",
           "nominal": "2026-09-24",
-          "due": "2026-09-28",
-          "dueDow": "월",
+          "due": "2026-09-23",
+          "dueDow": "수",
+          "shiftDirection": "earlier",
           "shifted": [
             {
               "from": "2026-09-24",
@@ -3733,9 +4062,9 @@
           ],
           "monthEndClamped": false,
           "windowStart": "2026-09-21",
-          "graceEnd": "2026-10-01",
+          "graceEnd": "2026-09-26",
           "status": "upcoming",
-          "reminderDay": "2026-09-23"
+          "reminderDay": "2026-09-22"
         },
         {
           "key": "inj-3",
@@ -3743,6 +4072,7 @@
           "nominal": "2026-10-08",
           "due": "2026-10-08",
           "dueDow": "목",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-10-05",
@@ -3756,6 +4086,7 @@
           "nominal": "2026-10-22",
           "due": "2026-10-22",
           "dueDow": "목",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-10-19",
@@ -3769,6 +4100,7 @@
           "nominal": "2026-11-05",
           "due": "2026-11-05",
           "dueDow": "목",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-11-02",
@@ -3782,6 +4114,7 @@
           "nominal": "2026-11-19",
           "due": "2026-11-19",
           "dueDow": "목",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-11-16",
@@ -3795,6 +4128,7 @@
           "nominal": "2026-12-03",
           "due": "2026-12-03",
           "dueDow": "목",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-11-30",
@@ -3808,6 +4142,7 @@
           "nominal": "2026-12-17",
           "due": "2026-12-17",
           "dueDow": "목",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-12-14",
@@ -3821,6 +4156,7 @@
           "nominal": "2026-12-31",
           "due": "2026-12-31",
           "dueDow": "목",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-12-28",
@@ -3834,6 +4170,7 @@
           "nominal": "2027-01-14",
           "due": "2027-01-14",
           "dueDow": "목",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2027-01-11",
@@ -3844,6 +4181,8 @@
       ],
       "todayReasons": [],
       "overdue": null,
+      "nurse": [],
+      "optedOut": false,
       "medicalReview": []
     },
     {
@@ -3857,6 +4196,7 @@
           "nominal": "2026-04-04",
           "due": "2026-04-04",
           "dueDow": "토",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-04-04",
@@ -3871,6 +4211,7 @@
           "nominal": "2026-04-06",
           "due": "2026-04-06",
           "dueDow": "월",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-04-06",
@@ -3884,6 +4225,7 @@
           "nominal": "2026-04-10",
           "due": "2026-04-10",
           "dueDow": "금",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-04-09",
@@ -3898,6 +4240,7 @@
           "nominal": "2026-04-17",
           "due": "2026-04-17",
           "dueDow": "금",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-04-17",
@@ -3911,6 +4254,7 @@
           "nominal": "2026-05-01",
           "due": "2026-05-01",
           "dueDow": "금",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-04-28",
@@ -3925,6 +4269,7 @@
           "nominal": "2026-10-03",
           "due": "2026-10-06",
           "dueDow": "화",
+          "shiftDirection": "later",
           "shifted": [
             {
               "from": "2026-10-03",
@@ -3951,6 +4296,7 @@
           "nominal": "2027-04-03",
           "due": "2027-04-03",
           "dueDow": "토",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2027-03-20",
@@ -3961,6 +4307,8 @@
       ],
       "todayReasons": [],
       "overdue": null,
+      "nurse": [],
+      "optedOut": false,
       "medicalReview": []
     },
     {
@@ -3974,6 +4322,7 @@
           "nominal": "2026-04-10",
           "due": "2026-04-10",
           "dueDow": "금",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-04-10",
@@ -3988,6 +4337,7 @@
           "nominal": "2026-04-12",
           "due": "2026-04-13",
           "dueDow": "월",
+          "shiftDirection": "later",
           "shifted": [
             {
               "from": "2026-04-12",
@@ -4006,6 +4356,7 @@
           "nominal": "2026-04-16",
           "due": "2026-04-16",
           "dueDow": "목",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-04-15",
@@ -4020,6 +4371,7 @@
           "nominal": "2026-04-23",
           "due": "2026-04-23",
           "dueDow": "목",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-04-23",
@@ -4033,6 +4385,7 @@
           "nominal": "2026-05-07",
           "due": "2026-05-07",
           "dueDow": "목",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-05-04",
@@ -4047,6 +4400,7 @@
           "nominal": "2026-10-09",
           "due": "2026-10-10",
           "dueDow": "토",
+          "shiftDirection": "later",
           "shifted": [
             {
               "from": "2026-10-09",
@@ -4065,6 +4419,7 @@
           "nominal": "2027-04-09",
           "due": "2027-04-09",
           "dueDow": "금",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2027-03-26",
@@ -4075,6 +4430,8 @@
       ],
       "todayReasons": [],
       "overdue": null,
+      "nurse": [],
+      "optedOut": false,
       "medicalReview": []
     },
     {
@@ -4088,6 +4445,7 @@
           "nominal": "2026-09-19",
           "due": "2026-09-19",
           "dueDow": "토",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-09-19",
@@ -4101,6 +4459,7 @@
           "nominal": "2026-09-21",
           "due": "2026-09-21",
           "dueDow": "월",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-09-21",
@@ -4111,8 +4470,9 @@
           "key": "d7",
           "kind": "photo",
           "nominal": "2026-09-25",
-          "due": "2026-09-28",
-          "dueDow": "월",
+          "due": null,
+          "dueDow": null,
+          "shiftDirection": "unresolved",
           "shifted": [
             {
               "from": "2026-09-25",
@@ -4125,13 +4485,16 @@
             {
               "from": "2026-09-27",
               "reason": "일요일"
+            },
+            {
+              "from": "2026-09-24",
+              "reason": "추석 연휴"
             }
           ],
           "monthEndClamped": false,
           "windowStart": "2026-09-24",
-          "graceEnd": "2026-09-30",
-          "status": "upcoming",
-          "reminderDay": "2026-09-23"
+          "graceEnd": null,
+          "status": "unscheduled"
         },
         {
           "key": "d14",
@@ -4139,6 +4502,7 @@
           "nominal": "2026-10-02",
           "due": "2026-10-02",
           "dueDow": "금",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-10-02",
@@ -4151,6 +4515,7 @@
           "nominal": "2026-10-16",
           "due": "2026-10-17",
           "dueDow": "토",
+          "shiftDirection": "later",
           "shifted": [
             {
               "from": "2026-10-16",
@@ -4169,6 +4534,7 @@
           "nominal": "2027-03-18",
           "due": "2027-03-18",
           "dueDow": "목",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2027-03-11",
@@ -4182,6 +4548,7 @@
           "nominal": "2027-09-18",
           "due": "2027-09-18",
           "dueDow": "토",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2027-09-04",
@@ -4194,6 +4561,10 @@
         "care-notice"
       ],
       "overdue": null,
+      "nurse": [
+        "no-open-day"
+      ],
+      "optedOut": false,
       "medicalReview": []
     },
     {
@@ -4207,6 +4578,7 @@
           "nominal": "2026-03-21",
           "due": "2026-03-21",
           "dueDow": "토",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-03-21",
@@ -4221,6 +4593,7 @@
           "nominal": "2026-03-23",
           "due": "2026-03-23",
           "dueDow": "월",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-03-23",
@@ -4234,6 +4607,7 @@
           "nominal": "2026-03-27",
           "due": "2026-03-27",
           "dueDow": "금",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-03-26",
@@ -4248,6 +4622,7 @@
           "nominal": "2026-04-03",
           "due": "2026-04-03",
           "dueDow": "금",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-04-03",
@@ -4261,6 +4636,7 @@
           "nominal": "2026-04-17",
           "due": "2026-04-17",
           "dueDow": "금",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-04-14",
@@ -4275,6 +4651,7 @@
           "nominal": "2026-09-20",
           "due": "2026-09-21",
           "dueDow": "월",
+          "shiftDirection": "later",
           "shifted": [
             {
               "from": "2026-09-20",
@@ -4292,6 +4669,7 @@
           "nominal": "2027-03-20",
           "due": "2027-03-20",
           "dueDow": "토",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2027-03-06",
@@ -4302,6 +4680,8 @@
       ],
       "todayReasons": [],
       "overdue": null,
+      "nurse": [],
+      "optedOut": false,
       "medicalReview": []
     },
     {
@@ -4315,6 +4695,7 @@
           "nominal": "2026-09-24",
           "due": "2026-09-28",
           "dueDow": "월",
+          "shiftDirection": "later",
           "shifted": [
             {
               "from": "2026-09-24",
@@ -4341,6 +4722,8 @@
       ],
       "todayReasons": [],
       "overdue": null,
+      "nurse": [],
+      "optedOut": false,
       "medicalReview": []
     },
     {
@@ -4354,6 +4737,7 @@
           "nominal": "2026-04-01",
           "due": "2026-04-01",
           "dueDow": "수",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-04-01",
@@ -4368,6 +4752,7 @@
           "nominal": "2026-04-03",
           "due": "2026-04-03",
           "dueDow": "금",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-04-03",
@@ -4381,6 +4766,7 @@
           "nominal": "2026-04-07",
           "due": "2026-04-07",
           "dueDow": "화",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-04-06",
@@ -4395,6 +4781,7 @@
           "nominal": "2026-04-14",
           "due": "2026-04-14",
           "dueDow": "화",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-04-14",
@@ -4408,6 +4795,7 @@
           "nominal": "2026-04-28",
           "due": "2026-04-28",
           "dueDow": "화",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-04-25",
@@ -4422,6 +4810,7 @@
           "nominal": "2026-09-30",
           "due": "2026-09-30",
           "dueDow": "수",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": true,
           "windowStart": "2026-09-23",
@@ -4435,6 +4824,7 @@
           "nominal": "2027-03-31",
           "due": "2027-03-31",
           "dueDow": "수",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2027-03-17",
@@ -4445,6 +4835,8 @@
       ],
       "todayReasons": [],
       "overdue": null,
+      "nurse": [],
+      "optedOut": false,
       "medicalReview": []
     },
     {
@@ -4458,6 +4850,7 @@
           "nominal": "2026-09-01",
           "due": "2026-09-01",
           "dueDow": "화",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-09-01",
@@ -4471,6 +4864,7 @@
           "nominal": "2026-09-03",
           "due": "2026-09-03",
           "dueDow": "목",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-09-03",
@@ -4483,6 +4877,7 @@
           "nominal": "2026-09-07",
           "due": "2026-09-07",
           "dueDow": "월",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-09-06",
@@ -4496,6 +4891,7 @@
           "nominal": "2026-09-14",
           "due": "2026-09-14",
           "dueDow": "월",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-09-14",
@@ -4508,6 +4904,7 @@
           "nominal": "2026-09-28",
           "due": "2026-09-28",
           "dueDow": "월",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-09-25",
@@ -4521,6 +4918,7 @@
           "nominal": "2027-02-28",
           "due": "2027-03-02",
           "dueDow": "화",
+          "shiftDirection": "later",
           "shifted": [
             {
               "from": "2027-02-28",
@@ -4543,6 +4941,7 @@
           "nominal": "2027-08-31",
           "due": "2027-08-31",
           "dueDow": "화",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2027-08-17",
@@ -4553,6 +4952,8 @@
       ],
       "todayReasons": [],
       "overdue": null,
+      "nurse": [],
+      "optedOut": false,
       "medicalReview": []
     },
     {
@@ -4566,6 +4967,7 @@
           "nominal": "2025-11-01",
           "due": "2025-11-01",
           "dueDow": "토",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2025-11-01",
@@ -4580,6 +4982,7 @@
           "nominal": "2025-11-03",
           "due": "2025-11-03",
           "dueDow": "월",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2025-11-03",
@@ -4593,6 +4996,7 @@
           "nominal": "2025-11-07",
           "due": "2025-11-07",
           "dueDow": "금",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2025-11-06",
@@ -4607,6 +5011,7 @@
           "nominal": "2025-11-14",
           "due": "2025-11-14",
           "dueDow": "금",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2025-11-14",
@@ -4620,6 +5025,7 @@
           "nominal": "2025-11-28",
           "due": "2025-11-28",
           "dueDow": "금",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2025-11-25",
@@ -4634,6 +5040,7 @@
           "nominal": "2026-04-30",
           "due": "2026-04-30",
           "dueDow": "목",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": true,
           "windowStart": "2026-04-23",
@@ -4648,6 +5055,7 @@
           "nominal": "2026-10-31",
           "due": "2026-10-31",
           "dueDow": "토",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-10-17",
@@ -4658,6 +5066,8 @@
       ],
       "todayReasons": [],
       "overdue": null,
+      "nurse": [],
+      "optedOut": false,
       "medicalReview": []
     },
     {
@@ -4671,6 +5081,7 @@
           "nominal": "2026-08-07",
           "due": "2026-08-07",
           "dueDow": "금",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-08-04",
@@ -4685,6 +5096,7 @@
           "nominal": "2026-08-21",
           "due": "2026-08-21",
           "dueDow": "금",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-08-18",
@@ -4699,6 +5111,7 @@
           "nominal": "2026-09-04",
           "due": "2026-09-04",
           "dueDow": "금",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-09-01",
@@ -4712,6 +5125,7 @@
           "nominal": "2026-09-18",
           "due": "2026-09-18",
           "dueDow": "금",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-09-15",
@@ -4724,6 +5138,7 @@
           "nominal": "2026-10-02",
           "due": "2026-10-02",
           "dueDow": "금",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-09-29",
@@ -4737,6 +5152,7 @@
           "nominal": "2026-10-16",
           "due": "2026-10-17",
           "dueDow": "토",
+          "shiftDirection": "later",
           "shifted": [
             {
               "from": "2026-10-16",
@@ -4755,6 +5171,7 @@
           "nominal": "2026-10-30",
           "due": "2026-10-30",
           "dueDow": "금",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-10-27",
@@ -4768,6 +5185,7 @@
           "nominal": "2026-11-13",
           "due": "2026-11-13",
           "dueDow": "금",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-11-10",
@@ -4781,6 +5199,7 @@
           "nominal": "2026-11-27",
           "due": "2026-11-27",
           "dueDow": "금",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-11-24",
@@ -4793,6 +5212,8 @@
         "injection-rebook"
       ],
       "overdue": null,
+      "nurse": [],
+      "optedOut": false,
       "medicalReview": [
         {
           "at": "2026-09-17T15:00:00+09:00",
@@ -4819,6 +5240,7 @@
           "nominal": "2026-09-05",
           "due": "2026-09-05",
           "dueDow": "토",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-09-02",
@@ -4832,6 +5254,7 @@
           "nominal": "2026-09-19",
           "due": "2026-09-19",
           "dueDow": "토",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-09-16",
@@ -4844,6 +5267,7 @@
           "nominal": "2026-10-03",
           "due": "2026-10-06",
           "dueDow": "화",
+          "shiftDirection": "later",
           "shifted": [
             {
               "from": "2026-10-03",
@@ -4870,6 +5294,7 @@
           "nominal": "2026-10-17",
           "due": "2026-10-17",
           "dueDow": "토",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-10-14",
@@ -4883,6 +5308,7 @@
           "nominal": "2026-10-31",
           "due": "2026-10-31",
           "dueDow": "토",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-10-28",
@@ -4896,6 +5322,7 @@
           "nominal": "2026-11-14",
           "due": "2026-11-14",
           "dueDow": "토",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-11-11",
@@ -4909,6 +5336,7 @@
           "nominal": "2026-11-28",
           "due": "2026-11-28",
           "dueDow": "토",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-11-25",
@@ -4922,6 +5350,7 @@
           "nominal": "2026-12-12",
           "due": "2026-12-12",
           "dueDow": "토",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-12-09",
@@ -4935,6 +5364,7 @@
           "nominal": "2026-12-26",
           "due": "2026-12-26",
           "dueDow": "토",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-12-23",
@@ -4947,6 +5377,8 @@
         "injection-rebook"
       ],
       "overdue": null,
+      "nurse": [],
+      "optedOut": false,
       "medicalReview": []
     },
     {
@@ -4960,6 +5392,7 @@
           "nominal": "2026-09-04",
           "due": "2026-09-04",
           "dueDow": "금",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-09-01",
@@ -4973,6 +5406,7 @@
           "nominal": "2026-09-18",
           "due": "2026-09-18",
           "dueDow": "금",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-09-15",
@@ -4985,6 +5419,7 @@
           "nominal": "2026-10-02",
           "due": "2026-10-02",
           "dueDow": "금",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-09-29",
@@ -4998,6 +5433,7 @@
           "nominal": "2026-10-16",
           "due": "2026-10-17",
           "dueDow": "토",
+          "shiftDirection": "later",
           "shifted": [
             {
               "from": "2026-10-16",
@@ -5016,6 +5452,7 @@
           "nominal": "2026-10-30",
           "due": "2026-10-30",
           "dueDow": "금",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-10-27",
@@ -5029,6 +5466,7 @@
           "nominal": "2026-11-13",
           "due": "2026-11-13",
           "dueDow": "금",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-11-10",
@@ -5042,6 +5480,7 @@
           "nominal": "2026-11-27",
           "due": "2026-11-27",
           "dueDow": "금",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-11-24",
@@ -5055,6 +5494,7 @@
           "nominal": "2026-12-11",
           "due": "2026-12-11",
           "dueDow": "금",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-12-08",
@@ -5068,6 +5508,7 @@
           "nominal": "2026-12-25",
           "due": "2026-12-26",
           "dueDow": "토",
+          "shiftDirection": "later",
           "shifted": [
             {
               "from": "2026-12-25",
@@ -5083,6 +5524,8 @@
       ],
       "todayReasons": [],
       "overdue": null,
+      "nurse": [],
+      "optedOut": false,
       "medicalReview": []
     },
     {
@@ -5096,6 +5539,7 @@
           "nominal": "2026-09-21",
           "due": "2026-09-21",
           "dueDow": "월",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-09-21",
@@ -5107,6 +5551,8 @@
         "care-notice"
       ],
       "overdue": null,
+      "nurse": [],
+      "optedOut": false,
       "medicalReview": []
     },
     {
@@ -5120,6 +5566,7 @@
           "nominal": "2026-09-19",
           "due": "2026-09-19",
           "dueDow": "토",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-09-19",
@@ -5131,6 +5578,8 @@
         "care-notice"
       ],
       "overdue": null,
+      "nurse": [],
+      "optedOut": false,
       "medicalReview": []
     },
     {
@@ -5144,6 +5593,7 @@
           "nominal": "2026-09-19",
           "due": "2026-09-19",
           "dueDow": "토",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-09-19",
@@ -5153,6 +5603,8 @@
       ],
       "todayReasons": [],
       "overdue": null,
+      "nurse": [],
+      "optedOut": false,
       "medicalReview": []
     },
     {
@@ -5166,6 +5618,7 @@
           "nominal": "2026-08-21",
           "due": "2026-08-21",
           "dueDow": "금",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-08-18",
@@ -5180,11 +5633,13 @@
           "nominal": "2026-09-04",
           "due": "2026-09-04",
           "dueDow": "금",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-09-01",
           "graceEnd": "2026-09-07",
           "status": "overdue",
+          "restart": true,
           "overdueSince": "2026-09-08"
         },
         {
@@ -5193,11 +5648,12 @@
           "nominal": "2026-09-18",
           "due": "2026-09-18",
           "dueDow": "금",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-09-15",
           "graceEnd": "2026-09-21",
-          "status": "in-grace"
+          "status": "on-hold"
         },
         {
           "key": "inj-5",
@@ -5205,12 +5661,12 @@
           "nominal": "2026-10-02",
           "due": "2026-10-02",
           "dueDow": "금",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-09-29",
           "graceEnd": "2026-10-05",
-          "status": "upcoming",
-          "reminderDay": "2026-10-01"
+          "status": "on-hold"
         },
         {
           "key": "inj-6",
@@ -5218,6 +5674,7 @@
           "nominal": "2026-10-16",
           "due": "2026-10-17",
           "dueDow": "토",
+          "shiftDirection": "later",
           "shifted": [
             {
               "from": "2026-10-16",
@@ -5227,8 +5684,7 @@
           "monthEndClamped": false,
           "windowStart": "2026-10-13",
           "graceEnd": "2026-10-20",
-          "status": "upcoming",
-          "reminderDay": "2026-10-15"
+          "status": "on-hold"
         },
         {
           "key": "inj-7",
@@ -5236,12 +5692,12 @@
           "nominal": "2026-10-30",
           "due": "2026-10-30",
           "dueDow": "금",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-10-27",
           "graceEnd": "2026-11-02",
-          "status": "upcoming",
-          "reminderDay": "2026-10-29"
+          "status": "on-hold"
         },
         {
           "key": "inj-8",
@@ -5249,12 +5705,12 @@
           "nominal": "2026-11-13",
           "due": "2026-11-13",
           "dueDow": "금",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-11-10",
           "graceEnd": "2026-11-16",
-          "status": "upcoming",
-          "reminderDay": "2026-11-12"
+          "status": "on-hold"
         },
         {
           "key": "inj-9",
@@ -5262,12 +5718,12 @@
           "nominal": "2026-11-27",
           "due": "2026-11-27",
           "dueDow": "금",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-11-24",
           "graceEnd": "2026-11-30",
-          "status": "upcoming",
-          "reminderDay": "2026-11-26"
+          "status": "on-hold"
         },
         {
           "key": "inj-10",
@@ -5275,20 +5731,17 @@
           "nominal": "2026-12-11",
           "due": "2026-12-11",
           "dueDow": "금",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-12-08",
           "graceEnd": "2026-12-14",
-          "status": "upcoming",
-          "reminderDay": "2026-12-10"
+          "status": "on-hold"
         }
       ],
-      "todayReasons": [
-        "overdue",
-        "injection-rebook"
-      ],
+      "todayReasons": [],
       "overdue": {
-        "state": "listed",
+        "state": "nurse-review",
         "since": "2026-09-08",
         "attempts": 0,
         "lastContact": null,
@@ -5297,8 +5750,14 @@
           "inj-3"
         ],
         "daysPastDue": 17,
-        "pastDueKey": "inj-3"
+        "nurseCauses": [
+          "injection-restart"
+        ]
       },
+      "nurse": [
+        "injection-restart"
+      ],
+      "optedOut": false,
       "medicalReview": []
     },
     {
@@ -5312,6 +5771,7 @@
           "nominal": "2026-04-27",
           "due": "2026-04-27",
           "dueDow": "월",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-04-24",
@@ -5326,6 +5786,7 @@
           "nominal": "2026-05-11",
           "due": "2026-05-11",
           "dueDow": "월",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-05-08",
@@ -5340,6 +5801,7 @@
           "nominal": "2026-05-25",
           "due": "2026-05-25",
           "dueDow": "월",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-05-22",
@@ -5354,6 +5816,7 @@
           "nominal": "2026-06-08",
           "due": "2026-06-08",
           "dueDow": "월",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-06-05",
@@ -5368,6 +5831,7 @@
           "nominal": "2026-06-22",
           "due": "2026-06-22",
           "dueDow": "월",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-06-19",
@@ -5382,6 +5846,7 @@
           "nominal": "2026-07-06",
           "due": "2026-07-06",
           "dueDow": "월",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-07-03",
@@ -5396,6 +5861,7 @@
           "nominal": "2026-07-20",
           "due": "2026-07-20",
           "dueDow": "월",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-07-17",
@@ -5410,6 +5876,7 @@
           "nominal": "2026-08-03",
           "due": "2026-08-03",
           "dueDow": "월",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-07-31",
@@ -5424,6 +5891,7 @@
           "nominal": "2026-08-17",
           "due": "2026-08-17",
           "dueDow": "월",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-08-14",
@@ -5435,6 +5903,8 @@
       ],
       "todayReasons": [],
       "overdue": null,
+      "nurse": [],
+      "optedOut": false,
       "medicalReview": []
     },
     {
@@ -5448,6 +5918,7 @@
           "nominal": "2026-06-26",
           "due": "2026-06-26",
           "dueDow": "금",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-06-23",
@@ -5462,6 +5933,7 @@
           "nominal": "2026-07-10",
           "due": "2026-07-10",
           "dueDow": "금",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-07-07",
@@ -5476,6 +5948,7 @@
           "nominal": "2026-07-24",
           "due": "2026-07-24",
           "dueDow": "금",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-07-21",
@@ -5490,6 +5963,7 @@
           "nominal": "2026-08-07",
           "due": "2026-08-07",
           "dueDow": "금",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-08-04",
@@ -5504,6 +5978,7 @@
           "nominal": "2026-08-21",
           "due": "2026-08-21",
           "dueDow": "금",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-08-18",
@@ -5518,6 +5993,7 @@
           "nominal": "2026-09-04",
           "due": "2026-09-04",
           "dueDow": "금",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-09-01",
@@ -5531,6 +6007,7 @@
           "nominal": "2026-09-18",
           "due": "2026-09-18",
           "dueDow": "금",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-09-15",
@@ -5544,6 +6021,7 @@
           "nominal": "2026-10-02",
           "due": "2026-10-02",
           "dueDow": "금",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-09-29",
@@ -5557,6 +6035,7 @@
           "nominal": "2026-10-16",
           "due": "2026-10-17",
           "dueDow": "토",
+          "shiftDirection": "later",
           "shifted": [
             {
               "from": "2026-10-16",
@@ -5572,6 +6051,8 @@
       ],
       "todayReasons": [],
       "overdue": null,
+      "nurse": [],
+      "optedOut": false,
       "medicalReview": []
     },
     {
@@ -5585,6 +6066,7 @@
           "nominal": "2026-08-20",
           "due": "2026-08-20",
           "dueDow": "목",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-08-20",
@@ -5599,6 +6081,7 @@
           "nominal": "2026-08-22",
           "due": "2026-08-22",
           "dueDow": "토",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-08-22",
@@ -5612,6 +6095,7 @@
           "nominal": "2026-08-26",
           "due": "2026-08-26",
           "dueDow": "수",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-08-25",
@@ -5626,6 +6110,7 @@
           "nominal": "2026-09-02",
           "due": "2026-09-02",
           "dueDow": "수",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-09-02",
@@ -5638,6 +6123,7 @@
           "nominal": "2026-09-16",
           "due": "2026-09-16",
           "dueDow": "수",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-09-13",
@@ -5651,6 +6137,7 @@
           "nominal": "2027-02-19",
           "due": "2027-02-19",
           "dueDow": "금",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2027-02-12",
@@ -5664,6 +6151,7 @@
           "nominal": "2027-08-19",
           "due": "2027-08-19",
           "dueDow": "목",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2027-08-05",
@@ -5674,6 +6162,8 @@
       ],
       "todayReasons": [],
       "overdue": null,
+      "nurse": [],
+      "optedOut": false,
       "medicalReview": []
     },
     {
@@ -5687,6 +6177,7 @@
           "nominal": "2026-10-01",
           "due": "2026-10-01",
           "dueDow": "목",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-10-01",
@@ -5696,6 +6187,8 @@
       ],
       "todayReasons": [],
       "overdue": null,
+      "nurse": [],
+      "optedOut": false,
       "medicalReview": []
     },
     {
@@ -5709,6 +6202,7 @@
           "nominal": "2026-10-15",
           "due": "2026-10-15",
           "dueDow": "목",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "windowStart": "2026-10-15",
@@ -5718,6 +6212,915 @@
       ],
       "todayReasons": [],
       "overdue": null,
+      "nurse": [],
+      "optedOut": false,
+      "medicalReview": []
+    },
+    {
+      "id": "P121",
+      "procedure": "hair-transplant",
+      "startDate": "2026-08-11",
+      "points": [
+        {
+          "key": "d1",
+          "kind": "visit",
+          "nominal": "2026-08-12",
+          "due": "2026-08-12",
+          "dueDow": "수",
+          "shiftDirection": "none",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-08-12",
+          "graceEnd": "2026-08-13",
+          "status": "done",
+          "visitDate": "2026-08-12",
+          "holidayUnverified": true
+        },
+        {
+          "key": "d3",
+          "kind": "notice",
+          "nominal": "2026-08-14",
+          "due": "2026-08-14",
+          "dueDow": "금",
+          "shiftDirection": "none",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-08-14",
+          "graceEnd": "2026-08-15",
+          "status": "notice-missed",
+          "holidayUnverified": true
+        },
+        {
+          "key": "d7",
+          "kind": "photo",
+          "nominal": "2026-08-18",
+          "due": "2026-08-18",
+          "dueDow": "화",
+          "shiftDirection": "none",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-08-17",
+          "graceEnd": "2026-08-20",
+          "status": "done",
+          "visitDate": "2026-08-18",
+          "holidayUnverified": true
+        },
+        {
+          "key": "d14",
+          "kind": "notice",
+          "nominal": "2026-08-25",
+          "due": "2026-08-25",
+          "dueDow": "화",
+          "shiftDirection": "none",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-08-25",
+          "graceEnd": "2026-08-27",
+          "status": "notice-missed",
+          "holidayUnverified": true
+        },
+        {
+          "key": "w4",
+          "kind": "visit",
+          "nominal": "2026-09-08",
+          "due": "2026-09-08",
+          "dueDow": "화",
+          "shiftDirection": "none",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-05",
+          "graceEnd": "2026-09-15",
+          "status": "overdue",
+          "overdueSince": "2026-09-16"
+        },
+        {
+          "key": "m6",
+          "kind": "photo",
+          "nominal": "2027-02-11",
+          "due": "2027-02-11",
+          "dueDow": "목",
+          "shiftDirection": "none",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2027-02-04",
+          "graceEnd": "2027-02-18",
+          "status": "upcoming",
+          "reminderDay": "2027-02-10"
+        },
+        {
+          "key": "y1",
+          "kind": "photo",
+          "nominal": "2027-08-11",
+          "due": "2027-08-11",
+          "dueDow": "수",
+          "shiftDirection": "none",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2027-07-28",
+          "graceEnd": "2027-08-25",
+          "status": "upcoming",
+          "reminderDay": "2027-08-10"
+        }
+      ],
+      "todayReasons": [],
+      "overdue": {
+        "state": "listed",
+        "since": "2026-09-16",
+        "attempts": 1,
+        "lastContact": "2026-09-16",
+        "retryOn": "2026-09-19",
+        "points": [
+          "w4"
+        ],
+        "daysPastDue": 13,
+        "nurseCauses": []
+      },
+      "nurse": [],
+      "optedOut": true,
+      "medicalReview": []
+    },
+    {
+      "id": "P122",
+      "procedure": "hair-transplant",
+      "startDate": "2026-08-14",
+      "points": [
+        {
+          "key": "d1",
+          "kind": "visit",
+          "nominal": "2026-08-15",
+          "due": "2026-08-15",
+          "dueDow": "토",
+          "shiftDirection": "none",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-08-15",
+          "graceEnd": "2026-08-16",
+          "status": "done",
+          "visitDate": "2026-08-15",
+          "holidayUnverified": true
+        },
+        {
+          "key": "d3",
+          "kind": "notice",
+          "nominal": "2026-08-17",
+          "due": "2026-08-17",
+          "dueDow": "월",
+          "shiftDirection": "none",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-08-17",
+          "graceEnd": "2026-08-18",
+          "status": "notice-missed",
+          "holidayUnverified": true
+        },
+        {
+          "key": "d7",
+          "kind": "photo",
+          "nominal": "2026-08-21",
+          "due": "2026-08-21",
+          "dueDow": "금",
+          "shiftDirection": "none",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-08-20",
+          "graceEnd": "2026-08-23",
+          "status": "done",
+          "visitDate": "2026-08-21",
+          "holidayUnverified": true
+        },
+        {
+          "key": "d14",
+          "kind": "notice",
+          "nominal": "2026-08-28",
+          "due": "2026-08-28",
+          "dueDow": "금",
+          "shiftDirection": "none",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-08-28",
+          "graceEnd": "2026-08-30",
+          "status": "notice-missed",
+          "holidayUnverified": true
+        },
+        {
+          "key": "w4",
+          "kind": "visit",
+          "nominal": "2026-09-11",
+          "due": "2026-09-11",
+          "dueDow": "금",
+          "shiftDirection": "none",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-08",
+          "graceEnd": "2026-09-18",
+          "status": "overdue",
+          "overdueSince": "2026-09-19"
+        },
+        {
+          "key": "m6",
+          "kind": "photo",
+          "nominal": "2027-02-14",
+          "due": "2027-02-15",
+          "dueDow": "월",
+          "shiftDirection": "later",
+          "shifted": [
+            {
+              "from": "2027-02-14",
+              "reason": "일요일"
+            }
+          ],
+          "monthEndClamped": false,
+          "windowStart": "2027-02-07",
+          "graceEnd": "2027-02-22",
+          "status": "upcoming",
+          "reminderDay": "2027-02-13"
+        },
+        {
+          "key": "y1",
+          "kind": "photo",
+          "nominal": "2027-08-14",
+          "due": "2027-08-14",
+          "dueDow": "토",
+          "shiftDirection": "none",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2027-07-31",
+          "graceEnd": "2027-08-28",
+          "status": "upcoming",
+          "reminderDay": "2027-08-13"
+        }
+      ],
+      "todayReasons": [
+        "overdue"
+      ],
+      "overdue": {
+        "state": "listed",
+        "since": "2026-09-19",
+        "attempts": 0,
+        "lastContact": null,
+        "retryOn": null,
+        "points": [
+          "w4"
+        ],
+        "daysPastDue": 10,
+        "nurseCauses": []
+      },
+      "nurse": [],
+      "optedOut": false,
+      "medicalReview": []
+    },
+    {
+      "id": "P123",
+      "procedure": "hair-transplant",
+      "startDate": "2026-03-11",
+      "points": [
+        {
+          "key": "d1",
+          "kind": "visit",
+          "nominal": "2026-03-12",
+          "due": "2026-03-12",
+          "dueDow": "목",
+          "shiftDirection": "none",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-03-12",
+          "graceEnd": "2026-03-13",
+          "status": "done",
+          "visitDate": "2026-03-12",
+          "holidayUnverified": true
+        },
+        {
+          "key": "d3",
+          "kind": "notice",
+          "nominal": "2026-03-14",
+          "due": "2026-03-14",
+          "dueDow": "토",
+          "shiftDirection": "none",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-03-14",
+          "graceEnd": "2026-03-15",
+          "status": "notice-missed",
+          "holidayUnverified": true
+        },
+        {
+          "key": "d7",
+          "kind": "photo",
+          "nominal": "2026-03-18",
+          "due": "2026-03-18",
+          "dueDow": "수",
+          "shiftDirection": "none",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-03-17",
+          "graceEnd": "2026-03-20",
+          "status": "done",
+          "visitDate": "2026-03-18",
+          "holidayUnverified": true
+        },
+        {
+          "key": "d14",
+          "kind": "notice",
+          "nominal": "2026-03-25",
+          "due": "2026-03-25",
+          "dueDow": "수",
+          "shiftDirection": "none",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-03-25",
+          "graceEnd": "2026-03-27",
+          "status": "notice-missed",
+          "holidayUnverified": true
+        },
+        {
+          "key": "w4",
+          "kind": "visit",
+          "nominal": "2026-04-08",
+          "due": "2026-04-08",
+          "dueDow": "수",
+          "shiftDirection": "none",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-04-05",
+          "graceEnd": "2026-04-15",
+          "status": "done",
+          "visitDate": "2026-04-08",
+          "holidayUnverified": true
+        },
+        {
+          "key": "m6",
+          "kind": "photo",
+          "nominal": "2026-09-11",
+          "due": "2026-09-11",
+          "dueDow": "금",
+          "shiftDirection": "none",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-04",
+          "graceEnd": "2026-09-28",
+          "status": "booked",
+          "bookedDate": "2026-09-28",
+          "reminderDay": "2026-09-23"
+        },
+        {
+          "key": "y1",
+          "kind": "photo",
+          "nominal": "2027-03-11",
+          "due": "2027-03-11",
+          "dueDow": "목",
+          "shiftDirection": "none",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2027-02-25",
+          "graceEnd": "2027-03-25",
+          "status": "upcoming",
+          "reminderDay": "2027-03-10"
+        }
+      ],
+      "todayReasons": [],
+      "overdue": null,
+      "nurse": [],
+      "optedOut": false,
+      "medicalReview": []
+    },
+    {
+      "id": "P124",
+      "procedure": "injection",
+      "startDate": "2026-08-18",
+      "points": [
+        {
+          "key": "inj-2",
+          "kind": "visit",
+          "nominal": "2026-09-01",
+          "due": "2026-09-01",
+          "dueDow": "화",
+          "shiftDirection": "none",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-08-29",
+          "graceEnd": "2026-09-04",
+          "status": "done",
+          "visitDate": "2026-09-01"
+        },
+        {
+          "key": "inj-3",
+          "kind": "visit",
+          "nominal": "2026-09-15",
+          "due": "2026-09-15",
+          "dueDow": "화",
+          "shiftDirection": "none",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-12",
+          "graceEnd": "2026-09-22",
+          "status": "booked",
+          "bookedDate": "2026-09-22",
+          "reminderDay": "2026-09-21"
+        },
+        {
+          "key": "inj-4",
+          "kind": "visit",
+          "nominal": "2026-09-29",
+          "due": "2026-09-29",
+          "dueDow": "화",
+          "shiftDirection": "none",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-26",
+          "graceEnd": "2026-10-02",
+          "status": "upcoming",
+          "reminderDay": "2026-09-28"
+        },
+        {
+          "key": "inj-5",
+          "kind": "photo",
+          "nominal": "2026-10-13",
+          "due": "2026-10-13",
+          "dueDow": "화",
+          "shiftDirection": "none",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-10-10",
+          "graceEnd": "2026-10-16",
+          "status": "upcoming",
+          "reminderDay": "2026-10-12"
+        },
+        {
+          "key": "inj-6",
+          "kind": "visit",
+          "nominal": "2026-10-27",
+          "due": "2026-10-27",
+          "dueDow": "화",
+          "shiftDirection": "none",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-10-24",
+          "graceEnd": "2026-10-30",
+          "status": "upcoming",
+          "reminderDay": "2026-10-26"
+        },
+        {
+          "key": "inj-7",
+          "kind": "visit",
+          "nominal": "2026-11-10",
+          "due": "2026-11-10",
+          "dueDow": "화",
+          "shiftDirection": "none",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-11-07",
+          "graceEnd": "2026-11-13",
+          "status": "upcoming",
+          "reminderDay": "2026-11-09"
+        },
+        {
+          "key": "inj-8",
+          "kind": "visit",
+          "nominal": "2026-11-24",
+          "due": "2026-11-24",
+          "dueDow": "화",
+          "shiftDirection": "none",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-11-21",
+          "graceEnd": "2026-11-27",
+          "status": "upcoming",
+          "reminderDay": "2026-11-23"
+        },
+        {
+          "key": "inj-9",
+          "kind": "visit",
+          "nominal": "2026-12-08",
+          "due": "2026-12-08",
+          "dueDow": "화",
+          "shiftDirection": "none",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-12-05",
+          "graceEnd": "2026-12-11",
+          "status": "upcoming",
+          "reminderDay": "2026-12-07"
+        },
+        {
+          "key": "inj-10",
+          "kind": "photo",
+          "nominal": "2026-12-22",
+          "due": "2026-12-22",
+          "dueDow": "화",
+          "shiftDirection": "none",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-12-19",
+          "graceEnd": "2026-12-25",
+          "status": "upcoming",
+          "reminderDay": "2026-12-21"
+        }
+      ],
+      "todayReasons": [
+        "upcoming-visit"
+      ],
+      "overdue": null,
+      "nurse": [],
+      "optedOut": false,
+      "medicalReview": []
+    },
+    {
+      "id": "P125",
+      "procedure": "hair-transplant",
+      "startDate": "2026-03-05",
+      "points": [
+        {
+          "key": "d1",
+          "kind": "visit",
+          "nominal": "2026-03-06",
+          "due": "2026-03-06",
+          "dueDow": "금",
+          "shiftDirection": "none",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-03-06",
+          "graceEnd": "2026-03-07",
+          "status": "done",
+          "visitDate": "2026-03-06",
+          "holidayUnverified": true
+        },
+        {
+          "key": "d3",
+          "kind": "notice",
+          "nominal": "2026-03-08",
+          "due": "2026-03-09",
+          "dueDow": "월",
+          "shiftDirection": "later",
+          "shifted": [
+            {
+              "from": "2026-03-08",
+              "reason": "일요일"
+            }
+          ],
+          "monthEndClamped": false,
+          "windowStart": "2026-03-08",
+          "graceEnd": "2026-03-10",
+          "status": "notice-missed",
+          "holidayUnverified": true
+        },
+        {
+          "key": "d7",
+          "kind": "photo",
+          "nominal": "2026-03-12",
+          "due": "2026-03-12",
+          "dueDow": "목",
+          "shiftDirection": "none",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-03-11",
+          "graceEnd": "2026-03-14",
+          "status": "done",
+          "visitDate": "2026-03-12",
+          "holidayUnverified": true
+        },
+        {
+          "key": "d14",
+          "kind": "notice",
+          "nominal": "2026-03-19",
+          "due": "2026-03-19",
+          "dueDow": "목",
+          "shiftDirection": "none",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-03-19",
+          "graceEnd": "2026-03-21",
+          "status": "notice-missed",
+          "holidayUnverified": true
+        },
+        {
+          "key": "w4",
+          "kind": "visit",
+          "nominal": "2026-04-02",
+          "due": "2026-04-02",
+          "dueDow": "목",
+          "shiftDirection": "none",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-03-30",
+          "graceEnd": "2026-04-09",
+          "status": "done",
+          "visitDate": "2026-04-02",
+          "holidayUnverified": true
+        },
+        {
+          "key": "m6",
+          "kind": "photo",
+          "nominal": "2026-09-05",
+          "due": "2026-09-05",
+          "dueDow": "토",
+          "shiftDirection": "none",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-08-29",
+          "graceEnd": "2026-09-16",
+          "status": "overdue",
+          "bookedDate": "2026-09-16",
+          "overdueSince": "2026-09-17"
+        },
+        {
+          "key": "y1",
+          "kind": "photo",
+          "nominal": "2027-03-05",
+          "due": "2027-03-05",
+          "dueDow": "금",
+          "shiftDirection": "none",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2027-02-19",
+          "graceEnd": "2027-03-19",
+          "status": "upcoming",
+          "reminderDay": "2027-03-04"
+        }
+      ],
+      "todayReasons": [
+        "overdue"
+      ],
+      "overdue": {
+        "state": "listed",
+        "since": "2026-09-17",
+        "attempts": 0,
+        "lastContact": null,
+        "retryOn": null,
+        "points": [
+          "m6"
+        ],
+        "daysPastDue": 5,
+        "nurseCauses": []
+      },
+      "nurse": [],
+      "optedOut": false,
+      "medicalReview": []
+    },
+    {
+      "id": "P126",
+      "procedure": "hair-transplant",
+      "startDate": "2026-09-18",
+      "points": [
+        {
+          "key": "d1",
+          "kind": "visit",
+          "nominal": "2026-09-19",
+          "due": "2026-09-19",
+          "dueDow": "토",
+          "shiftDirection": "none",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-19",
+          "graceEnd": "2026-09-20",
+          "status": "done",
+          "visitDate": "2026-09-19"
+        },
+        {
+          "key": "d3",
+          "kind": "notice",
+          "nominal": "2026-09-21",
+          "due": "2026-09-21",
+          "dueDow": "월",
+          "shiftDirection": "none",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-21",
+          "graceEnd": "2026-09-22",
+          "status": "notice-active"
+        },
+        {
+          "key": "d7",
+          "kind": "photo",
+          "nominal": "2026-09-25",
+          "due": null,
+          "dueDow": null,
+          "shiftDirection": "unresolved",
+          "shifted": [
+            {
+              "from": "2026-09-25",
+              "reason": "추석"
+            },
+            {
+              "from": "2026-09-26",
+              "reason": "추석 연휴"
+            },
+            {
+              "from": "2026-09-27",
+              "reason": "일요일"
+            },
+            {
+              "from": "2026-09-24",
+              "reason": "추석 연휴"
+            }
+          ],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-23",
+          "graceEnd": "2026-09-23",
+          "status": "booked",
+          "bookedDate": "2026-09-23",
+          "reminderDay": "2026-09-22"
+        },
+        {
+          "key": "d14",
+          "kind": "notice",
+          "nominal": "2026-10-02",
+          "due": "2026-10-02",
+          "dueDow": "금",
+          "shiftDirection": "none",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-10-02",
+          "graceEnd": "2026-10-04",
+          "status": "notice-upcoming"
+        },
+        {
+          "key": "w4",
+          "kind": "visit",
+          "nominal": "2026-10-16",
+          "due": "2026-10-17",
+          "dueDow": "토",
+          "shiftDirection": "later",
+          "shifted": [
+            {
+              "from": "2026-10-16",
+              "reason": "내부 교육"
+            }
+          ],
+          "monthEndClamped": false,
+          "windowStart": "2026-10-13",
+          "graceEnd": "2026-10-24",
+          "status": "upcoming",
+          "reminderDay": "2026-10-15"
+        },
+        {
+          "key": "m6",
+          "kind": "photo",
+          "nominal": "2027-03-18",
+          "due": "2027-03-18",
+          "dueDow": "목",
+          "shiftDirection": "none",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2027-03-11",
+          "graceEnd": "2027-03-25",
+          "status": "upcoming",
+          "reminderDay": "2027-03-17"
+        },
+        {
+          "key": "y1",
+          "kind": "photo",
+          "nominal": "2027-09-18",
+          "due": "2027-09-18",
+          "dueDow": "토",
+          "shiftDirection": "none",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2027-09-04",
+          "graceEnd": "2027-10-02",
+          "status": "upcoming",
+          "reminderDay": "2027-09-17"
+        }
+      ],
+      "todayReasons": [
+        "care-notice"
+      ],
+      "overdue": null,
+      "nurse": [],
+      "optedOut": false,
+      "medicalReview": []
+    },
+    {
+      "id": "P127",
+      "procedure": "injection",
+      "startDate": "2026-08-18",
+      "points": [
+        {
+          "key": "inj-2",
+          "kind": "visit",
+          "nominal": "2026-09-01",
+          "due": "2026-09-01",
+          "dueDow": "화",
+          "shiftDirection": "none",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-08-29",
+          "graceEnd": "2026-09-23",
+          "status": "booked",
+          "bookedDate": "2026-09-23",
+          "restart": true,
+          "reminderDay": "2026-09-22"
+        },
+        {
+          "key": "inj-3",
+          "kind": "visit",
+          "nominal": "2026-09-15",
+          "due": "2026-09-15",
+          "dueDow": "화",
+          "shiftDirection": "none",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-12",
+          "graceEnd": "2026-09-18",
+          "status": "on-hold"
+        },
+        {
+          "key": "inj-4",
+          "kind": "visit",
+          "nominal": "2026-09-29",
+          "due": "2026-09-29",
+          "dueDow": "화",
+          "shiftDirection": "none",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-09-26",
+          "graceEnd": "2026-10-02",
+          "status": "on-hold"
+        },
+        {
+          "key": "inj-5",
+          "kind": "photo",
+          "nominal": "2026-10-13",
+          "due": "2026-10-13",
+          "dueDow": "화",
+          "shiftDirection": "none",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-10-10",
+          "graceEnd": "2026-10-16",
+          "status": "on-hold"
+        },
+        {
+          "key": "inj-6",
+          "kind": "visit",
+          "nominal": "2026-10-27",
+          "due": "2026-10-27",
+          "dueDow": "화",
+          "shiftDirection": "none",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-10-24",
+          "graceEnd": "2026-10-30",
+          "status": "on-hold"
+        },
+        {
+          "key": "inj-7",
+          "kind": "visit",
+          "nominal": "2026-11-10",
+          "due": "2026-11-10",
+          "dueDow": "화",
+          "shiftDirection": "none",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-11-07",
+          "graceEnd": "2026-11-13",
+          "status": "on-hold"
+        },
+        {
+          "key": "inj-8",
+          "kind": "visit",
+          "nominal": "2026-11-24",
+          "due": "2026-11-24",
+          "dueDow": "화",
+          "shiftDirection": "none",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-11-21",
+          "graceEnd": "2026-11-27",
+          "status": "on-hold"
+        },
+        {
+          "key": "inj-9",
+          "kind": "visit",
+          "nominal": "2026-12-08",
+          "due": "2026-12-08",
+          "dueDow": "화",
+          "shiftDirection": "none",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-12-05",
+          "graceEnd": "2026-12-11",
+          "status": "on-hold"
+        },
+        {
+          "key": "inj-10",
+          "kind": "photo",
+          "nominal": "2026-12-22",
+          "due": "2026-12-22",
+          "dueDow": "화",
+          "shiftDirection": "none",
+          "shifted": [],
+          "monthEndClamped": false,
+          "windowStart": "2026-12-19",
+          "graceEnd": "2026-12-25",
+          "status": "on-hold"
+        }
+      ],
+      "todayReasons": [],
+      "overdue": null,
+      "nurse": [
+        "injection-restart"
+      ],
+      "optedOut": false,
       "medicalReview": []
     }
   ],
@@ -5733,6 +7136,7 @@
           "nominal": "2026-02-01",
           "due": "2026-02-02",
           "dueDow": "월",
+          "shiftDirection": "later",
           "shifted": [
             {
               "from": "2026-02-01",
@@ -5747,6 +7151,7 @@
           "nominal": "2026-02-03",
           "due": "2026-02-03",
           "dueDow": "화",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "holidayUnverified": true
@@ -5756,6 +7161,7 @@
           "nominal": "2026-02-07",
           "due": "2026-02-07",
           "dueDow": "토",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "holidayUnverified": true
@@ -5765,6 +7171,7 @@
           "nominal": "2026-02-14",
           "due": "2026-02-14",
           "dueDow": "토",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "holidayUnverified": true
@@ -5774,6 +7181,7 @@
           "nominal": "2026-02-28",
           "due": "2026-02-28",
           "dueDow": "토",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "holidayUnverified": true
@@ -5783,6 +7191,7 @@
           "nominal": "2026-07-31",
           "due": "2026-07-31",
           "dueDow": "금",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "holidayUnverified": true
@@ -5792,6 +7201,7 @@
           "nominal": "2027-01-31",
           "due": "2027-02-01",
           "dueDow": "월",
+          "shiftDirection": "later",
           "shifted": [
             {
               "from": "2027-01-31",
@@ -5813,6 +7223,7 @@
           "nominal": "2027-04-10",
           "due": "2027-04-10",
           "dueDow": "토",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false
         },
@@ -5821,6 +7232,7 @@
           "nominal": "2027-04-12",
           "due": "2027-04-12",
           "dueDow": "월",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false
         },
@@ -5829,6 +7241,7 @@
           "nominal": "2027-04-16",
           "due": "2027-04-16",
           "dueDow": "금",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false
         },
@@ -5837,6 +7250,7 @@
           "nominal": "2027-04-23",
           "due": "2027-04-23",
           "dueDow": "금",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false
         },
@@ -5845,6 +7259,7 @@
           "nominal": "2027-05-07",
           "due": "2027-05-07",
           "dueDow": "금",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false
         },
@@ -5853,6 +7268,7 @@
           "nominal": "2027-10-09",
           "due": "2027-10-12",
           "dueDow": "화",
+          "shiftDirection": "later",
           "shifted": [
             {
               "from": "2027-10-09",
@@ -5874,6 +7290,7 @@
           "nominal": "2028-04-09",
           "due": "2028-04-10",
           "dueDow": "월",
+          "shiftDirection": "later",
           "shifted": [
             {
               "from": "2028-04-09",
@@ -5896,6 +7313,7 @@
           "nominal": "2027-09-01",
           "due": "2027-09-01",
           "dueDow": "수",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false
         },
@@ -5904,6 +7322,7 @@
           "nominal": "2027-09-03",
           "due": "2027-09-03",
           "dueDow": "금",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false
         },
@@ -5912,6 +7331,7 @@
           "nominal": "2027-09-07",
           "due": "2027-09-07",
           "dueDow": "화",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false
         },
@@ -5920,6 +7340,7 @@
           "nominal": "2027-09-14",
           "due": "2027-09-17",
           "dueDow": "금",
+          "shiftDirection": "later",
           "shifted": [
             {
               "from": "2027-09-14",
@@ -5941,6 +7362,7 @@
           "nominal": "2027-09-28",
           "due": "2027-09-28",
           "dueDow": "화",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false
         },
@@ -5949,6 +7371,7 @@
           "nominal": "2028-02-29",
           "due": "2028-02-29",
           "dueDow": "화",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": true,
           "holidayUnverified": true
@@ -5958,9 +7381,298 @@
           "nominal": "2028-08-31",
           "due": "2028-08-31",
           "dueDow": "목",
+          "shiftDirection": "none",
           "shifted": [],
           "monthEndClamped": false,
           "holidayUnverified": true
+        }
+      ]
+    },
+    {
+      "id": "H4",
+      "procedure": "hair-transplant",
+      "startDate": "2026-09-17",
+      "note": "직접 해 보기 첫 예시: D+7이 9/24(추석 연휴). 허용 범위 9/23~9/26(V07) 안에 뒤 진료일이 없어 9/23으로 앞당김. D+3은 9/20(일) → 9/21.",
+      "points": [
+        {
+          "key": "d1",
+          "nominal": "2026-09-18",
+          "due": "2026-09-18",
+          "dueDow": "금",
+          "shiftDirection": "none",
+          "shifted": [],
+          "monthEndClamped": false
+        },
+        {
+          "key": "d3",
+          "nominal": "2026-09-20",
+          "due": "2026-09-21",
+          "dueDow": "월",
+          "shiftDirection": "later",
+          "shifted": [
+            {
+              "from": "2026-09-20",
+              "reason": "일요일"
+            }
+          ],
+          "monthEndClamped": false
+        },
+        {
+          "key": "d7",
+          "nominal": "2026-09-24",
+          "due": "2026-09-23",
+          "dueDow": "수",
+          "shiftDirection": "earlier",
+          "shifted": [
+            {
+              "from": "2026-09-24",
+              "reason": "추석 연휴"
+            },
+            {
+              "from": "2026-09-25",
+              "reason": "추석"
+            },
+            {
+              "from": "2026-09-26",
+              "reason": "추석 연휴"
+            }
+          ],
+          "monthEndClamped": false
+        },
+        {
+          "key": "d14",
+          "nominal": "2026-10-01",
+          "due": "2026-10-01",
+          "dueDow": "목",
+          "shiftDirection": "none",
+          "shifted": [],
+          "monthEndClamped": false
+        },
+        {
+          "key": "w4",
+          "nominal": "2026-10-15",
+          "due": "2026-10-15",
+          "dueDow": "목",
+          "shiftDirection": "none",
+          "shifted": [],
+          "monthEndClamped": false
+        },
+        {
+          "key": "m6",
+          "nominal": "2027-03-17",
+          "due": "2027-03-17",
+          "dueDow": "수",
+          "shiftDirection": "none",
+          "shifted": [],
+          "monthEndClamped": false
+        },
+        {
+          "key": "y1",
+          "nominal": "2027-09-17",
+          "due": "2027-09-17",
+          "dueDow": "금",
+          "shiftDirection": "none",
+          "shifted": [],
+          "monthEndClamped": false
+        }
+      ]
+    },
+    {
+      "id": "H5",
+      "procedure": "hair-transplant",
+      "startDate": "2026-09-18",
+      "note": "D+7이 9/25(추석). 허용 범위 9/24~9/27이 모두 휴진이라 날짜 미정 → 간호팀 확인.",
+      "points": [
+        {
+          "key": "d1",
+          "nominal": "2026-09-19",
+          "due": "2026-09-19",
+          "dueDow": "토",
+          "shiftDirection": "none",
+          "shifted": [],
+          "monthEndClamped": false
+        },
+        {
+          "key": "d3",
+          "nominal": "2026-09-21",
+          "due": "2026-09-21",
+          "dueDow": "월",
+          "shiftDirection": "none",
+          "shifted": [],
+          "monthEndClamped": false
+        },
+        {
+          "key": "d7",
+          "nominal": "2026-09-25",
+          "due": null,
+          "dueDow": null,
+          "shiftDirection": "unresolved",
+          "shifted": [
+            {
+              "from": "2026-09-25",
+              "reason": "추석"
+            },
+            {
+              "from": "2026-09-26",
+              "reason": "추석 연휴"
+            },
+            {
+              "from": "2026-09-27",
+              "reason": "일요일"
+            },
+            {
+              "from": "2026-09-24",
+              "reason": "추석 연휴"
+            }
+          ],
+          "monthEndClamped": false
+        },
+        {
+          "key": "d14",
+          "nominal": "2026-10-02",
+          "due": "2026-10-02",
+          "dueDow": "금",
+          "shiftDirection": "none",
+          "shifted": [],
+          "monthEndClamped": false
+        },
+        {
+          "key": "w4",
+          "nominal": "2026-10-16",
+          "due": "2026-10-17",
+          "dueDow": "토",
+          "shiftDirection": "later",
+          "shifted": [
+            {
+              "from": "2026-10-16",
+              "reason": "내부 교육"
+            }
+          ],
+          "monthEndClamped": false
+        },
+        {
+          "key": "m6",
+          "nominal": "2027-03-18",
+          "due": "2027-03-18",
+          "dueDow": "목",
+          "shiftDirection": "none",
+          "shifted": [],
+          "monthEndClamped": false
+        },
+        {
+          "key": "y1",
+          "nominal": "2027-09-18",
+          "due": "2027-09-18",
+          "dueDow": "토",
+          "shiftDirection": "none",
+          "shifted": [],
+          "monthEndClamped": false
+        }
+      ]
+    },
+    {
+      "id": "H6",
+      "procedure": "injection",
+      "startDate": "2026-09-10",
+      "note": "두피 주사 2회차 9/24(추석 연휴): 앞뒤 3일(V08) 안에서 뒤 9/25~9/27이 모두 휴진이라 9/23으로 앞당김.",
+      "points": [
+        {
+          "key": "inj-2",
+          "nominal": "2026-09-24",
+          "due": "2026-09-23",
+          "dueDow": "수",
+          "shiftDirection": "earlier",
+          "shifted": [
+            {
+              "from": "2026-09-24",
+              "reason": "추석 연휴"
+            },
+            {
+              "from": "2026-09-25",
+              "reason": "추석"
+            },
+            {
+              "from": "2026-09-26",
+              "reason": "추석 연휴"
+            },
+            {
+              "from": "2026-09-27",
+              "reason": "일요일"
+            }
+          ],
+          "monthEndClamped": false
+        },
+        {
+          "key": "inj-3",
+          "nominal": "2026-10-08",
+          "due": "2026-10-08",
+          "dueDow": "목",
+          "shiftDirection": "none",
+          "shifted": [],
+          "monthEndClamped": false
+        },
+        {
+          "key": "inj-4",
+          "nominal": "2026-10-22",
+          "due": "2026-10-22",
+          "dueDow": "목",
+          "shiftDirection": "none",
+          "shifted": [],
+          "monthEndClamped": false
+        },
+        {
+          "key": "inj-5",
+          "nominal": "2026-11-05",
+          "due": "2026-11-05",
+          "dueDow": "목",
+          "shiftDirection": "none",
+          "shifted": [],
+          "monthEndClamped": false
+        },
+        {
+          "key": "inj-6",
+          "nominal": "2026-11-19",
+          "due": "2026-11-19",
+          "dueDow": "목",
+          "shiftDirection": "none",
+          "shifted": [],
+          "monthEndClamped": false
+        },
+        {
+          "key": "inj-7",
+          "nominal": "2026-12-03",
+          "due": "2026-12-03",
+          "dueDow": "목",
+          "shiftDirection": "none",
+          "shifted": [],
+          "monthEndClamped": false
+        },
+        {
+          "key": "inj-8",
+          "nominal": "2026-12-17",
+          "due": "2026-12-17",
+          "dueDow": "목",
+          "shiftDirection": "none",
+          "shifted": [],
+          "monthEndClamped": false
+        },
+        {
+          "key": "inj-9",
+          "nominal": "2026-12-31",
+          "due": "2026-12-31",
+          "dueDow": "목",
+          "shiftDirection": "none",
+          "shifted": [],
+          "monthEndClamped": false
+        },
+        {
+          "key": "inj-10",
+          "nominal": "2027-01-14",
+          "due": "2027-01-14",
+          "dueDow": "목",
+          "shiftDirection": "none",
+          "shifted": [],
+          "monthEndClamped": false
         }
       ]
     }
