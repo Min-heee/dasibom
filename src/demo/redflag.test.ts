@@ -25,3 +25,16 @@ describe("checkRedflags — 어절 경계", () => {
     expect(checkRedflags("고열이 나요", redflag).matchedSymptoms).toContain("고열");
   });
 });
+
+/** 한창구 1ab9ed1과 같은 규칙: V11 nonSymptomWords("두피")를 가린 뒤 찾는다. */
+describe("checkRedflags — 증상이 아닌 단어(V11 nonSymptomWords)", () => {
+  it("직원 메모 '두피가 계속 가렵다고 함'은 '피가 계속'(출혈)으로 의료진 확인이 되지 않는다", () => {
+    const r = checkRedflags("수술 후 두피가 계속 가렵다고 함", redflag);
+    expect(r.matchedSymptoms).toEqual([]);
+    expect(r.decision).toBe("pass");
+  });
+
+  it("두피 옆의 진짜 출혈은 그대로 잡는다", () => {
+    expect(checkRedflags("이식한 두피에서 피가 계속 난다고 함", redflag)).toMatchObject({ decision: "handover", urgency: "urgent" });
+  });
+});

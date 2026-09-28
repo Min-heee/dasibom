@@ -19,7 +19,8 @@ fictional: true
   "postopContext": ["수술", "주사"],
   "postopContextPatterns": [],
   "feverThresholdCelsius": 38,
-  "ambiguous": ["붓기", "부어", "열감", "아파"]
+  "ambiguous": ["붓기", "부어", "열감", "아파"],
+  "nonSymptomWords": ["두피"]
 }
 ```
 
