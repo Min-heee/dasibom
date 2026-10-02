@@ -62,7 +62,7 @@ npm run verify     # test + typecheck + lint + build
 - [평가](docs/EVALUATION.md) — 잰 것과 재지 않은 것, 변이 검사
 - [세부](docs/DETAILS.md) — 사용 흐름, 동작 구조, 한계 세부, AI와 사람이 나눈 일 등
 - [데이터](data/README.md) — 합성 환자, 심은 사례, 예상 결과 계산 방법
-- 같은 가상 의원의 다른 도구: [한창구](https://github.com/Min-heee/hanchanggu)(문의 답장 초안, 코드 비공개), [같은각도](https://github.com/Min-heee/same-angle)(경과 사진 촬영 조건)
+- 같은 가상 의원의 다른 도구: [한창구](https://github.com/Min-heee/hanchanggu)(문의 답장 초안), [빈자리](https://github.com/Min-heee/binjari)(전화 예약 빈 시간), [같은각도](https://github.com/Min-heee/same-angle)(경과 사진)
 
 ## 기술 스택
 
