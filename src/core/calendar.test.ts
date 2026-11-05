@@ -178,3 +178,15 @@ describe("shiftWithinWindow — 범위가 있는 시점의 휴진 이동(D01 win
     expect(w("2026-09-27", 0, 0)).toEqual([null, "unresolved", ["2026-09-27"]]);
   });
 });
+
+describe("0~99년(Date.UTC가 1900년대로 바꿔 읽는 해)", () => {
+  it("해를 1900년대로 바꾸지 않는다", () => {
+    expect(addDays(localDate("0050-01-01"), 1)).toBe("0050-01-02");
+    expect(addDays(localDate("0002-12-31"), 1)).toBe("0003-01-01");
+    expect(diffDays(localDate("0050-01-01"), localDate("1950-01-01"))).toBe(693960); // Python datetime 대조
+    expect(formatKstIso(kstInstant(localDate("0050-01-01"), "09:00"))).toBe("0050-01-01T09:00:00+09:00");
+    // 1900년대와 같은 요일이 나오면 안 된다(0050-01-01은 토요일, 1950-01-01은 일요일).
+    expect(dayOfWeek(localDate("0050-01-01"))).toBe(6);
+    expect(dayOfWeek(localDate("1950-01-01"))).toBe(0);
+  });
+});

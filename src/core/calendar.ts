@@ -54,10 +54,20 @@ function fromParts(y: number, m: number, d: number): LocalDate {
   return `${String(y).padStart(4, "0")}-${pad2(m)}-${pad2(d)}` as LocalDate;
 }
 
+/**
+ * 그 날짜의 UTC 자정(ms). Date.UTC는 0~99년을 1900~1999년으로 바꿔 읽으므로("0050-01-01" → 1950년)
+ * 해는 setUTCFullYear로 따로 넣는다. 날짜 입력칸에 해를 치는 도중의 "0002-09-17" 같은 값도 그 해로 계산한다.
+ */
+function utcMidnight(y: number, m: number, day: number): number {
+  const dt = new Date(Date.UTC(2000, m - 1, day));
+  dt.setUTCFullYear(y);
+  return dt.getTime();
+}
+
 /** 1970-01-01부터의 일수. 날짜 차이·요일 계산의 기준. */
 function toDayNumber(d: LocalDate): number {
   const [y, m, day] = parts(d);
-  return Date.UTC(y, m - 1, day) / MS_PER_DAY;
+  return utcMidnight(y, m, day) / MS_PER_DAY;
 }
 
 function fromDayNumber(n: number): LocalDate {
@@ -160,7 +170,7 @@ export function kstInstant(d: LocalDate, hhmm: string): number {
   const min = parseHhmm(hhmm);
   if (min === null) throw new Error(`시각 형식이 틀렸습니다: ${hhmm}`);
   const [y, m, day] = parts(d);
-  return Date.UTC(y, m - 1, day) - KST_OFFSET_MS + min * 60_000;
+  return utcMidnight(y, m, day) - KST_OFFSET_MS + min * 60_000;
 }
 
 /** 오프셋을 붙인 KST ISO 문자열. 브라우저 저장과 화면이 같은 글자를 보게 한다. */
